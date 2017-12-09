@@ -10,7 +10,7 @@ export class PracownicyService {
       new PracownikModel(
         'Marcin',
         'Marciniak',
-        'Pchor',
+        'chor.',
         'mgr',
         'informatyka',
         'marcin.marciniak@wat.edu.pl'),
@@ -24,7 +24,7 @@ export class PracownicyService {
       new PracownikModel(
         'Adam',
         'Abacki',
-        'pchor.',
+        'chor.',
         'inż.',
         'informatyka',
         'adam.abacki@wat.edu.pl'),
