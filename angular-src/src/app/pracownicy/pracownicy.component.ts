@@ -11,6 +11,7 @@ export class PracownicyComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
+
   }
 
 }

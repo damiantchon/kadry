@@ -12,12 +12,22 @@ import { MinimumKadroweComponent } from './minimum-kadrowe/minimum-kadrowe.compo
 import { PracownicyItemComponent } from './pracownicy/pracownicy-item/pracownicy-item.component';
 import { PracownicyListComponent } from './pracownicy/pracownicy-list/pracownicy-list.component';
 import { PracownicyService } from './pracownicy/pracownicy.service';
+import { DataTablesModule } from 'angular-datatables';
 
 @NgModule({
-    declarations: [AppComponent, HeaderComponent, HomeComponent, PracownicyComponent, PublikacjeComponent, MinimumKadroweComponent, PracownicyItemComponent, PracownicyListComponent],
+    declarations: [
+      AppComponent,
+      HeaderComponent,
+      HomeComponent,
+      PracownicyComponent,
+      PublikacjeComponent,
+      MinimumKadroweComponent,
+      PracownicyItemComponent,
+      PracownicyListComponent],
     imports: [
         AppRoutingModule,
         BrowserModule,
+        DataTablesModule,
         HttpClientModule
     ],
     providers: [PracownicyService],

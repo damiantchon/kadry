@@ -1,20 +1,24 @@
 <div class="row">
 	<div class="col-md-12">
-		<table class="table" id="pracownicy_table">
+		<table datatable [dtOptions]="dtOptions" class="table">
 			<thead>
 			<tr>
-				<th>Column 1</th>
-				<th>Column 2</th>
+        <th>Nazwisko</th>
+        <th>Imię</th>
+        <th>Tytuł</th>
+        <th>Stopień</th>
+				<th>Specjalność</th>
+        <th>Email</th>
 			</tr>
 			</thead>
 			<tbody>
-			<tr>
-				<td>Row 1 Data 1</td>
-				<td>Row 1 Data 2</td>
-			</tr>
-			<tr>
-				<td>Row 2 Data 1</td>
-				<td>Row 2 Data 2</td>
+			<tr *ngFor="let pracownik of pracownicyList" (click)="onActivate(pracownik)">
+        <td>{{pracownik.nazwisko}}</td>
+        <td>{{pracownik.imie}}</td>
+        <td>{{pracownik.tytul}}</td>
+        <td>{{pracownik.stopien}}</td>
+				<td>{{pracownik.specjalnosc}}</td>
+				<td>{{pracownik.email}}</td>
 			</tr>
 			</tbody>
 		</table>

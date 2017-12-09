@@ -3,7 +3,8 @@ export class PracownikModel {
                 public nazwisko: string,
                 public stopien: string,
                 public tytul: string,
-                public specjalnosc: string) {}
+                public specjalnosc: string,
+                public email: string) {}
 }
 
 /*
