@@ -21,7 +21,7 @@ export class PracownicyListComponent implements OnInit {
       this.dtOptions = {
         language: {
           "processing":     "Przetwarzanie...",
-          "search":         "Szukaj:",
+          "search":         "Szukaj: ",
           "lengthMenu":     "Pokaż _MENU_ pozycji",
           "info":           "Pozycje od _START_ do _END_ z _TOTAL_ łącznie",
           "infoEmpty":      "Pozycji 0 z 0 dostępnych",
@@ -41,6 +41,7 @@ export class PracownicyListComponent implements OnInit {
             "sortDescending": ": aktywuj, by posortować kolumnę malejąco"
           }
         },
+
         //Zapobieganie pokazywaniu się strony przed załadowaniem modułu datatable
         initComplete: () => {
           $(".table").show();

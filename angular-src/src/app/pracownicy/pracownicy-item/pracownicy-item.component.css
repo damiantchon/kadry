@@ -13,3 +13,7 @@
 .context {
   width: 70%;
 }
+
+.top-buffer {
+  margin-top:10px;
+}
