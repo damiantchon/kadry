@@ -40,6 +40,10 @@ export class PracownicyListComponent implements OnInit {
             "sortAscending": ": aktywuj, by posortować kolumnę rosnąco",
             "sortDescending": ": aktywuj, by posortować kolumnę malejąco"
           }
+        },
+        //Zapobieganie pokazywaniu się strony przed załadowaniem modułu datatable
+        initComplete: () => {
+          $(".table").show();
         }
       };
   }

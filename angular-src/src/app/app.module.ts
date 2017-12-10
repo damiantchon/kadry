@@ -13,6 +13,7 @@ import { PracownicyItemComponent } from './pracownicy/pracownicy-item/pracownicy
 import { PracownicyListComponent } from './pracownicy/pracownicy-list/pracownicy-list.component';
 import { PracownicyService } from './pracownicy/pracownicy.service';
 import { DataTablesModule } from 'angular-datatables';
+import { HighlightDirective } from './shared/highlight.directive';
 
 @NgModule({
     declarations: [
@@ -23,7 +24,8 @@ import { DataTablesModule } from 'angular-datatables';
       PublikacjeComponent,
       MinimumKadroweComponent,
       PracownicyItemComponent,
-      PracownicyListComponent],
+      PracownicyListComponent,
+      HighlightDirective],
     imports: [
         AppRoutingModule,
         BrowserModule,

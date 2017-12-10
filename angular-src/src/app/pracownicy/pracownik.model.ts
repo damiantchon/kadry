@@ -4,7 +4,8 @@ export class PracownikModel {
                 public stopien: string,
                 public tytul: string,
                 public specjalnosc: string,
-                public email: string) {}
+                public email: string,
+                public funkcje?: string[]) {}
 }
 
 /*

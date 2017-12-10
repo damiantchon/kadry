@@ -70,6 +70,23 @@
             <div class="text-primary">{{this.pracownik.email}}</div>
           </td>
         </tr>
+        <tr>
+          <td>
+            <strong>
+              <span class="glyphicon glyphicon-envelope text-primary"></span>
+              Funkcje
+            </strong>
+          </td>
+          <td>
+            <div *ngIf="this.pracownik.funkcje; else else_component">
+              <div *ngFor="let funkcja of this.pracownik.funkcje; let i = index"
+                   class="text-primary"><strong>{{i+1}}</strong> - {{funkcja}}</div>
+            </div>
+            <ng-template #else_component>
+              <div class="text-primary">brak</div>
+            </ng-template>
+            </td>
+        </tr>
 				</tbody>
 			</table>
 		</div>

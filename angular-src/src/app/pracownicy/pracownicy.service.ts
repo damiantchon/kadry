@@ -13,7 +13,11 @@ export class PracownicyService {
         'chor.',
         'mgr',
         'informatyka',
-        'marcin.marciniak@wat.edu.pl'),
+        'marcin.marciniak@wat.edu.pl',
+        [
+          'manager projektu \'LUL\'',
+          'dyrektor do spraw marketingu'
+        ]),
       new PracownikModel(
         'Piotr',
         'Piotrowski',
@@ -49,7 +53,195 @@ export class PracownicyService {
         'inż.',
         'inżynieria chemiczna',
         'emil.ebacki@wat.edu.pl'
-      )
+      ),
+    new PracownikModel(
+      'Marcin',
+      'Marciniak',
+      'chor.',
+      'mgr',
+      'informatyka',
+      'marcin.marciniak@wat.edu.pl',
+      [
+        'manager projektu \'LUL\'',
+        'dyrektor do spraw marketingu'
+      ]),
+    new PracownikModel(
+      'Piotr',
+      'Piotrowski',
+      'sierż.',
+      'dr',
+      'biochemia',
+      'piotr.piotrowski@wat.edu.pl'),
+    new PracownikModel(
+      'Adam',
+      'Abacki',
+      'chor.',
+      'inż.',
+      'informatyka',
+      'adam.abacki@wat.edu.pl'),
+    new PracownikModel(
+      'Bartosz',
+      'Babacki',
+      'krp.',
+      'dr inż.',
+      'informatyka',
+      'bartosz.babacki@wat.edu.pl'),
+    new PracownikModel(
+      'Damian',
+      'Dadacki',
+      'plut.',
+      'mgr inż.',
+      'chemia',
+      'damian.dadacki@wat.edu.pl'),
+    new PracownikModel(
+      'Emil',
+      'Ebacki',
+      'mł. chor.',
+      'inż.',
+      'inżynieria chemiczna',
+      'emil.ebacki@wat.edu.pl'
+    ),
+    new PracownikModel(
+      'Marcin',
+      'Marciniak',
+      'chor.',
+      'mgr',
+      'informatyka',
+      'marcin.marciniak@wat.edu.pl',
+      [
+        'manager projektu \'LUL\'',
+        'dyrektor do spraw marketingu'
+      ]),
+    new PracownikModel(
+      'Piotr',
+      'Piotrowski',
+      'sierż.',
+      'dr',
+      'biochemia',
+      'piotr.piotrowski@wat.edu.pl'),
+    new PracownikModel(
+      'Adam',
+      'Abacki',
+      'chor.',
+      'inż.',
+      'informatyka',
+      'adam.abacki@wat.edu.pl'),
+    new PracownikModel(
+      'Bartosz',
+      'Babacki',
+      'krp.',
+      'dr inż.',
+      'informatyka',
+      'bartosz.babacki@wat.edu.pl'),
+    new PracownikModel(
+      'Damian',
+      'Dadacki',
+      'plut.',
+      'mgr inż.',
+      'chemia',
+      'damian.dadacki@wat.edu.pl'),
+    new PracownikModel(
+      'Emil',
+      'Ebacki',
+      'mł. chor.',
+      'inż.',
+      'inżynieria chemiczna',
+      'emil.ebacki@wat.edu.pl'
+    ),
+    new PracownikModel(
+      'Marcin',
+      'Marciniak',
+      'chor.',
+      'mgr',
+      'informatyka',
+      'marcin.marciniak@wat.edu.pl',
+      [
+        'manager projektu \'LUL\'',
+        'dyrektor do spraw marketingu'
+      ]),
+    new PracownikModel(
+      'Piotr',
+      'Piotrowski',
+      'sierż.',
+      'dr',
+      'biochemia',
+      'piotr.piotrowski@wat.edu.pl'),
+    new PracownikModel(
+      'Adam',
+      'Abacki',
+      'chor.',
+      'inż.',
+      'informatyka',
+      'adam.abacki@wat.edu.pl'),
+    new PracownikModel(
+      'Bartosz',
+      'Babacki',
+      'krp.',
+      'dr inż.',
+      'informatyka',
+      'bartosz.babacki@wat.edu.pl'),
+    new PracownikModel(
+      'Damian',
+      'Dadacki',
+      'plut.',
+      'mgr inż.',
+      'chemia',
+      'damian.dadacki@wat.edu.pl'),
+    new PracownikModel(
+      'Emil',
+      'Ebacki',
+      'mł. chor.',
+      'inż.',
+      'inżynieria chemiczna',
+      'emil.ebacki@wat.edu.pl'
+    ),
+    new PracownikModel(
+      'Marcin',
+      'Marciniak',
+      'chor.',
+      'mgr',
+      'informatyka',
+      'marcin.marciniak@wat.edu.pl',
+      [
+        'manager projektu \'LUL\'',
+        'dyrektor do spraw marketingu'
+      ]),
+    new PracownikModel(
+      'Piotr',
+      'Piotrowski',
+      'sierż.',
+      'dr',
+      'biochemia',
+      'piotr.piotrowski@wat.edu.pl'),
+    new PracownikModel(
+      'Adam',
+      'Abacki',
+      'chor.',
+      'inż.',
+      'informatyka',
+      'adam.abacki@wat.edu.pl'),
+    new PracownikModel(
+      'Bartosz',
+      'Babacki',
+      'krp.',
+      'dr inż.',
+      'informatyka',
+      'bartosz.babacki@wat.edu.pl'),
+    new PracownikModel(
+      'Damian',
+      'Dadacki',
+      'plut.',
+      'mgr inż.',
+      'chemia',
+      'damian.dadacki@wat.edu.pl'),
+    new PracownikModel(
+      'Emil',
+      'Ebacki',
+      'mł. chor.',
+      'inż.',
+      'inżynieria chemiczna',
+      'emil.ebacki@wat.edu.pl'
+    )
     ];
 
   getPracownicy() {

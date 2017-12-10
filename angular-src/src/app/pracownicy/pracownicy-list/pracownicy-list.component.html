@@ -1,23 +1,23 @@
 <div class="row">
 	<div class="col-md-12">
-		<table datatable [dtOptions]="dtOptions" class="table">
+		<table datatable [dtOptions]="dtOptions" class="table" #list>
 			<thead>
 			<tr>
         <th>Nazwisko</th>
         <th>Imię</th>
         <th>Tytuł</th>
         <th>Stopień</th>
-				<th>Specjalność</th>
         <th>Email</th>
 			</tr>
 			</thead>
 			<tbody>
-			<tr *ngFor="let pracownik of pracownicyList" (click)="onActivate(pracownik)">
+			<tr *ngFor="let pracownik of pracownicyList"
+          (click)="onActivate(pracownik)"
+          appHighlight="whitesmoke">
         <td>{{pracownik.nazwisko}}</td>
         <td>{{pracownik.imie}}</td>
         <td>{{pracownik.tytul}}</td>
         <td>{{pracownik.stopien}}</td>
-				<td>{{pracownik.specjalnosc}}</td>
 				<td>{{pracownik.email}}</td>
 			</tr>
 			</tbody>
