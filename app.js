@@ -7,7 +7,9 @@ const mongoose = require('mongoose');
 
 const path = require('path');
 const config = require('./config/database');
-const kadry = require('./controllers/kadry');
+const kadryRoutes = require('./controllers/kadry');
+const pracownikRoutes = require('./controllers/pracownik');
+const publikacjaRoutes = require('./controllers/publikacja');
 
 //Connect to Database
 mongoose.connect(config.database);
@@ -30,11 +32,13 @@ app.use(bodyParser.json());
 */
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/kadry', kadry);
+app.use('/pracownicy', pracownikRoutes);
+app.use('/', kadryRoutes);
 
+//Caches 404 and sends it to index.html (for angular to deal with)
 app.get('*', (req,res) => {
     res.sendFile(path.join(__dirname, 'public/index.html'));
-})
+});
 
 //Graceful shutdown
 if (process.platform === "win32") {

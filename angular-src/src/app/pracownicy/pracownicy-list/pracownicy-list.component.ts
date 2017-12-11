@@ -9,7 +9,8 @@ import { PracownikModel } from '../pracownik.model';
 })
 export class PracownicyListComponent implements OnInit {
 
-  dtOptions: DataTables.Settings = {};
+  // dtOptions: DataTables.Settings = {};
+  dtOptions: any = {};
 
   private pracownicyList: PracownikModel[] = [];
 
@@ -41,7 +42,7 @@ export class PracownicyListComponent implements OnInit {
             "sortDescending": ": aktywuj, by posortować kolumnę malejąco"
           }
         },
-
+        lengthMenu: [[10, 20 ,50 ,-1], [10, 20, 50, "All"]],
         //Zapobieganie pokazywaniu się strony przed załadowaniem modułu datatable
         initComplete: () => {
           $(".table").show();

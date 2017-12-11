@@ -12,15 +12,17 @@ export class PracownicyItemComponent implements OnInit, OnDestroy {
 
   subscription: Subscription;
 
-    pracownik: PracownikModel =
-        new PracownikModel(
-            'Adam',
-            'Abacki',
-            'mjr',
-            'dr inz',
-            'informatyk',
-          'adam.abacki@wat.edu.pl'
-        );
+  pracownik: PracownikModel = new PracownikModel(
+    'Marcin',
+    'Marciniak',
+    'chor.',
+    'mgr',
+    'informatyka',
+    'marcin.marciniak@wat.edu.pl',
+    [
+      'manager projektu \'LUL\'',
+      'dyrektor do spraw marketingu'
+    ]);
 
     constructor(private pracownicyService: PracownicyService) { }
 
@@ -36,6 +38,13 @@ export class PracownicyItemComponent implements OnInit, OnDestroy {
       this.subscription.unsubscribe();
   }
 
-
+  onSubmit() {
+      const pracownik: PracownikModel = this.pracownik;
+      this.pracownicyService.addPracownik(pracownik)
+        .subscribe(
+          data => console.log(data),
+          error => console.error(error)
+        );
+  }
 
 }
