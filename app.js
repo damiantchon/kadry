@@ -36,9 +36,11 @@ app.use('/pracownicy', pracownikRoutes);
 app.use('/', kadryRoutes);
 
 //Caches 404 and sends it to index.html (for angular to deal with)
-app.get('*', (req,res) => {
+app.use((req,res) => {
     res.sendFile(path.join(__dirname, 'public/index.html'));
 });
+
+
 
 //Graceful shutdown
 if (process.platform === "win32") {

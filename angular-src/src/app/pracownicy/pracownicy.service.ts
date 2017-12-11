@@ -68,7 +68,7 @@ export class PracownicyService {
     interface pracownicyResponse {
       lista: PracownikModel[];
     }
-    return this.http.get<pracownicyResponse>('http://localhost:3000/pracownicy')
+    return this.http.get<pracownicyResponse>('http://localhost:3000/pracownicy/get')
       .map((pracownicyList) => {
          const pracownicy = pracownicyList.lista;
          let pracownicyTransformed: PracownikModel[] = [];
@@ -86,7 +86,6 @@ export class PracownicyService {
          return pracownicyTransformed;
       })
       .catch((error: Response) => Observable.throw(error));
-    //return this.pracownicyList.slice();
   }
 
   addPracownik(pracownik: PracownikModel) {

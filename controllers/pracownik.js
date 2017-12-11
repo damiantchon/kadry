@@ -29,7 +29,7 @@ router.post('/', (req, res) => {
     });
 });
 
-router.get('/', (req, res) => {
+router.get('/get', (req, res) => {
     Pracownik.find()
         .exec((err, pracownicy) => {
             if (err) {
