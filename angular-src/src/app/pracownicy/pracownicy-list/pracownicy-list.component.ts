@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { PracownicyService } from '../pracownicy.service';
 import { PracownikModel } from '../pracownik.model';
+import { Subscription } from 'rxjs/Subscription';
 
 @Component({
   selector: 'app-pracownicy-list',
@@ -8,6 +9,8 @@ import { PracownikModel } from '../pracownik.model';
   styleUrls: ['./pracownicy-list.component.css']
 })
 export class PracownicyListComponent implements OnInit {
+
+  subscription: Subscription = null;
 
   // dtOptions: DataTables.Settings = {};
   dtOptions: any = {};
@@ -17,7 +20,12 @@ export class PracownicyListComponent implements OnInit {
   constructor(private pracownicyService: PracownicyService) { }
 
   ngOnInit() {
-      this.pracownicyList = this.pracownicyService.getPracownicy();
+      this.pracownicyService.getPracownicy()
+        .subscribe(
+          (pracownicy: PracownikModel[]) => {
+            this.pracownicyList = pracownicy;
+          }
+        );
 
       this.dtOptions = {
         language: {

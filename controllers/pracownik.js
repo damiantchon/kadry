@@ -29,4 +29,19 @@ router.post('/', (req, res) => {
     });
 });
 
+router.get('/', (req, res) => {
+    Pracownik.find()
+        .exec((err, pracownicy) => {
+            if (err) {
+                return res.status(500).json({
+                    title: 'An error occured',
+                    error: err
+                });
+            }
+            res.status(200).json({
+                lista: pracownicy
+            })
+        });
+});
+
 module.exports = router;

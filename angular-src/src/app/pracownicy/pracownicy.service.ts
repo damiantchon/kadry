@@ -65,7 +65,28 @@ export class PracownicyService {
     ];
 
   getPracownicy() {
-    return this.pracownicyList.slice();
+    interface pracownicyResponse {
+      lista: PracownikModel[];
+    }
+    return this.http.get<pracownicyResponse>('http://localhost:3000/pracownicy')
+      .map((pracownicyList) => {
+         const pracownicy = pracownicyList.lista;
+         let pracownicyTransformed: PracownikModel[] = [];
+         for (let pracownik of pracownicy) {
+           pracownicyTransformed.push(new PracownikModel(
+             pracownik.imie,
+             pracownik.nazwisko,
+             pracownik.stopien,
+             pracownik.tytul,
+             pracownik.specjalnosc,
+             pracownik.email,
+             pracownik.funkcje));
+         }
+         this.pracownicyList = pracownicyTransformed;
+         return pracownicyTransformed;
+      })
+      .catch((error: Response) => Observable.throw(error));
+    //return this.pracownicyList.slice();
   }
 
   addPracownik(pracownik: PracownikModel) {
