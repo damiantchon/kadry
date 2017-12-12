@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { PracownikModel } from '../pracownik.model';
 import { PracownicyService } from '../pracownicy.service';
 import { Subscription } from 'rxjs/Subscription';
+import { ActivatedRoute, Params } from '@angular/router';
 
 @Component({
   selector: 'app-pracownicy-item',
@@ -10,24 +11,24 @@ import { Subscription } from 'rxjs/Subscription';
 })
 export class PracownicyItemComponent implements OnInit, OnDestroy {
 
-  subscription: Subscription;
+  subscriptions: Subscription[] = [];
 
-  pracownik: PracownikModel = new PracownikModel(
-    'Marcin',
-    'Marciniak',
-    'chor.',
-    'mgr',
-    'informatyka',
-    'marcin.marciniak@wat.edu.pl',
-    [
-      'manager projektu \'LUL\'',
-      'dyrektor do spraw marketingu'
-    ]);
+  id: number;
+  pracownik: PracownikModel;
 
-    constructor(private pracownicyService: PracownicyService) { }
+    constructor(private pracownicyService: PracownicyService,
+                private route: ActivatedRoute) { }
 
   ngOnInit() {
-      this.subscription = this.pracownicyService.pracownikActivated.subscribe(
+      this.subscriptions[0] = this.route.params
+        .subscribe(
+          (params: Params) => {
+            this.id = params['id'];
+            this.pracownik = this.pracownicyService.getPracownikById(this.id);
+          }
+        );
+
+      this.subscriptions[1] = this.pracownicyService.pracownikActivated.subscribe(
         (pracownik: PracownikModel) => {
           this.pracownik = pracownik;
         }
@@ -35,7 +36,8 @@ export class PracownicyItemComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-      this.subscription.unsubscribe();
+      this.subscriptions[0].unsubscribe();
+      this.subscriptions[1].unsubscribe();
   }
 
   onSubmit() {

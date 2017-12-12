@@ -1,5 +1,6 @@
 export class PracownikModel {
-    constructor(public imie: string,
+    constructor(public _id: string,
+                public imie: string,
                 public nazwisko: string,
                 public stopien: string,
                 public tytul: string,

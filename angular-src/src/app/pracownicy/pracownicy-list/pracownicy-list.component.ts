@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { PracownicyService } from '../pracownicy.service';
 import { PracownikModel } from '../pracownik.model';
 import { Subscription } from 'rxjs/Subscription';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-pracownicy-list',
@@ -12,12 +13,14 @@ export class PracownicyListComponent implements OnInit {
 
   subscription: Subscription = null;
 
+
   // dtOptions: DataTables.Settings = {};
   dtOptions: any = {};
 
   private pracownicyList: PracownikModel[] = [];
 
-  constructor(private pracownicyService: PracownicyService) { }
+  constructor(private pracownicyService: PracownicyService,
+              private router: Router) { }
 
   ngOnInit() {
       this.pracownicyService.getPracownicy()
@@ -59,6 +62,7 @@ export class PracownicyListComponent implements OnInit {
   }
 
   onActivate(pracownik: PracownikModel) {
-    this.pracownicyService.pracownikActivated.next(pracownik);
+    this.router.navigate(['/pracownicy', pracownik._id]);
+    //this.pracownicyService.pracownikActivated.next(pracownik);
   }
 }

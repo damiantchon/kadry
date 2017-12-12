@@ -14,6 +14,7 @@ import { PracownicyItemComponent } from './pracownicy/pracownicy-item/pracownicy
 import { PracownicyListComponent } from './pracownicy/pracownicy-list/pracownicy-list.component';
 import { PracownicyService } from './pracownicy/pracownicy.service';
 import { HighlightDirective } from './shared/highlight.directive';
+import { PracownicyItemStartComponent } from './pracownicy/pracownicy-item-start/pracownicy-item-start.component';
 
 
 @NgModule({
@@ -26,7 +27,8 @@ import { HighlightDirective } from './shared/highlight.directive';
       MinimumKadroweComponent,
       PracownicyItemComponent,
       PracownicyListComponent,
-      HighlightDirective],
+      HighlightDirective,
+      PracownicyItemStartComponent],
 imports: [
         AppRoutingModule,
         BrowserModule,
