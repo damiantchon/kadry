@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnChanges, OnDestroy, OnInit } from '@angular/core';
 import { PracownicyService } from '../pracownicy.service';
 import { PracownikModel } from '../pracownik.model';
 import { Subscription } from 'rxjs/Subscription';
@@ -9,26 +9,28 @@ import { Router } from '@angular/router';
   templateUrl: './pracownicy-list.component.html',
   styleUrls: ['./pracownicy-list.component.css']
 })
-export class PracownicyListComponent implements OnInit {
+export class PracownicyListComponent implements OnInit, OnDestroy {
 
-  subscription: Subscription = null;
-
+  subscription: Subscription;
 
   // dtOptions: DataTables.Settings = {};
   dtOptions: any = {};
-
+  tableIsReady = false;
   private pracownicyList: PracownikModel[] = [];
 
   constructor(private pracownicyService: PracownicyService,
               private router: Router) { }
 
   ngOnInit() {
-      this.pracownicyService.getPracownicy()
-        .subscribe(
-          (pracownicy: PracownikModel[]) => {
-            this.pracownicyList = pracownicy;
-          }
-        );
+      // this.pracownicyList = this.pracownicyService.pracownicyList;
+    this.subscription = this.pracownicyService.pracownikActivated
+      .subscribe(
+        (pracownicy: PracownikModel[]) => {
+          this.pracownicyList = pracownicy;
+          console.log(this.pracownicyList);
+        }
+      );
+    this.pracownicyList = this.pracownicyService.pracownicyList;
 
       this.dtOptions = {
         language: {
@@ -56,9 +58,14 @@ export class PracownicyListComponent implements OnInit {
         lengthMenu: [[10, 20 ,50 ,-1], [10, 20, 50, "All"]],
         //Zapobieganie pokazywaniu się strony przed załadowaniem modułu datatable
         initComplete: () => {
+          this.tableIsReady = true;
           $(".table").show();
         }
       };
+  }
+
+  ngOnDestroy() {
+    // this.subscription.unsubscribe();
   }
 
   onActivate(pracownik: PracownikModel) {

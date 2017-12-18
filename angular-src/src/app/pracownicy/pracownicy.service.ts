@@ -6,14 +6,92 @@ import 'rxjs/Rx';
 import { Observable } from 'rxjs/Observable';
 
 @Injectable()
-export class PracownicyService implements OnInit{
+export class PracownicyService {
 
   constructor(private http: HttpClient) {
+    console.log('Pracownicy reloaded');
+    this.getPracownicy()
+      .subscribe(
+        (pracownicy: PracownikModel[]) => {
+          this.pracownicyList = pracownicy;
+          this.pracownikActivated.next(this.pracownicyList);
+        }
+      );
   }
 
-  public pracownikActivated = new Subject();
+  stopnieWojskowe: any = [
 
-  private pracownicyList: PracownikModel[] = [];
+    {"nazwa": "szeregowy",
+      "skrot": "szer."},
+    {"nazwa": "starszy szeregowy",
+      "skrot": "st. szer."},
+    {"nazwa": "kapral",
+      "skrot": "kpr."},
+    {"nazwa": "starszy kapral",
+      "skrot": "st. kpr."},
+    {"nazwa": "plutonowy",
+      "skrot": "plut."},
+    {"nazwa": "sierżant",
+      "skrot": "sierż."},
+    {"nazwa": "starszy sierżant",
+      "skrot": "st. sierż."},
+    {"nazwa": "młodszy chorąży",
+      "skrot": "mł. chor."},
+    {"nazwa": "chorąży",
+      "skrot": "chor."},
+    {"nazwa": "starszy chorąży",
+      "skrot": "st. chor."},
+    {"nazwa": "starszy chorąż sztabowy",
+      "skrot": "st. chor. szt"},
+    {"nazwa": "podporucznik",
+      "skrot": "ppor."},
+    {"nazwa": "porucznik",
+      "skrot": "por."},
+    {"nazwa": "kapitan",
+      "skrot": "kpt."},
+    {"nazwa": "major",
+      "skrot": "mjr"},
+    {"nazwa": "podpułkownik",
+      "skrot": "ppłk"},
+    {"nazwa": "pułkownik",
+      "skrot": "płk"},
+    {"nazwa": "generał brygady",
+      "skrot": "gen. bryg."},
+    {"nazwa": "generał dywizji",
+      "skrot": "gen. dyw."},
+    {"nazwa": "generał broni",
+      "skrot": "gen. broni"},
+    {"nazwa": "generał",
+      "skrot": "gen"},
+
+  ];
+
+  tytuly: any = [
+    {"nazwa": "magister",
+      "skrot": "mgr"},
+    {"nazwa": "magister inżynier",
+      "skrot": "mgr inż."},
+    {"nazwa": "doktor",
+      "skrot": "dr"},
+    {"nazwa": "doktor inżynier",
+      "skrot": "dr inż."},
+    {"nazwa": "doktor habilitowany",
+      "skrot": "dr hab."},
+    {"nazwa": "doktor habilitowany inżynier",
+      "skrot": "dr hab. inż."},
+    {"nazwa": "profesor nadzwyczajny doktor habilitowany",
+      "skrot": "prof. nadzw. dr hab."},
+    {"nazwa": "profesor nadzwyczajny doktor habilitowany inżynier",
+      "skrot": "prof. nadzw. dr hab. inż."},
+    {"nazwa": "profesor doktor habilitowany",
+      "skrot": "prof. dr hab."},
+    {"nazwa": "profesor doktor habilitowany inżynier",
+      "skrot": "prof. dr hab. inż."},
+  ];
+
+  public pracownikActivated = new Subject<PracownikModel[]>();
+
+  public pracownicyList: PracownikModel[] = [];
       // new PracownikModel(
       //   'Marcin',
       //   'Marciniak',
@@ -91,8 +169,9 @@ export class PracownicyService implements OnInit{
       .catch((error: Response) => Observable.throw(error));
   }
 
-  getPracownikById(id: number) {
-    return this.pracownicyList.find((pracownik) => {return pracownik._id === id.toString()});
+  getPracownikById(id: string) {
+    console.log(this.pracownicyList.find((pracownik) => {return pracownik._id === id}));
+    return this.pracownicyList.find((pracownik) => {return pracownik._id === id});
   }
 
   addPracownik(pracownik: PracownikModel) {
@@ -100,15 +179,5 @@ export class PracownicyService implements OnInit{
     const headers = new HttpHeaders({'Content-Type': 'application/json'});
     return this.http.post<PracownikModel>('http://localhost:3000/pracownicy', pracownik, {headers: headers})
       .catch((error: Response) => Observable.throw(error));
-  }
-
-  ngOnInit() {
-
-    this.getPracownicy()
-      .subscribe(
-        (pracownicy: PracownikModel[]) => {
-          this.pracownicyList = pracownicy;
-        }
-      );
   }
 }

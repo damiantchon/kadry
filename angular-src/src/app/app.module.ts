@@ -10,11 +10,13 @@ import { AppRoutingModule } from './app-routing.module';
 import { PracownicyComponent } from './pracownicy/pracownicy.component';
 import { PublikacjeComponent } from './publikacje/publikacje.component';
 import { MinimumKadroweComponent } from './minimum-kadrowe/minimum-kadrowe.component';
-import { PracownicyItemComponent } from './pracownicy/pracownicy-item/pracownicy-item.component';
+import { PracownicyItemComponent } from './pracownicy/pracownicy-list/pracownicy-item/pracownicy-item.component';
 import { PracownicyListComponent } from './pracownicy/pracownicy-list/pracownicy-list.component';
 import { PracownicyService } from './pracownicy/pracownicy.service';
 import { HighlightDirective } from './shared/highlight.directive';
-import { PracownicyItemStartComponent } from './pracownicy/pracownicy-item-start/pracownicy-item-start.component';
+import { PracownicyItemStartComponent } from './pracownicy/pracownicy-list/pracownicy-item-start/pracownicy-item-start.component';
+import { PracownicyItemEditComponent } from './pracownicy/pracownicy-list/pracownicy-item-edit/pracownicy-item-edit.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -28,13 +30,16 @@ import { PracownicyItemStartComponent } from './pracownicy/pracownicy-item-start
       PracownicyItemComponent,
       PracownicyListComponent,
       HighlightDirective,
-      PracownicyItemStartComponent],
+      PracownicyItemStartComponent,
+      PracownicyItemEditComponent],
 imports: [
         AppRoutingModule,
         BrowserModule,
         DataTablesModule,
-        HttpClientModule
-    ],
+        HttpClientModule,
+        FormsModule,
+        ReactiveFormsModule
+],
     providers: [PracownicyService],
     bootstrap: [AppComponent]
 })
