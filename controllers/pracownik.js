@@ -29,6 +29,34 @@ router.post('/', (req, res) => {
     });
 });
 
+router.put('/', (req, res)=>{
+
+    let pracownik = new Pracownik({
+        _id: req.body._id,
+        imie: req.body.imie,
+        nazwisko: req.body.nazwisko,
+        stopien: req.body.stopien,
+        tytul: req.body.tytul,
+        specjalnosc: req.body.specjalnosc,
+        email: req.body.email,
+        funkcje: req.body.funkcje
+    });
+
+
+    Pracownik.update({_id: req.body._id}, pracownik, (err, result) => {
+        if (err) {
+            return res.status(500).json({
+                title: 'An error occured',
+                error: err
+            });
+        }
+        res.status(201).json({
+            message: 'Saved',
+            obj: result
+        });
+    });
+});
+
 router.get('/get', (req, res) => {
     Pracownik.find()
         .exec((err, pracownicy) => {

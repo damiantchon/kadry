@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Params } from '@angular/router';
 import { PracownicyService } from '../../pracownicy.service';
 import { Location } from '@angular/common';
@@ -41,6 +41,7 @@ export class PracownicyItemEditComponent implements OnInit {
     let tempTytul = '';
     let tempSpecjalnosc = '';
     let tempEmail = '';
+    let tempFunkcje = new FormArray([]);
 
     if (this.editMode){
       const pracownik = this.pracownicyService.getPracownikById(this.id);
@@ -51,6 +52,17 @@ export class PracownicyItemEditComponent implements OnInit {
       tempTytul = pracownik.tytul;
       tempSpecjalnosc = pracownik.specjalnosc;
       tempEmail = pracownik.email;
+      if (pracownik.funkcje) {
+        for (let funkcja of pracownik.funkcje) {
+          tempFunkcje.push(
+            new FormGroup(
+              {
+                'funkcja': new FormControl(funkcja, Validators.required)
+              }
+            )
+          );
+        }
+      }
     }
 
     this.pracownikForm = new FormGroup({
@@ -60,15 +72,49 @@ export class PracownicyItemEditComponent implements OnInit {
       'tytul': new FormControl(tempTytul, [Validators.required]),
       'specjalnosc': new FormControl(tempSpecjalnosc, [Validators.required]),
       'email': new FormControl(tempEmail, [Validators.required, Validators.email]),
+      'funkcje': tempFunkcje
     });
+    console.log(this.pracownikForm.controls)
   }
 
   onSubmit() {
-    console.log(this.pracownikForm);
+
+    // przygotowanie tablicy funkcji
+    let funkcje: any = [];
+    this.pracownikForm.value.funkcje.forEach((funkcja, index) => {
+      console.log(funkcja.funkcja);
+      funkcje.push(funkcja.funkcja);
+    });
+
+    let updatedPracownik: PracownikModel = new PracownikModel(
+      this.id,
+      this.pracownikForm.value.imie,
+      this.pracownikForm.value.nazwisko,
+      this.pracownikForm.value.stopien,
+      this.pracownikForm.value.tytul,
+      this.pracownikForm.value.specjalnosc,
+      this.pracownikForm.value.email,
+      funkcje
+    );
+
+
+    this.pracownicyService.updatePracownik(updatedPracownik)
+      .subscribe(
+        data => console.log(data),
+        error => console.error(error)
+      );
   }
 
   onCancel() {
     this.location.back();
+  }
+
+  onAddFunction() {
+    (<FormArray>this.pracownikForm.get('funkcje')).push(
+      new FormGroup({
+        'funkcja': new FormControl(null, Validators.required)
+      })
+    )
   }
 
 }

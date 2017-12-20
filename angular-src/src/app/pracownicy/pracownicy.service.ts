@@ -180,4 +180,13 @@ export class PracownicyService {
     return this.http.post<PracownikModel>('http://localhost:3000/pracownicy', pracownik, {headers: headers})
       .catch((error: Response) => Observable.throw(error));
   }
+
+  updatePracownik(pracownik: PracownikModel) {
+    console.log("Updating pracownik");
+    console.log(pracownik);
+    const headers = new HttpHeaders({'Content-Type': 'application/json'});
+    return this.http.put<PracownikModel>('http://localhost:3000/pracownicy', pracownik, {headers: headers})
+      .catch((error: Response) => Observable.throw(error));
+
+  }
 }
