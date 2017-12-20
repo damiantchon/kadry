@@ -3,6 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Params } from '@angular/router';
 import { PracownicyService } from '../../pracownicy.service';
 import { Location } from '@angular/common';
+import { PracownikModel } from '../../pracownik.model';
 
 @Component({
   selector: 'app-pracownicy-item-edit',
@@ -12,6 +13,7 @@ import { Location } from '@angular/common';
 export class PracownicyItemEditComponent implements OnInit {
 
   pracownikForm: FormGroup;
+  tempPracownik: PracownikModel = null;
 
   constructor(private route: ActivatedRoute,
               private pracownicyService: PracownicyService,
@@ -42,6 +44,7 @@ export class PracownicyItemEditComponent implements OnInit {
 
     if (this.editMode){
       const pracownik = this.pracownicyService.getPracownikById(this.id);
+      this.tempPracownik = pracownik;
       tempImie = pracownik.imie;
       tempNazwisko = pracownik.nazwisko;
       tempStopien = pracownik.stopien;

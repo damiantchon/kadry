@@ -48,4 +48,12 @@ export class PracownicyItemComponent implements OnInit, OnDestroy {
     this.router.navigate(['edit'], {relativeTo: this.route});
   }
 
+  onAddNew() {
+    this.router.navigate(['pracownicy', 'new']);
+  }
+
+  onDelete() {
+
+  }
 }
+

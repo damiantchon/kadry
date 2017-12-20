@@ -12,7 +12,7 @@ import { Router } from '@angular/router';
 export class PracownicyListComponent implements OnInit, OnDestroy {
 
   subscription: Subscription;
-
+  editMode: boolean = false;
   // dtOptions: DataTables.Settings = {};
   dtOptions: any = {};
   tableIsReady = false;
@@ -22,7 +22,6 @@ export class PracownicyListComponent implements OnInit, OnDestroy {
               private router: Router) { }
 
   ngOnInit() {
-      // this.pracownicyList = this.pracownicyService.pracownicyList;
     this.subscription = this.pracownicyService.pracownikActivated
       .subscribe(
         (pracownicy: PracownikModel[]) => {
@@ -33,6 +32,12 @@ export class PracownicyListComponent implements OnInit, OnDestroy {
     this.pracownicyList = this.pracownicyService.pracownicyList;
 
       this.dtOptions = {
+        dom: 'Bfrtip',
+        buttons: {
+          text: 'xd',
+          action: {}
+        },
+
         language: {
           "processing":     "Przetwarzanie...",
           "search":         "Szukaj: ",
@@ -65,7 +70,7 @@ export class PracownicyListComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    // this.subscription.unsubscribe();
+    this.subscription.unsubscribe();
   }
 
   onActivate(pracownik: PracownikModel) {

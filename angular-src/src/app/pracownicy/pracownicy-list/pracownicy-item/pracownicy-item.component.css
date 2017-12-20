@@ -17,3 +17,7 @@
 .top-buffer {
   margin-top:10px;
 }
+
+.panel-body {
+  margin-top: 0!important;
+}

@@ -3,16 +3,30 @@
     <form [formGroup]="pracownikForm" (ngSubmit)="onSubmit()">
       <div class="row">
         <div class="col-xs-12">
-          <button type="submit" class="btn btn-success" (submit)="onSubmit()" [ngClass]="{disabled: this.pracownikForm.invalid}">Save</button>
-          <button type="button" class="btn btn-danger" (click)="onCancel()">Cancel</button>
+          <div class="btn-group pull-right">
+            <button type="submit" class="btn btn-primary" (submit)="onSubmit()" [ngClass]="{disabled: this.pracownikForm.invalid}">Zapisz</button>
+            <button type="button" class="btn btn-default" (click)="onCancel()">Anuluj</button>
+          </div>
         </div>
+      </div>
+      <div class="row">
+        <div class="col-xs-12" *ngIf="this.editMode; else addingNewEmployee">
+          <p [ngStyle]="{'font-size': '30px'}">
+            <strong>{{this.tempPracownik.stopien}} {{this.tempPracownik.tytul}} {{this.tempPracownik.imie}} {{this.tempPracownik.nazwisko}}</strong>
+          </p>
+        </div>
+        <ng-template #addingNewEmployee class="col-xs-12">
+          <p [ngStyle]="{'font-size': '30px'}">
+            <strong>Nowy pracownik</strong>
+          </p>
+        </ng-template>
       </div>
       <div class="row">
         <div class="col-xs-12">
           <div class="row">
             <div class="col-xs-12">
-              <div class="form-group">
-                <label for="imie" class="col-xs-3">Imie</label>
+              <label for="imie" class="col-xs-4"><span class="glyphicon glyphicon-user text-primary"></span> Imie</label>
+              <div class="form-group col-xs-8">
                 <input type="text"
                        id="imie"
                        class="form-control"
@@ -22,8 +36,8 @@
           </div>
           <div class="row">
             <div class="col-xs-12">
-              <div class="form-group">
-                <label for="nazwisko">Nazwisko</label>
+              <label for="nazwisko" class="col-xs-4"><span class="glyphicon glyphicon-asterisk text-primary"></span> Nazwisko</label>
+              <div class="form-group col-xs-8">
                 <input type="text"
                        id="nazwisko"
                        class="form-control"
@@ -33,8 +47,8 @@
           </div>
           <div class="row">
             <div class="col-xs-12">
-              <div class="form-group">
-                <label for="stopien">Stopień Wojskowy</label>
+              <label for="stopien" class="col-xs-4"><span class="glyphicon glyphicon-star text-primary"></span> Stopień Wojskowy</label>
+              <div class="form-group col-xs-8">
                 <select id="stopien" class="form-control" formControlName="stopien">
                   <option *ngFor="let stopien of this.pracownicyService.stopnieWojskowe" [value]="stopien.skrot">
                     {{stopien.nazwa}}
@@ -49,8 +63,8 @@
           </div>
           <div class="row">
             <div class="col-xs-12">
-              <div class="form-group">
-                <label for="tytul">Tytuł</label>
+              <label for="tytul" class="col-xs-4"><span class="glyphicon glyphicon-book text-primary"></span> Tytuł</label>
+              <div class="form-group col-xs-8">
                 <select id="tytul" class="form-control" formControlName="tytul">
                   <option *ngFor="let tytul of this.pracownicyService.tytuly" [value]="tytul.skrot">
                     {{tytul.skrot}}
@@ -65,8 +79,8 @@
           </div>
           <div class="row">
             <div class="col-xs-12">
-              <div class="form-group">
-                <label for="specjalnosc">Specjalność</label>
+              <label for="specjalnosc" class="col-xs-4"><span class="glyphicon glyphicon-cog text-primary"></span> Specjalność</label>
+              <div class="form-group col-xs-8">
                 <input type="text"
                        id="specjalnosc"
                        class="form-control"
@@ -76,8 +90,8 @@
           </div>
           <div class="row">
             <div class="col-xs-12">
-              <div class="form-group">
-                <label for="email">Email</label>
+              <label for="email" class="col-xs-4"><span class="glyphicon glyphicon-envelope text-primary"></span> Email</label>
+              <div class="form-group col-xs-8">
                 <input type="text"
                        id="email"
                        class="form-control"

@@ -1,101 +1,108 @@
-<div class="panel-body top-buffer">
-	<div class="row">
-		<div class="col-md-12">
-			<p [ngStyle]="{'font-size': '30px'}">
-        <strong>{{this.pracownik.stopien}} {{this.pracownik.tytul}} {{this.pracownik.imie}} {{this.pracownik.nazwisko}}</strong>
-      </p>
-      <table class="table table-condensed table-responsive table-user-information">
-				<tbody>
-				<tr>
-					<td class="name">
-						<strong>
-							<span class="glyphicon glyphicon-user text-primary"></span>
-							Imię
-						</strong>
-					</td>
-					<td class="content">
-						<div class="text-primary">{{this.pracownik.imie}}</div>
-					</td>
-				</tr>
-        <tr>
-					<td>
-						<strong>
-							<span class="glyphicon glyphicon-asterisk text-primary"></span>
-							Nazwisko
-						</strong>
-					</td>
-					<td>
-						<div class="text-primary">{{this.pracownik.nazwisko}}</div>
-					</td>
-				</tr>
-				<tr>
-					<td>
-						<strong>
-							<span class="glyphicon glyphicon-star text-primary"></span>
-							Stopień Wojskowy
-						</strong>
-					</td>
-					<td>
-						<div class="text-primary">{{this.pracownik.stopien}}</div>
-					</td>
-				</tr>
-				<tr>
-					<td>
-						<strong>
-							<span class="glyphicon glyphicon-book text-primary"></span>
-							Tytuł
-						</strong>
-					</td>
-					<td>
-						<div class="text-primary">{{this.pracownik.tytul}}</div>
-					</td>
-				</tr>
-				<tr>
-					<td>
-						<strong>
-							<span class="glyphicon glyphicon-cog text-primary"></span>
-							Specjalność
-						</strong>
-					</td>
-					<td>
-						<div class="text-primary">{{this.pracownik.specjalnosc}}</div>
-					</td>
-				</tr>
-        <tr>
-          <td>
-            <strong>
-              <span class="glyphicon glyphicon-envelope text-primary"></span>
-              Email
-            </strong>
-          </td>
-          <td>
-            <div class="text-primary">{{this.pracownik.email}}</div>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <strong>
-              <span class="glyphicon glyphicon-th-list text-primary"></span>
-              Funkcje
-            </strong>
-          </td>
-          <td>
-            <div *ngIf="this.pracownik.funkcje; else else_component">
-              <div *ngFor="let funkcja of this.pracownik.funkcje; let i = index"
-                   class="text-primary"><strong>{{i+1}}</strong> - {{funkcja}}</div>
-            </div>
-            <ng-template #else_component>
-              <div class="text-primary">brak</div>
-            </ng-template>
-            </td>
-        </tr>
-				</tbody>
-			</table>
-		</div>
-	</div>
+<div class="row">
+  <div class="col-md-12">
+    <div class="btn-group pull-left">
+      <button class="btn btn-default" (click)="onAddNew()">Nowy</button>
+    </div>
+    <div class="btn-group pull-right">
+      <button class="btn btn-primary" (click)="onEdit()">Edytuj</button>
+      <button class="btn btn-danger" (click)="onDelete()">Usuń</button>
+    </div>
+  </div>
 </div>
-<button (click)="onSubmit()">Dodaj pracownika do bazy</button>
-<button (click)="onEdit()">Edytuj pracownika</button>
+<div class="row">
+  <div class="col-md-12">
+    <div [ngStyle]="{'font-size': '30px'}">
+      <strong>{{this.pracownik.stopien}} {{this.pracownik.tytul}} {{this.pracownik.imie}} {{this.pracownik.nazwisko}}</strong>
+    </div>
+    <table class="table table-condensed table-responsive table-user-information">
+      <tbody>
+      <tr>
+        <td class="name">
+          <strong>
+            <span class="glyphicon glyphicon-user text-primary"></span>
+            Imię
+          </strong>
+        </td>
+        <td class="content">
+          <div class="text-primary">{{this.pracownik.imie}}</div>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <strong>
+            <span class="glyphicon glyphicon-asterisk text-primary"></span>
+            Nazwisko
+          </strong>
+        </td>
+        <td>
+          <div class="text-primary">{{this.pracownik.nazwisko}}</div>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <strong>
+            <span class="glyphicon glyphicon-star text-primary"></span>
+            Stopień Wojskowy
+          </strong>
+        </td>
+        <td>
+          <div class="text-primary">{{this.pracownik.stopien}}</div>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <strong>
+            <span class="glyphicon glyphicon-book text-primary"></span>
+            Tytuł
+          </strong>
+        </td>
+        <td>
+          <div class="text-primary">{{this.pracownik.tytul}}</div>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <strong>
+            <span class="glyphicon glyphicon-cog text-primary"></span>
+            Specjalność
+          </strong>
+        </td>
+        <td>
+          <div class="text-primary">{{this.pracownik.specjalnosc}}</div>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <strong>
+            <span class="glyphicon glyphicon-envelope text-primary"></span>
+            Email
+          </strong>
+        </td>
+        <td>
+          <div class="text-primary">{{this.pracownik.email}}</div>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <strong>
+            <span class="glyphicon glyphicon-th-list text-primary"></span>
+            Funkcje
+          </strong>
+        </td>
+        <td>
+          <div *ngIf="this.pracownik.funkcje; else else_component">
+            <div *ngFor="let funkcja of this.pracownik.funkcje; let i = index"
+                 class="text-primary"><strong>{{i+1}}</strong> - {{funkcja}}</div>
+          </div>
+          <ng-template #else_component>
+            <div class="text-primary">brak</div>
+          </ng-template>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
  <!-- - imie-->
  <!-- - nazwisko-->
  <!-- - stopień wojskowy-->
