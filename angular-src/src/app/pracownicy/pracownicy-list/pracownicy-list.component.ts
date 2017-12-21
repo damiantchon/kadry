@@ -1,4 +1,4 @@
-import { Component, OnChanges, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { PracownicyService } from '../pracownicy.service';
 import { PracownikModel } from '../pracownik.model';
 import { Subscription } from 'rxjs/Subscription';
@@ -26,18 +26,11 @@ export class PracownicyListComponent implements OnInit, OnDestroy {
       .subscribe(
         (pracownicy: PracownikModel[]) => {
           this.pracownicyList = pracownicy;
-          console.log(this.pracownicyList);
         }
       );
     this.pracownicyList = this.pracownicyService.pracownicyList;
 
       this.dtOptions = {
-        dom: 'Bfrtip',
-        buttons: {
-          text: 'xd',
-          action: {}
-        },
-
         language: {
           "processing":     "Przetwarzanie...",
           "search":         "Szukaj: ",

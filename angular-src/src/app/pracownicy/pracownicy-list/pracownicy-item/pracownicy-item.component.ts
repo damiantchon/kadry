@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnChanges, OnDestroy, OnInit } from '@angular/core';
 import { PracownikModel } from '../../pracownik.model';
 import { PracownicyService } from '../../pracownicy.service';
 import { Subscription } from 'rxjs/Subscription';
@@ -9,7 +9,7 @@ import { ActivatedRoute, Params, Router } from '@angular/router';
   templateUrl: './pracownicy-item.component.html',
   styleUrls: ['./pracownicy-item.component.css']
 })
-export class PracownicyItemComponent implements OnInit, OnDestroy {
+export class PracownicyItemComponent implements OnInit, OnDestroy, OnChanges{
 
   subscriptions: Subscription[] = [];
 
@@ -25,14 +25,25 @@ export class PracownicyItemComponent implements OnInit, OnDestroy {
         .subscribe(
           (params: Params) => {
             this.id = params['id'];
-            console.log(params);
             this.pracownik = this.pracownicyService.getPracownikById(this.id);
+            console.log(this.pracownik);
           }
         );
+      // console.log(this.pracownik);
+      // console.log(this.pracownik.funkcje);
   }
+
+  onTest() {
+      this.pracownik.funkcje = null;
+  }
+
 
   ngOnDestroy() {
       this.subscriptions[0].unsubscribe();
+  }
+
+  ngOnChanges() {
+      console.log(this.pracownik.funkcje);
   }
 
   onSubmit() {

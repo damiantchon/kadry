@@ -1,21 +1,24 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Params } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { PracownicyService } from '../../pracownicy.service';
 import { Location } from '@angular/common';
 import { PracownikModel } from '../../pracownik.model';
+import { Subscription } from 'rxjs/Subscription';
 
 @Component({
   selector: 'app-pracownicy-item-edit',
   templateUrl: './pracownicy-item-edit.component.html',
   styleUrls: ['./pracownicy-item-edit.component.css']
 })
-export class PracownicyItemEditComponent implements OnInit {
+export class PracownicyItemEditComponent implements OnInit, OnDestroy {
 
   pracownikForm: FormGroup;
   tempPracownik: PracownikModel = null;
 
+  subscriptions: Subscription[] = [];
   constructor(private route: ActivatedRoute,
+              private router: Router,
               private pracownicyService: PracownicyService,
               private location: Location) { }
 
@@ -31,6 +34,17 @@ export class PracownicyItemEditComponent implements OnInit {
           this.initForm();
         }
       )
+  }
+
+  ngOnDestroy() {
+    if(this.subscriptions[0]){
+      this.subscriptions[0].unsubscribe();
+    }
+    // this.subscriptions.forEach((subscription: Subscription) => {
+    //   if(subscription) {
+    //     subscription.unsubscribe();
+    //   }
+    // });
   }
 
   private initForm () {
@@ -81,11 +95,11 @@ export class PracownicyItemEditComponent implements OnInit {
 
     // przygotowanie tablicy funkcji
     let funkcje: any = [];
-    this.pracownikForm.value.funkcje.forEach((funkcja, index) => {
-      console.log(funkcja.funkcja);
+    this.pracownikForm.value.funkcje.forEach((funkcja) => {
       funkcje.push(funkcja.funkcja);
     });
 
+    // przygotowanie pracownika do
     let updatedPracownik: PracownikModel = new PracownikModel(
       this.id,
       this.pracownikForm.value.imie,
@@ -97,10 +111,13 @@ export class PracownicyItemEditComponent implements OnInit {
       funkcje
     );
 
-
-    this.pracownicyService.updatePracownik(updatedPracownik)
+    this.subscriptions[0] = this.pracownicyService.updatePracownik(updatedPracownik)
       .subscribe(
-        data => console.log(data),
+        data => {
+          console.log(data);
+          this.pracownicyService.getPracownicy().subscribe();
+          this.router.navigate(['/pracownicy']);
+        },
         error => console.error(error)
       );
   }
@@ -117,4 +134,7 @@ export class PracownicyItemEditComponent implements OnInit {
     )
   }
 
+  onDeleteFunction(i: number) {
+    (<FormArray>this.pracownikForm.get('funkcje')).removeAt(i);
+  }
 }

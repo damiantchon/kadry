@@ -164,13 +164,13 @@ export class PracownicyService {
              pracownik.funkcje));
          }
          this.pracownicyList = pracownicyTransformed;
+         this.pracownikActivated.next(pracownicyTransformed);
          return pracownicyTransformed;
       })
       .catch((error: Response) => Observable.throw(error));
   }
 
   getPracownikById(id: string) {
-    console.log(this.pracownicyList.find((pracownik) => {return pracownik._id === id}));
     return this.pracownicyList.find((pracownik) => {return pracownik._id === id});
   }
 

@@ -90,13 +90,17 @@
           </strong>
         </td>
         <td>
-          <div *ngIf="this.pracownik.funkcje; else else_component">
+          <div *ngIf="this.pracownik.funkcje.length > 0; then than_component else else_component"></div>
+
+          <ng-template #than_component>
             <div *ngFor="let funkcja of this.pracownik.funkcje; let i = index"
                  class="text-primary"><strong>{{i+1}}</strong> - {{funkcja}}</div>
-          </div>
+          </ng-template>
+
           <ng-template #else_component>
             <div class="text-primary">brak</div>
           </ng-template>
+
         </td>
       </tr>
       </tbody>

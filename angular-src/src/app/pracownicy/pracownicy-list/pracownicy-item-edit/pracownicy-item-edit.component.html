@@ -4,7 +4,7 @@
       <div class="row">
         <div class="col-xs-12">
           <div class="btn-group pull-right">
-            <button type="submit" class="btn btn-primary" (submit)="onSubmit()" [ngClass]="{disabled: this.pracownikForm.invalid}">Zapisz</button>
+            <button type="submit" class="btn btn-primary" (submit)="onSubmit()" [disabled]="this.pracownikForm.invalid">Zapisz</button>
             <button type="button" class="btn btn-default" (click)="onCancel()">Anuluj</button>
           </div>
         </div>
@@ -15,10 +15,12 @@
             <strong>{{this.tempPracownik.stopien}} {{this.tempPracownik.tytul}} {{this.tempPracownik.imie}} {{this.tempPracownik.nazwisko}}</strong>
           </p>
         </div>
-        <ng-template #addingNewEmployee class="col-xs-12">
-          <p [ngStyle]="{'font-size': '30px'}">
-            <strong>Nowy pracownik</strong>
-          </p>
+        <ng-template #addingNewEmployee>
+          <div class="col-xs-12">
+            <p [ngStyle]="{'font-size': '30px'}">
+              <strong>Nowy pracownik</strong>
+            </p>
+          </div>
         </ng-template>
       </div>
       <div class="row">
@@ -115,7 +117,7 @@
                     <input type="text" class="form-control" formControlName="funkcja">
                   </div>
                   <div class="col-xs-2">
-                    <button type="button" class="btn btn-danger" (click)="onClickFunction">Usuń</button>
+                    <button type="button" class="btn btn-danger" (click)="onDeleteFunction(i)">Usuń</button>
                   </div>
                 </div>
               </div>
