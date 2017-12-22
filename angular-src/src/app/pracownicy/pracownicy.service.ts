@@ -4,11 +4,13 @@ import { Injectable, OnInit } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import 'rxjs/Rx';
 import { Observable } from 'rxjs/Observable';
+import { Router } from '@angular/router';
 
 @Injectable()
 export class PracownicyService {
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient,
+              private router: Router) {
     console.log('Pracownicy reloaded');
     this.getPracownicy()
       .subscribe(
@@ -18,7 +20,6 @@ export class PracownicyService {
         }
       );
   }
-
   stopnieWojskowe: any = [
 
     {"nazwa": "szeregowy",
@@ -90,6 +91,8 @@ export class PracownicyService {
   ];
 
   public pracownikActivated = new Subject<PracownikModel[]>();
+
+  public pracownikUpdated = new Subject<PracownikModel>();
 
   public pracownicyList: PracownikModel[] = [];
       // new PracownikModel(
@@ -164,7 +167,7 @@ export class PracownicyService {
              pracownik.funkcje));
          }
          this.pracownicyList = pracownicyTransformed;
-         this.pracownikActivated.next(pracownicyTransformed);
+         // this.pracownikActivated.next(pracownicyTransformed);
          return pracownicyTransformed;
       })
       .catch((error: Response) => Observable.throw(error));
@@ -182,11 +185,8 @@ export class PracownicyService {
   }
 
   updatePracownik(pracownik: PracownikModel) {
-    console.log("Updating pracownik");
-    console.log(pracownik);
     const headers = new HttpHeaders({'Content-Type': 'application/json'});
     return this.http.put<PracownikModel>('http://localhost:3000/pracownicy', pracownik, {headers: headers})
       .catch((error: Response) => Observable.throw(error));
-
   }
 }

@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { PracownicyService } from './pracownicy/pracownicy.service';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-root',
@@ -8,8 +9,9 @@ import { PracownicyService } from './pracownicy/pracownicy.service';
 })
 export class AppComponent {
 
-  constructor(private pracownicyService: PracownicyService) {
+  constructor(private pracownicyService: PracownicyService,
+              private router: Router) {
 
   }
-
 }
+

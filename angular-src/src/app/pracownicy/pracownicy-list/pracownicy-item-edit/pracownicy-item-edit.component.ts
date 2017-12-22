@@ -33,7 +33,7 @@ export class PracownicyItemEditComponent implements OnInit, OnDestroy {
           this.editMode = params['id'] != null;
           this.initForm();
         }
-      )
+      );
   }
 
   ngOnDestroy() {
@@ -115,8 +115,18 @@ export class PracownicyItemEditComponent implements OnInit, OnDestroy {
       .subscribe(
         data => {
           console.log(data);
-          this.pracownicyService.getPracownicy().subscribe();
-          this.router.navigate(['/pracownicy']);
+          this.pracownicyService.getPracownicy().subscribe(
+            ()=> {
+              let savedStrategy = this.router.routeReuseStrategy.shouldReuseRoute;
+              this.router.routeReuseStrategy.shouldReuseRoute = () => {
+                return false
+              };
+              this.router.navigate(['/pracownicy']).then(() => {
+                  this.router.routeReuseStrategy.shouldReuseRoute = savedStrategy;
+                }
+              )
+            }
+          );
         },
         error => console.error(error)
       );

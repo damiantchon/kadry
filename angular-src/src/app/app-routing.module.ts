@@ -12,6 +12,7 @@ const appRoutes: Routes = [
     {path: '', component: HomeComponent, pathMatch: 'full'},
     {path: 'pracownicy', component: PracownicyComponent, children: [
         {path: '', component: PracownicyItemStartComponent},
+        {path: 'refreshed', component: PracownicyItemStartComponent},
         {path: 'new', component: PracownicyItemEditComponent},
         {path: ':id', component: PracownicyItemComponent},
         {path: ':id/edit', component: PracownicyItemEditComponent}

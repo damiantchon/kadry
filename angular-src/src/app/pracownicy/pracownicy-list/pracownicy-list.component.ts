@@ -1,8 +1,9 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { PracownicyService } from '../pracownicy.service';
 import { PracownikModel } from '../pracownik.model';
 import { Subscription } from 'rxjs/Subscription';
 import { Router } from '@angular/router';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-pracownicy-list',
@@ -11,18 +12,19 @@ import { Router } from '@angular/router';
 })
 export class PracownicyListComponent implements OnInit, OnDestroy {
 
-  subscription: Subscription;
+  subscriptions: Subscription[] = [];
   editMode: boolean = false;
-  // dtOptions: DataTables.Settings = {};
+  savedStrategy = this.router.routeReuseStrategy.shouldReuseRoute;
   dtOptions: any = {};
   tableIsReady = false;
   private pracownicyList: PracownikModel[] = [];
 
   constructor(private pracownicyService: PracownicyService,
-              private router: Router) { }
+              private router: Router,
+              private location: Location) { }
 
   ngOnInit() {
-    this.subscription = this.pracownicyService.pracownikActivated
+    this.subscriptions[0] = this.pracownicyService.pracownikActivated
       .subscribe(
         (pracownicy: PracownikModel[]) => {
           this.pracownicyList = pracownicy;
@@ -31,6 +33,8 @@ export class PracownicyListComponent implements OnInit, OnDestroy {
     this.pracownicyList = this.pracownicyService.pracownicyList;
 
       this.dtOptions = {
+        //ordering: false,
+        order: [[0, "desc"]],
         language: {
           "processing":     "Przetwarzanie...",
           "search":         "Szukaj: ",
@@ -63,7 +67,7 @@ export class PracownicyListComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.subscription.unsubscribe();
+    this.subscriptions[0].unsubscribe();
   }
 
   onActivate(pracownik: PracownikModel) {
