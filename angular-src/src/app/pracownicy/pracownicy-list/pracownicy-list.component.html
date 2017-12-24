@@ -17,7 +17,10 @@
         <td>{{pracownik.nazwisko}}</td>
         <td>{{pracownik.imie}}</td>
         <td>{{pracownik.tytul}}</td>
-        <td>{{pracownik.stopien}}</td>
+        <td *ngIf="pracownik.stopien !== ''; else notApplicable">{{pracownik.stopien}}</td>
+        <ng-template #notApplicable>
+          <td>nd.</td>
+        </ng-template>
         <td>{{pracownik.email}}</td>
       </tr>
       </tbody>

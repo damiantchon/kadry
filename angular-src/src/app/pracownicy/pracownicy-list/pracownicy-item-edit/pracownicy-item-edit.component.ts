@@ -49,23 +49,23 @@ export class PracownicyItemEditComponent implements OnInit, OnDestroy {
 
   private initForm () {
 
-    let tempImie = '';
     let tempNazwisko = '';
-    let tempStopien = '';
+    let tempImie = '';
     let tempTytul = '';
-    let tempSpecjalnosc = '';
+    let tempStopien = '';
     let tempEmail = '';
+    let tempSpecjalnosc = '';
     let tempFunkcje = new FormArray([]);
 
     if (this.editMode){
       const pracownik = this.pracownicyService.getPracownikById(this.id);
       this.tempPracownik = pracownik;
-      tempImie = pracownik.imie;
       tempNazwisko = pracownik.nazwisko;
-      tempStopien = pracownik.stopien;
+      tempImie = pracownik.imie;
       tempTytul = pracownik.tytul;
-      tempSpecjalnosc = pracownik.specjalnosc;
+      tempStopien = pracownik.stopien;
       tempEmail = pracownik.email;
+      tempSpecjalnosc = pracownik.specjalnosc;
       if (pracownik.funkcje) {
         for (let funkcja of pracownik.funkcje) {
           tempFunkcje.push(
@@ -80,12 +80,12 @@ export class PracownicyItemEditComponent implements OnInit, OnDestroy {
     }
 
     this.pracownikForm = new FormGroup({
-      'imie': new FormControl(tempImie, [Validators.required]),
       'nazwisko': new FormControl(tempNazwisko, [Validators.required]),
-      'stopien': new FormControl(tempStopien, [Validators.required]),
+      'imie': new FormControl(tempImie, [Validators.required]),
       'tytul': new FormControl(tempTytul, [Validators.required]),
-      'specjalnosc': new FormControl(tempSpecjalnosc, [Validators.required]),
+      'stopien': new FormControl(tempStopien),
       'email': new FormControl(tempEmail, [Validators.required, Validators.email]),
+      'specjalnosc': new FormControl(tempSpecjalnosc, [Validators.required]),
       'funkcje': tempFunkcje
     });
     console.log(this.pracownikForm.controls)
@@ -111,25 +111,49 @@ export class PracownicyItemEditComponent implements OnInit, OnDestroy {
       funkcje
     );
 
-    this.subscriptions[0] = this.pracownicyService.updatePracownik(updatedPracownik)
-      .subscribe(
-        data => {
-          console.log(data);
-          this.pracownicyService.getPracownicy().subscribe(
-            ()=> {
-              let savedStrategy = this.router.routeReuseStrategy.shouldReuseRoute;
-              this.router.routeReuseStrategy.shouldReuseRoute = () => {
-                return false
-              };
-              this.router.navigate(['/pracownicy']).then(() => {
-                  this.router.routeReuseStrategy.shouldReuseRoute = savedStrategy;
-                }
-              )
-            }
-          );
-        },
-        error => console.error(error)
-      );
+    if(this.editMode === true){ // edycja istniejącego pracownika
+      this.subscriptions[0] = this.pracownicyService.updatePracownik(updatedPracownik)
+        .subscribe(
+          data => {
+            console.log(data);
+            this.pracownicyService.getPracownicy().subscribe(
+              ()=> {
+                let savedStrategy = this.router.routeReuseStrategy.shouldReuseRoute;
+                this.router.routeReuseStrategy.shouldReuseRoute = () => {
+                  return false
+                };
+                this.router.navigate(['/pracownicy']).then(() => {
+                    this.router.routeReuseStrategy.shouldReuseRoute = savedStrategy;
+                  }
+                )
+              }
+            );
+          },
+          error => console.error(error)
+        );
+    } else { // dodanie nowego pracownika
+      this.subscriptions[0] = this.pracownicyService.addPracownik(updatedPracownik)
+        .subscribe(
+          data => {
+            console.log(data);
+            this.pracownicyService.getPracownicy().subscribe(
+              ()=> {
+                let savedStrategy = this.router.routeReuseStrategy.shouldReuseRoute;
+                this.router.routeReuseStrategy.shouldReuseRoute = () => {
+                  return false
+                };
+                this.router.navigate(['/pracownicy']).then(() => {
+                    this.router.routeReuseStrategy.shouldReuseRoute = savedStrategy;
+                  }
+                )
+              }
+            );
+          },
+          error => console.error(error)
+        );
+    }
+
+
   }
 
   onCancel() {

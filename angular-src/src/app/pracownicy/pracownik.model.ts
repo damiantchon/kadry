@@ -9,13 +9,13 @@ export class PracownikModel {
                 public funkcje?: string[]) {}
 }
 
-/*
-- imie
-- nazwisko
-- stopień wojskowy
-- tytuł
-- specjalność
-- pełnione funkcje
-- informacja do jakich minimów kadrowych jest wykorzystywany
-
- */
+// const schema = new Schema({
+//     "imie": {type: String, required: true},
+//     "nazwisko": {type: String, required: true},
+//     "stopien": {type: String, required: true},
+//     "tytul": {type: String, required: true},
+//     "specjalnosc": {type: String, required: true},
+//     "email": {type: String, required: true, unique: true},
+//     "funkcje": [{type: String, required: false}]},
+//   {collection: 'pracownicy'}
+// );

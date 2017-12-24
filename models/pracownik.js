@@ -9,8 +9,7 @@ const schema = new Schema({
     "tytul": {type: String, required: true},
     "specjalnosc": {type: String, required: true},
     "email": {type: String, required: true, unique: true},
-    "funkcje": [{type: String, required: false}],
-    "publikacje": [{type: Schema.Types.ObjectId, ref: 'Publikacja', required: false}]},
+    "funkcje": [{type: String, required: false}]},
     {collection: 'pracownicy'});
 
 schema.plugin(mongooseUniqueValidator);

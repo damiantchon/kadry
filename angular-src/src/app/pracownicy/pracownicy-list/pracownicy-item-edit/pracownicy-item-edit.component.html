@@ -27,17 +27,6 @@
         <div class="col-xs-12">
           <div class="row">
             <div class="col-xs-12">
-              <label for="imie" class="col-xs-4"><span class="glyphicon glyphicon-user text-primary"></span> Imie</label>
-              <div class="form-group col-xs-8">
-                <input type="text"
-                       id="imie"
-                       class="form-control"
-                       formControlName="imie">
-              </div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-xs-12">
               <label for="nazwisko" class="col-xs-4"><span class="glyphicon glyphicon-asterisk text-primary"></span> Nazwisko</label>
               <div class="form-group col-xs-8">
                 <input type="text"
@@ -49,17 +38,12 @@
           </div>
           <div class="row">
             <div class="col-xs-12">
-              <label for="stopien" class="col-xs-4"><span class="glyphicon glyphicon-star text-primary"></span> Stopień Wojskowy</label>
+              <label for="imie" class="col-xs-4"><span class="glyphicon glyphicon-user text-primary"></span> Imie</label>
               <div class="form-group col-xs-8">
-                <select id="stopien" class="form-control" formControlName="stopien">
-                  <option *ngFor="let stopien of this.pracownicyService.stopnieWojskowe" [value]="stopien.skrot">
-                    {{stopien.nazwa}}
-                  </option>
-                </select>
-                <!--<input type="text"-->
-                       <!--id="stopien"-->
-                       <!--class="form-control"-->
-                       <!--formControlName="stopien">-->
+                <input type="text"
+                       id="imie"
+                       class="form-control"
+                       formControlName="imie">
               </div>
             </div>
           </div>
@@ -81,12 +65,17 @@
           </div>
           <div class="row">
             <div class="col-xs-12">
-              <label for="specjalnosc" class="col-xs-4"><span class="glyphicon glyphicon-cog text-primary"></span> Specjalność</label>
+              <label for="stopien" class="col-xs-4"><span class="glyphicon glyphicon-star text-primary"></span> Stopień Wojskowy</label>
               <div class="form-group col-xs-8">
-                <input type="text"
-                       id="specjalnosc"
-                       class="form-control"
-                       formControlName="specjalnosc">
+                <select id="stopien" class="form-control" formControlName="stopien">
+                  <option *ngFor="let stopien of this.pracownicyService.stopnieWojskowe" [value]="stopien.skrot">
+                    {{stopien.nazwa}}
+                  </option>
+                </select>
+                <!--<input type="text"-->
+                <!--id="stopien"-->
+                <!--class="form-control"-->
+                <!--formControlName="stopien">-->
               </div>
             </div>
           </div>
@@ -98,6 +87,17 @@
                        id="email"
                        class="form-control"
                        formControlName="email">
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-xs-12">
+              <label for="specjalnosc" class="col-xs-4"><span class="glyphicon glyphicon-cog text-primary"></span> Specjalność</label>
+              <div class="form-group col-xs-8">
+                <input type="text"
+                       id="specjalnosc"
+                       class="form-control"
+                       formControlName="specjalnosc">
               </div>
             </div>
           </div>

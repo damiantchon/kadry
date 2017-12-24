@@ -21,7 +21,8 @@ export class PracownicyService {
       );
   }
   stopnieWojskowe: any = [
-
+    {"nazwa": "brak",
+      "skrot": ""},
     {"nazwa": "szeregowy",
       "skrot": "szer."},
     {"nazwa": "starszy szeregowy",
@@ -187,6 +188,11 @@ export class PracownicyService {
   updatePracownik(pracownik: PracownikModel) {
     const headers = new HttpHeaders({'Content-Type': 'application/json'});
     return this.http.put<PracownikModel>('http://localhost:3000/pracownicy', pracownik, {headers: headers})
+      .catch((error: Response) => Observable.throw(error));
+  }
+
+  deletePracownik(pracownik: PracownikModel) {
+    return this.http.delete<PracownikModel>('http://localhost:3000/pracownicy/' + pracownik._id)
       .catch((error: Response) => Observable.throw(error));
   }
 }

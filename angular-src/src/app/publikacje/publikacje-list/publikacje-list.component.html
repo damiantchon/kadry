@@ -1,0 +1,25 @@
+<div class="row">
+  <div class="col-md-6">
+    <table datatable="ng" [dtOptions]="dtOptions" class="table" data-page-length="20" #list>
+      <thead>
+      <tr>
+        <th>Tytuł</th>
+        <th>Rok</th>
+        <th>DOI</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let publikacja of this.publikacje"
+          (click)="onActivate(publikacja)"
+          appHighlight="whitesmoke">
+        <td>{{publikacja.tytulPublikacji}}</td>
+        <td>{{publikacja.rokPublikacji}}</td>
+        <td>{{publikacja.doi}}</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="col-md-6">
+    <router-outlet></router-outlet>
+  </div>
+</div>

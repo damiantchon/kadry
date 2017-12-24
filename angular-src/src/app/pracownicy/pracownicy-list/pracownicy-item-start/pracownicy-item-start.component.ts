@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-pracownicy-item-start',
@@ -7,9 +8,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PracownicyItemStartComponent implements OnInit {
 
-  constructor() { }
+  constructor(private router: Router) { }
 
   ngOnInit() {
+
+  }
+
+  onAddNew() {
+    this.router.navigate(['pracownicy', 'new']);
   }
 
 }

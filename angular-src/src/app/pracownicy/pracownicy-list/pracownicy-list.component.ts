@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { PracownicyService } from '../pracownicy.service';
 import { PracownikModel } from '../pracownik.model';
 import { Subscription } from 'rxjs/Subscription';
@@ -16,7 +16,6 @@ export class PracownicyListComponent implements OnInit, OnDestroy {
   editMode: boolean = false;
   savedStrategy = this.router.routeReuseStrategy.shouldReuseRoute;
   dtOptions: any = {};
-  tableIsReady = false;
   private pracownicyList: PracownikModel[] = [];
 
   constructor(private pracownicyService: PracownicyService,
@@ -60,7 +59,6 @@ export class PracownicyListComponent implements OnInit, OnDestroy {
         lengthMenu: [[10, 20 ,50 ,-1], [10, 20, 50, "All"]],
         //Zapobieganie pokazywaniu się strony przed załadowaniem modułu datatable
         initComplete: () => {
-          this.tableIsReady = true;
           $(".table").show();
         }
       };

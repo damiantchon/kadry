@@ -7,17 +7,24 @@ import { MinimumKadroweComponent } from './minimum-kadrowe/minimum-kadrowe.compo
 import { PracownicyItemComponent } from './pracownicy/pracownicy-list/pracownicy-item/pracownicy-item.component';
 import { PracownicyItemStartComponent } from './pracownicy/pracownicy-list/pracownicy-item-start/pracownicy-item-start.component';
 import { PracownicyItemEditComponent } from './pracownicy/pracownicy-list/pracownicy-item-edit/pracownicy-item-edit.component';
+import { PublikacjeItemComponent } from './publikacje/publikacje-list/publikacje-item/publikacje-item.component';
+import { PublikacjeItemEditComponent } from './publikacje/publikacje-list/publikacje-item-edit/publikacje-item-edit.component';
+import { PublikacjeItemStartComponent } from './publikacje/publikacje-list/publikacje-item-start/publikacje-item-start.component';
 
 const appRoutes: Routes = [
     {path: '', component: HomeComponent, pathMatch: 'full'},
     {path: 'pracownicy', component: PracownicyComponent, children: [
         {path: '', component: PracownicyItemStartComponent},
-        {path: 'refreshed', component: PracownicyItemStartComponent},
         {path: 'new', component: PracownicyItemEditComponent},
         {path: ':id', component: PracownicyItemComponent},
         {path: ':id/edit', component: PracownicyItemEditComponent}
       ]},
-    {path: 'publikacje', component: PublikacjeComponent},
+    {path: 'publikacje', component: PublikacjeComponent, children: [
+        {path: '', component: PublikacjeItemStartComponent},
+        {path: 'new', component: PublikacjeItemEditComponent},
+        {path: ':id', component: PublikacjeItemComponent},
+        {path: ':id/edit', component: PublikacjeItemEditComponent}
+      ]},
     {path: 'minimum-kadrowe', component: MinimumKadroweComponent}
 
 ];

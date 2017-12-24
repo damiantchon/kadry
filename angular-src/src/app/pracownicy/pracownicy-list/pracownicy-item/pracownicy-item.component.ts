@@ -37,7 +37,6 @@ export class PracownicyItemComponent implements OnInit, OnDestroy, OnChanges{
       this.pracownik.funkcje = null;
   }
 
-
   ngOnDestroy() {
       this.subscriptions[0].unsubscribe();
   }
@@ -64,7 +63,29 @@ export class PracownicyItemComponent implements OnInit, OnDestroy, OnChanges{
   }
 
   onDelete() {
+      let confirmation: string;
+      confirmation = prompt("Aby usunąć tego pracownika, wpisz w poniższym polu jego imię i nazwisko. ("
+        + this.pracownik.imie + " " + this.pracownik.nazwisko + ")");
 
+      if(confirmation != null){
+        if(confirmation.trim().toLowerCase() === (this.pracownik.imie + " " + this.pracownik.nazwisko).toLowerCase()) {
+          this.pracownicyService.deletePracownik(this.pracownik)
+            .subscribe((result) => {
+              console.log(result);
+              this.pracownicyService.getPracownicy().subscribe(
+                () => {
+                  let savedStrategy = this.router.routeReuseStrategy.shouldReuseRoute;
+                  this.router.routeReuseStrategy.shouldReuseRoute = () => {
+                    return false;
+                  };
+                  this.router.navigate(['/pracownicy']).then(() => {
+                      this.router.routeReuseStrategy.shouldReuseRoute = savedStrategy;
+                    }
+                  )
+                });
+            });
+        }
+      }
   }
 }
 

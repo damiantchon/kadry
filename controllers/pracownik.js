@@ -22,7 +22,7 @@ router.post('/', (req, res) => {
               error: err
            });
        }
-       res.status(201).json({
+       res.status(200).json({
            message: 'Saved',
            obj: result
        });
@@ -52,6 +52,22 @@ router.put('/', (req, res)=>{
         }
         res.status(201).json({
             message: 'Saved',
+            obj: result
+        });
+    });
+});
+
+router.delete('/:id', (req, res) => {
+
+    Pracownik.find({_id: req.params.id}).remove((err, result) => {
+        if(err) {
+            return res.status(500).json({
+                title: 'An error occured',
+                error: err
+            });
+        }
+        res.status(200).json({
+            message: 'Pracownik deleted',
             obj: result
         });
     });

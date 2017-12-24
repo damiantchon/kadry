@@ -17,17 +17,6 @@
     <table class="table table-condensed table-responsive table-user-information">
       <tbody>
       <tr>
-        <td class="name">
-          <strong>
-            <span class="glyphicon glyphicon-user text-primary"></span>
-            Imię
-          </strong>
-        </td>
-        <td class="content">
-          <div class="text-primary">{{this.pracownik.imie}}</div>
-        </td>
-      </tr>
-      <tr>
         <td>
           <strong>
             <span class="glyphicon glyphicon-asterisk text-primary"></span>
@@ -39,14 +28,14 @@
         </td>
       </tr>
       <tr>
-        <td>
+        <td class="name">
           <strong>
-            <span class="glyphicon glyphicon-star text-primary"></span>
-            Stopień Wojskowy
+            <span class="glyphicon glyphicon-user text-primary"></span>
+            Imię
           </strong>
         </td>
-        <td>
-          <div class="text-primary">{{this.pracownik.stopien}}</div>
+        <td class="content">
+          <div class="text-primary">{{this.pracownik.imie}}</div>
         </td>
       </tr>
       <tr>
@@ -63,13 +52,18 @@
       <tr>
         <td>
           <strong>
-            <span class="glyphicon glyphicon-cog text-primary"></span>
-            Specjalność
+            <span class="glyphicon glyphicon-star text-primary"></span>
+            Stopień Wojskowy
           </strong>
         </td>
         <td>
-          <div class="text-primary">{{this.pracownik.specjalnosc}}</div>
+          <div class="text-primary" *ngIf="pracownik.stopien !== ''; else notApplicable">{{this.pracownik.stopien}}</div>
         </td>
+        <ng-template #notApplicable>
+          <div class="text-primary">
+            <td>nd.</td>
+          </div>
+        </ng-template>
       </tr>
       <tr>
         <td>
@@ -80,6 +74,17 @@
         </td>
         <td>
           <div class="text-primary">{{this.pracownik.email}}</div>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <strong>
+            <span class="glyphicon glyphicon-cog text-primary"></span>
+            Specjalność
+          </strong>
+        </td>
+        <td>
+          <div class="text-primary">{{this.pracownik.specjalnosc}}</div>
         </td>
       </tr>
       <tr>
