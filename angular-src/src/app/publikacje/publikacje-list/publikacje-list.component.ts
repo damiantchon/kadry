@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { PublikacjaModel } from '../publikacja.model';
 import { Router } from '@angular/router';
+import { PublikacjeService } from '../publikacje.service';
+import { Subscription } from 'rxjs/Subscription';
 
 @Component({
   selector: 'app-publikacje-list',
@@ -11,24 +13,22 @@ export class PublikacjeListComponent implements OnInit {
 
   dtOptions: any = {};
 
-  publikacje: PublikacjaModel[] = [
-    new PublikacjaModel(
-      'abcd1234',
-      ['autorWewnetrzny1', 'autorWewnetrzny2'],
-      ['Sławek', 'Juzio'],
-      'Przykładowy Tytuł Publikacji',
-      'FAKT',
-      '10',
-      '4',
-      '2017',
-      '20-23',
-      'doi:10.2105/AJPH.2009.160184',
-      50)
-  ];
+  publikacjeList: PublikacjaModel[] = [];
 
-  constructor(private router: Router) { }
+  subscriptions: Subscription[] = [];
+
+  constructor(private router: Router,
+              private publikacjeService: PublikacjeService) {
+  }
 
   ngOnInit() {
+    this.subscriptions[0] = this.publikacjeService.publikacjeActivated
+      .subscribe(
+        (publikacje: PublikacjaModel[]) => {
+          this.publikacjeList = publikacje;
+        }
+      );
+    this.publikacjeList = this.publikacjeService.publiakcjeList;
 
     this.dtOptions = {
       //ordering: false,

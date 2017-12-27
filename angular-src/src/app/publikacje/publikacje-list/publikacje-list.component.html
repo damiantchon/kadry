@@ -9,7 +9,7 @@
       </tr>
       </thead>
       <tbody>
-      <tr *ngFor="let publikacja of this.publikacje"
+      <tr *ngFor="let publikacja of publikacjeList"
           (click)="onActivate(publikacja)"
           appHighlight="whitesmoke">
         <td>{{publikacja.tytulPublikacji}}</td>

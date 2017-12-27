@@ -33,6 +33,7 @@ app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/pracownicy', pracownikRoutes);
+app.use('/publikacje', publikacjaRoutes);
 app.use('/', kadryRoutes);
 
 //Caches 404 and sends it to index.html (for angular to deal with)
@@ -44,7 +45,7 @@ app.use((req,res) => {
 
 //Graceful shutdown
 if (process.platform === "win32") {
-  var rl = require("readline").createInterface({
+  let rl = require("readline").createInterface({
     input: process.stdin,
     output: process.stdout
   });

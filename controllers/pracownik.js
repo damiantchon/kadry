@@ -82,9 +82,9 @@ router.get('/get', (req, res) => {
                     error: err
                 });
             }
-            res.status(200).json({
+            res.status(220).json({
                 lista: pracownicy
-            })
+            });
         });
 });
 

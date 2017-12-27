@@ -21,6 +21,7 @@ import { PublikacjeListComponent } from './publikacje/publikacje-list/publikacje
 import { PublikacjeItemComponent } from './publikacje/publikacje-list/publikacje-item/publikacje-item.component';
 import { PublikacjeItemEditComponent } from './publikacje/publikacje-list/publikacje-item-edit/publikacje-item-edit.component';
 import { PublikacjeItemStartComponent } from './publikacje/publikacje-list/publikacje-item-start/publikacje-item-start.component';
+import { PublikacjeService } from './publikacje/publikacje.service';
 
 
 @NgModule({
@@ -48,7 +49,7 @@ imports: [
         FormsModule,
         ReactiveFormsModule
 ],
-    providers: [PracownicyService],
+    providers: [PracownicyService, PublikacjeService],
     bootstrap: [AppComponent]
 })
 export class AppModule {

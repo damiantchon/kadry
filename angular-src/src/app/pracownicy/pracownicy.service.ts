@@ -1,17 +1,14 @@
 import { PracownikModel } from './pracownik.model';
 import { Subject } from 'rxjs/Subject';
-import { Injectable, OnInit } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import 'rxjs/Rx';
 import { Observable } from 'rxjs/Observable';
-import { Router } from '@angular/router';
 
 @Injectable()
 export class PracownicyService {
 
-  constructor(private http: HttpClient,
-              private router: Router) {
-    console.log('Pracownicy reloaded');
+  constructor(private http: HttpClient) {
     this.getPracownicy()
       .subscribe(
         (pracownicy: PracownikModel[]) => {
@@ -153,6 +150,7 @@ export class PracownicyService {
 
     return this.http.get<pracownicyResponse>('http://localhost:3000/pracownicy/get')
       .map((pracownicyList) => {
+        console.log(pracownicyList);
          const pracownicy = pracownicyList.lista;
          let pracownicyTransformed: PracownikModel[] = [];
 
@@ -165,10 +163,10 @@ export class PracownicyService {
              pracownik.tytul,
              pracownik.specjalnosc,
              pracownik.email,
-             pracownik.funkcje));
+             pracownik.funkcje
+           ));
          }
          this.pracownicyList = pracownicyTransformed;
-         // this.pracownikActivated.next(pracownicyTransformed);
          return pracownicyTransformed;
       })
       .catch((error: Response) => Observable.throw(error));

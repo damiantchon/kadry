@@ -16,11 +16,10 @@ export class PracownicyListComponent implements OnInit, OnDestroy {
   editMode: boolean = false;
   savedStrategy = this.router.routeReuseStrategy.shouldReuseRoute;
   dtOptions: any = {};
-  private pracownicyList: PracownikModel[] = [];
+  pracownicyList: PracownikModel[] = [];
 
   constructor(private pracownicyService: PracownicyService,
-              private router: Router,
-              private location: Location) { }
+              private router: Router) { }
 
   ngOnInit() {
     this.subscriptions[0] = this.pracownicyService.pracownikActivated
