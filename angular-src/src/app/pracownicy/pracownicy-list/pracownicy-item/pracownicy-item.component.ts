@@ -3,6 +3,7 @@ import { PracownikModel } from '../../pracownik.model';
 import { PracownicyService } from '../../pracownicy.service';
 import { Subscription } from 'rxjs/Subscription';
 import { ActivatedRoute, Params, Router } from '@angular/router';
+import { PublikacjeService } from '../../../publikacje/publikacje.service';
 
 @Component({
   selector: 'app-pracownicy-item',
@@ -17,6 +18,7 @@ export class PracownicyItemComponent implements OnInit, OnDestroy, OnChanges{
   pracownik: PracownikModel;
 
     constructor(private pracownicyService: PracownicyService,
+                private publikacjeService: PublikacjeService,
                 private route: ActivatedRoute,
                 private router: Router) { }
 
@@ -63,27 +65,31 @@ export class PracownicyItemComponent implements OnInit, OnDestroy, OnChanges{
   }
 
   onDelete() {
-      let confirmation: string;
-      confirmation = prompt("Aby usunąć tego pracownika, wpisz w poniższym polu jego imię i nazwisko. ("
-        + this.pracownik.imie + " " + this.pracownik.nazwisko + ")");
+      if(this.publikacjeService.isAnAuthor(this.pracownik)){
+        alert('Nie można usunąc pracownika, który jest współautorem publikacji');
+      } else {
+        let confirmation: string;
+        confirmation = prompt("Aby usunąć tego pracownika, wpisz w poniższym polu jego imię i nazwisko. ("
+          + this.pracownik.imie + " " + this.pracownik.nazwisko + ")");
 
-      if(confirmation != null){
-        if(confirmation.trim().toLowerCase() === (this.pracownik.imie + " " + this.pracownik.nazwisko).toLowerCase()) {
-          this.pracownicyService.deletePracownik(this.pracownik)
-            .subscribe((result) => {
-              console.log(result);
-              this.pracownicyService.getPracownicy().subscribe(
-                () => {
-                  let savedStrategy = this.router.routeReuseStrategy.shouldReuseRoute;
-                  this.router.routeReuseStrategy.shouldReuseRoute = () => {
-                    return false;
-                  };
-                  this.router.navigate(['/pracownicy']).then(() => {
-                      this.router.routeReuseStrategy.shouldReuseRoute = savedStrategy;
-                    }
-                  )
-                });
-            });
+        if(confirmation != null){
+          if(confirmation.trim().toLowerCase() === (this.pracownik.imie + " " + this.pracownik.nazwisko).toLowerCase()) {
+            this.pracownicyService.deletePracownik(this.pracownik)
+              .subscribe((result) => {
+                console.log(result);
+                this.pracownicyService.getPracownicy().subscribe(
+                  () => {
+                    let savedStrategy = this.router.routeReuseStrategy.shouldReuseRoute;
+                    this.router.routeReuseStrategy.shouldReuseRoute = () => {
+                      return false;
+                    };
+                    this.router.navigate(['/pracownicy']).then(() => {
+                        this.router.routeReuseStrategy.shouldReuseRoute = savedStrategy;
+                      }
+                    )
+                  });
+              });
+          }
         }
       }
   }

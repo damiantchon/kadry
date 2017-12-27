@@ -47,14 +47,14 @@ export class PracownicyItemEditComponent implements OnInit, OnDestroy {
     // });
   }
 
-  private initForm () {
+  initForm () {
 
-    let tempNazwisko = '';
-    let tempImie = '';
-    let tempTytul = '';
-    let tempStopien = '';
-    let tempEmail = '';
-    let tempSpecjalnosc = '';
+    let tempNazwisko: string = '';
+    let tempImie: string = '';
+    let tempTytul: string = '';
+    let tempStopien: string = '';
+    let tempEmail: string = '';
+    let tempSpecjalnosc: string = '';
     let tempFunkcje = new FormArray([]);
 
     if (this.editMode){
@@ -88,7 +88,6 @@ export class PracownicyItemEditComponent implements OnInit, OnDestroy {
       'specjalnosc': new FormControl(tempSpecjalnosc, [Validators.required]),
       'funkcje': tempFunkcje
     });
-    console.log(this.pracownikForm.controls)
   }
 
   onSubmit() {
@@ -120,12 +119,11 @@ export class PracownicyItemEditComponent implements OnInit, OnDestroy {
               ()=> {
                 let savedStrategy = this.router.routeReuseStrategy.shouldReuseRoute;
                 this.router.routeReuseStrategy.shouldReuseRoute = () => {
-                  return false
+                  return false;
                 };
                 this.router.navigate(['/pracownicy']).then(() => {
                     this.router.routeReuseStrategy.shouldReuseRoute = savedStrategy;
-                  }
-                )
+                })
               }
             );
           },
@@ -140,7 +138,7 @@ export class PracownicyItemEditComponent implements OnInit, OnDestroy {
               ()=> {
                 let savedStrategy = this.router.routeReuseStrategy.shouldReuseRoute;
                 this.router.routeReuseStrategy.shouldReuseRoute = () => {
-                  return false
+                  return false;
                 };
                 this.router.navigate(['/pracownicy']).then(() => {
                     this.router.routeReuseStrategy.shouldReuseRoute = savedStrategy;

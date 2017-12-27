@@ -1,4 +1,136 @@
-<p>
-  publikacje-item works!
-</p>
-<button (click)="onSubmit()">Test</button>
+<script src="../../publikacja.model.ts"></script>
+<div class="row">
+  <div class="col-md-12">
+    <div class="btn-group pull-left">
+      <button class="btn btn-default" (click)="onAddNew()">
+        <strong>
+          <span class="glyphicon glyphicon-plus"></span> Nowa publikacja
+        </strong>
+      </button>
+    </div>
+    <div class="btn-group pull-right">
+      <button class="btn btn-primary" (click)="onEdit()">
+        <strong>
+          <span class="glyphicon glyphicon-pencil"></span> Edytuj
+        </strong>
+      </button>
+      <button class="btn btn-danger" (click)="onDelete()">
+        <strong>
+          <span class="glyphicon glyphicon-trash"></span> Usuń
+        </strong>
+      </button>
+    </div>
+  </div>
+</div>
+<br><br>
+<div class="row">
+  <div class="col-md-12">
+     <table class="table table-condensed table-responsive table-user-information">
+      <tbody>
+      <tr>
+        <td>
+          <strong>
+            <span class="glyphicon glyphicon-asterisk text-primary"></span>
+            Tytuł Publikacji
+          </strong>
+        </td>
+        <td>
+          <div class="text-primary">{{publikacja.tytulPublikacji}}</div>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <strong>
+            <span class="glyphicon glyphicon-book text-primary"></span>
+            Tytuł Czasopisma
+          </strong>
+        </td>
+        <td>
+          <div class="text-primary">{{publikacja.tytulCzasopisma}}</div>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          Wolumin
+        </td>
+        <td>
+          <div class="text-primary">{{publikacja.wolumin}}</div>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <span style="width: 10px"></span>
+          Wydanie
+        </td>
+        <td>
+          <div class="text-primary">{{publikacja.wydanie}}</div>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          Strony
+        </td>
+        <td>
+          <div class="text-primary">{{publikacja.strony}}</div>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          Rok Publikacji
+        </td>
+        <td>
+          <div class="text-primary">{{publikacja.rokPublikacji}}</div>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <strong>
+            <span class="glyphicon glyphicon-tag text-primary"></span>
+            DOI
+          </strong>
+        </td>
+        <td>
+          <div class="text-primary">{{publikacja.doi}}</div>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <strong>
+            <span class="glyphicon glyphicon-star text-primary"></span>
+            Punkty
+          </strong>
+        </td>
+        <td>
+          <div class="text-primary">{{publikacja.punkty}}</div>
+        </td>
+      </tr>
+      <tr>
+        <td class="name">
+          <strong>
+            <span class="glyphicon glyphicon-user text-primary"></span>
+            Autorzy wewnętrzni
+          </strong>
+        </td>
+        <td class="content">
+          <div *ngFor="let autor of this.autorzyWewnetrzni" class="text-primary">
+            {{autor.nazwisko + " " + autor.imie}}
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <strong>
+            <span class="glyphicon glyphicon-user text-primary"></span>
+            Autorzy zewnętrzni
+          </strong>
+        </td>
+        <td>
+          <div *ngFor="let autor of publikacja.autorzyZewnetrzni" class="text-primary">
+            {{autor}}
+          </div>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

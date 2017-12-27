@@ -3,7 +3,6 @@ import { PracownicyService } from '../pracownicy.service';
 import { PracownikModel } from '../pracownik.model';
 import { Subscription } from 'rxjs/Subscription';
 import { Router } from '@angular/router';
-import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-pracownicy-list',
@@ -31,8 +30,14 @@ export class PracownicyListComponent implements OnInit, OnDestroy {
     this.pracownicyList = this.pracownicyService.pracownicyList;
 
       this.dtOptions = {
+        "columnDefs": [
+          {"targets": [ 4 ],
+          "visible": false},
+          {"targets": [ 5 ],
+          "visible": false}
+        ],
         //ordering: false,
-        order: [[0, "desc"]],
+        order: [[0, "asc"]],
         language: {
           "processing":     "Przetwarzanie...",
           "search":         "Szukaj: ",

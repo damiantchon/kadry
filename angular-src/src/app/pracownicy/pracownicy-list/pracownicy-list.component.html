@@ -1,12 +1,14 @@
 <div class="row">
   <div class="col-md-6">
-    <table datatable="ng" [dtOptions]="dtOptions" class="table" data-page-length="20" #list>
+    <table datatable="ng" cellspacing="0" width="100%" [dtOptions]="dtOptions" class="table" data-page-length="20" #list>
       <thead>
       <tr>
         <th>Nazwisko</th>
         <th>Imię</th>
         <th>Tytuł</th>
         <th>Stopień</th>
+        <th>Specjalnosc</th>
+        <th>Funkcje</th>
         <th>Email</th>
       </tr>
       </thead>
@@ -21,6 +23,8 @@
         <ng-template #notApplicable>
           <td>nd.</td>
         </ng-template>
+        <td>{{pracownik.specjalnosc}}</td>
+        <td>{{pracownik.funkcje}}</td>
         <td>{{pracownik.email}}</td>
       </tr>
       </tbody>

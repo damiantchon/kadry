@@ -1,11 +1,24 @@
+<script src="../../../publikacje/publikacja.model.ts"></script>
 <div class="row">
   <div class="col-md-12">
     <div class="btn-group pull-left">
-      <button class="btn btn-default" (click)="onAddNew()">Nowy</button>
+      <button class="btn btn-default" (click)="onAddNew()">
+        <strong>
+          <span class="glyphicon glyphicon-plus"></span> Nowy pracownik
+        </strong>
+      </button>
     </div>
     <div class="btn-group pull-right">
-      <button class="btn btn-primary" (click)="onEdit()">Edytuj</button>
-      <button class="btn btn-danger" (click)="onDelete()">Usuń</button>
+      <button class="btn btn-primary" (click)="onEdit()">
+        <strong>
+          <span class="glyphicon glyphicon-pencil"></span> Edytuj
+        </strong>
+      </button>
+      <button class="btn btn-danger" (click)="onDelete()">
+        <strong>
+          <span class="glyphicon glyphicon-trash"></span> Usuń
+        </strong>
+      </button>
     </div>
   </div>
 </div>
@@ -41,7 +54,7 @@
       <tr>
         <td>
           <strong>
-            <span class="glyphicon glyphicon-book text-primary"></span>
+            <span class="glyphicon glyphicon-education text-primary"></span>
             Tytuł
           </strong>
         </td>

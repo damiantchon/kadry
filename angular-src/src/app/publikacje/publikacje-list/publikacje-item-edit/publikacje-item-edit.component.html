@@ -1,3 +1,191 @@
-<p>
-  publikacje-item-edit works!
-</p>
+<div class="row">
+  <div class="col-xs-12">
+    <form [formGroup]="publikacjaForm" (ngSubmit)="onSubmit()">
+      <div class="row">
+        <div class="col-xs-12">
+          <div class="btn-group pull-right">
+            <button type="submit" class="btn btn-primary" (submit)="onSubmit()"
+                    [disabled]="(this.publikacjaForm.invalid || !this.autorzyWewnetrzniUnique || this.publikacjaForm.pristine)">
+              Zapisz
+            </button>
+            <button type="button" class="btn btn-default" (click)="onCancel()">Anuluj</button>
+          </div>
+        </div>
+      </div>
+      <hr>
+      <div class="row">
+        <div class="col-xs-12">
+          <div class="row">
+            <div class="col-xs-12">
+              <label for="tytulPublikacji" class="col-xs-4">
+                <span class="glyphicon glyphicon-asterisk text-primary"></span>
+                Tytuł Publikacji
+              </label>
+              <div class="form-group col-xs-8">
+                <input type="text"
+                       id="tytulPublikacji"
+                       class="form-control"
+                       formControlName="tytulPublikacji">
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-xs-12">
+              <label for="tytulCzasopisma" class="col-xs-4">
+                <span class="glyphicon glyphicon-book text-primary"></span>
+                Tytuł Czasopisma
+              </label>
+              <div class="form-group col-xs-8">
+                <input type="text"
+                       id="tytulCzasopisma"
+                       class="form-control"
+                       formControlName="tytulCzasopisma">
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-xs-12">
+              <label for="wolumin" class="col-xs-4">
+                Wolumin
+              </label>
+              <div class="form-group col-xs-8">
+                <input type="text"
+                       id="wolumin"
+                       class="form-control"
+                       formControlName="wolumin">
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-xs-12">
+              <label for="wydanie" class="col-xs-4">
+                Wydanie
+              </label>
+              <div class="form-group col-xs-8">
+                <input type="text"
+                       id="wydanie"
+                       class="form-control"
+                       formControlName="wydanie">
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-xs-12">
+              <label for="strony" class="col-xs-4">
+                Strony
+              </label>
+              <div class="form-group col-xs-8">
+                <input type="text"
+                       id="strony"
+                       class="form-control"
+                       formControlName="strony">
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-xs-12">
+              <label for="rokPublikacji" class="col-xs-4">
+                Rok publikacji
+              </label>
+              <div class="form-group col-xs-8">
+                <input type="text"
+                       id="rokPublikacji"
+                       class="form-control"
+                       formControlName="rokPublikacji">
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-xs-12">
+              <label for="doi" class="col-xs-4">
+                <span class="glyphicon glyphicon-tag text-primary"></span>
+                DOI
+              </label>
+              <div class="form-group col-xs-8">
+                <input type="text"
+                       id="doi"
+                       class="form-control"
+                       formControlName="doi">
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-xs-12">
+              <label for="punkty" class="col-xs-4">
+                <span class="glyphicon glyphicon-star text-primary"></span>
+                Punkty
+              </label>
+              <div class="form-group col-xs-8">
+                <input type="number"
+                       id="punkty"
+                       class="form-control"
+                       formControlName="punkty">
+              </div>
+            </div>
+          </div>
+          <div class="inf-content panel-body">
+            <div class="row">
+              <div class="col-xs-12" formArrayName="autorzyWewnetrzniId">
+                <div class="row">
+                  <div class="col-xs-12">
+                    <p><span class="glyphicon glyphicon-th-list text-primary"></span><strong> Autorzy wewnetrzni</strong>
+                      <span *ngIf="!this.autorzyWewnetrzniUnique" style="color: red">(proszę usunąć duplikaty)</span>
+                    </p>
+                  </div>
+                </div>
+                <div class="row"
+                     *ngFor="let autorControl of publikacjaForm.get('autorzyWewnetrzniId').controls; let i = index"
+                     [formGroupName]="i"
+                     style="margin-bottom: 10px">
+                  <div class="col-xs-10">
+                    <select id="stopien" class="form-control" formControlName="autorId" (change)="onCheckUnique()">
+                      <option *ngFor="let pracownik of pracownicyList" [value]="pracownik._id">
+                        {{pracownik.nazwisko}} {{pracownik.imie}} ({{pracownik.email}})
+                      </option>
+                    </select>
+
+                  </div>
+                  <div class="col-xs-2">
+                    <button type="button" class="btn btn-danger" (click)="onDeleteAutorWewnetrzny(i); onCheckUnique()">Usuń</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-xs-12">
+                <button type="button" class="btn btn-primary" (click)="onAddAutorWewnetrzny()">Nowy autor</button>
+              </div>
+            </div>
+          </div>
+          <div class="inf-content panel-body">
+            <div class="row">
+              <div class="col-xs-12" formArrayName="autorzyZewnetrzni">
+                <div class="row">
+                  <div class="col-xs-12">
+                    <p><span class="glyphicon glyphicon-th-list text-primary"></span><strong> Autorzy zewnętrzni</strong> (nazwisko i imię)</p>
+                  </div>
+                </div>
+                <div class="row"
+                     *ngFor="let autorControl of publikacjaForm.get('autorzyZewnetrzni').controls; let i = index"
+                     [formGroupName]="i"
+                     style="margin-bottom: 10px">
+                  <div class="col-xs-10">
+                    <input type="text" class="form-control" formControlName="autor">
+                  </div>
+                  <div class="col-xs-2">
+                    <button type="button" class="btn btn-danger" (click)="onDeleteAutorZewnetrzny(i)">Usuń</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-xs-12">
+                <button type="button" class="btn btn-primary" (click)="onAddAutorZewnetrzny()">Nowy autor</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

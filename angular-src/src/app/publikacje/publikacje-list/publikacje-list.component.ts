@@ -32,7 +32,7 @@ export class PublikacjeListComponent implements OnInit {
 
     this.dtOptions = {
       //ordering: false,
-      order: [[0, "desc"]],
+      order: [[0, "asc"]],
       language: {
         "processing":     "Przetwarzanie...",
         "search":         "Szukaj: ",

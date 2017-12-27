@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
+import { PracownikModel } from '../pracownicy/pracownik.model';
 
 @Injectable()
 export class PublikacjeService {
@@ -18,22 +19,21 @@ export class PublikacjeService {
   }
 
 
-  public publiakcjeList: PublikacjaModel[] = [
-    new PublikacjaModel(
-      'abcd1234',
-      ['5a2eb40eeea5ee2b5871359c', '5a2eb411eea5ee2b5871359d'],
-      ['Sławek', 'Juzio'],
-      'Przykładowy Tytuł Publikacji',
-      'FAKT',
-      '10',
-      '4',
-      '2017',
-      '20-23',
-      'doi:10.2105/AJPH.2009.160184',
-      50)
-  ];
+  public publiakcjeList: PublikacjaModel[] = [];
 
   publikacjeActivated = new Subject<PublikacjaModel[]>();
+
+  isAnAuthor(pracownik: PracownikModel) {
+    for (let publikacja of this.publiakcjeList){
+      for (let id of publikacja.autorzyWewnetrzniId) {
+        if(id === pracownik._id) {
+          return true;
+        }
+      }
+    }
+    return false;
+  }
+
 
   getPublikacje() {
     interface publikacjeResponse{
@@ -75,6 +75,12 @@ export class PublikacjeService {
   addPublikacja(publikacja: PublikacjaModel) {
     const headers = new HttpHeaders({'Content-Type': 'application/json'});
     return this.http.post<PublikacjaModel>('http://localhost:3000/publikacje', publikacja, {headers: headers})
+      .catch((error: Response) => Observable.throw(error));
+  }
+
+  updatePublikacja(publikacja: PublikacjaModel) {
+    const headers = new HttpHeaders({'Content-Type': 'application/json'});
+    return this.http.put<PublikacjaModel>('http://localhost:3000/publikacje', publikacja, {headers: headers})
       .catch((error: Response) => Observable.throw(error));
   }
 }

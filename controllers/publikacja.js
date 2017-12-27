@@ -9,7 +9,7 @@ router.post('/', (req, res) => {
        autorzyWewnetrzniId: req.body.autorzyWewnetrzniId,
        autorzyZewnetrzni: req.body.autorzyZewnetrzni,
        tytulPublikacji: req.body.tytulPublikacji,
-       tytulCzasopisma: req.body.tytulPublikacji,
+       tytulCzasopisma: req.body.tytulCzasopisma,
        wolumin: req.body.wolumin,
        wydanie: req.body.wydanie,
        rokPublikacji: req.body.rokPublikacji,
@@ -30,6 +30,35 @@ router.post('/', (req, res) => {
            obj: result
        });
    });
+});
+
+router.put('/', (req, res) => {
+    let publikacja = new Publikacja({
+        _id: req.body._id,
+        autorzyWewnetrzniId: req.body.autorzyWewnetrzniId,
+        autorzyZewnetrzni: req.body.autorzyZewnetrzni,
+        tytulPublikacji: req.body.tytulPublikacji,
+        tytulCzasopisma: req.body.tytulCzasopisma,
+        wolumin: req.body.wolumin,
+        wydanie: req.body.wydanie,
+        rokPublikacji: req.body.rokPublikacji,
+        strony: req.body.strony,
+        doi: req.body.doi,
+        punkty: req.body.punkty
+    });
+
+    Publikacja.update({_id: req.body._id}, publikacja, (err, result) => {
+        if(err) {
+            return res.status(500).json({
+                title: 'An error occured',
+                error: err
+            });
+        }
+        res.status(200).json({
+            message: 'Saved',
+            obj: result
+        });
+    });
 });
 
 router.get('/get', (req, res) => {

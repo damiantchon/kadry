@@ -50,7 +50,7 @@ router.put('/', (req, res)=>{
                 error: err
             });
         }
-        res.status(201).json({
+        res.status(200).json({
             message: 'Saved',
             obj: result
         });
@@ -82,7 +82,7 @@ router.get('/get', (req, res) => {
                     error: err
                 });
             }
-            res.status(220).json({
+            res.status(200).json({
                 lista: pracownicy
             });
         });
