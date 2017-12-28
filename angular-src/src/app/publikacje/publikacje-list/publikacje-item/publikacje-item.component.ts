@@ -44,14 +44,6 @@ export class PublikacjeItemComponent implements OnInit, OnDestroy{
     }
   }
 
-  onSubmit() {
-    this.publikacjeService.addPublikacja(this.publikacja)
-      .subscribe(
-        data => console.log(data),
-        error => console.error(error)
-      )
-  }
-
   onAddNew() {
     this.router.navigate(['publikacje', 'new']);
   }
@@ -61,7 +53,24 @@ export class PublikacjeItemComponent implements OnInit, OnDestroy{
   }
 
   onDelete() {
+    let confirmation: string;
 
+    this.publikacjeService.deletePublikacja(this.publikacja)
+      .subscribe((result) => {
+        console.log(result);
+        this.publikacjeService.getPublikacje().subscribe(
+          () => {
+            let savedStrategy = this.router.routeReuseStrategy.shouldReuseRoute;
+            this.router.routeReuseStrategy.shouldReuseRoute = () => {
+              return false;
+            };
+            this.router.navigate(['/publikacje']).then(() => {
+                this.router.routeReuseStrategy.shouldReuseRoute = savedStrategy;
+              }
+            )
+          }
+        )
+      });
   }
 
 }

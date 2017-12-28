@@ -83,4 +83,9 @@ export class PublikacjeService {
     return this.http.put<PublikacjaModel>('http://localhost:3000/publikacje', publikacja, {headers: headers})
       .catch((error: Response) => Observable.throw(error));
   }
+
+  deletePublikacja(publikacja: PublikacjaModel) {
+    return this.http.delete<PublikacjaModel>('http://localhost:3000/publikacje/' + publikacja._id)
+      .catch((error: Response) => Observable.throw(error));
+  }
 }

@@ -62,7 +62,7 @@ router.delete('/:id', (req, res) => {
     Pracownik.find({_id: req.params.id}).remove((err, result) => {
         if(err) {
             return res.status(500).json({
-                title: 'An error occured',
+                title: 'An error occured (DELETE pracownik)',
                 error: err
             });
         }

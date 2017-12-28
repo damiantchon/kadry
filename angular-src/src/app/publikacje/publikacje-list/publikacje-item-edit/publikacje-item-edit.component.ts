@@ -175,7 +175,7 @@ export class PublikacjeItemEditComponent implements OnInit, OnDestroy {
         .subscribe(
           data => {
             console.log(data);
-            this.pracownicyService.getPracownicy().subscribe(
+            this.publikacjeService.getPublikacje().subscribe(
               () => {
                 let savedStrategy = this.router.routeReuseStrategy.shouldReuseRoute;
                 this.router.routeReuseStrategy.shouldReuseRoute = () => {

@@ -50,7 +50,7 @@ router.put('/', (req, res) => {
     Publikacja.update({_id: req.body._id}, publikacja, (err, result) => {
         if(err) {
             return res.status(500).json({
-                title: 'An error occured',
+                title: 'An error occured (DELETE publikacja)',
                 error: err
             });
         }
@@ -59,6 +59,21 @@ router.put('/', (req, res) => {
             obj: result
         });
     });
+});
+
+router.delete('/:id', (req, res) => {
+   Publikacja.find({_id: req.params.id}).remove((err, result) => {
+      if(err) {
+          return res.status(500).json({
+             title: 'An error occured while deleting publikacja.',
+             error: err
+          });
+      }
+      res.status(200).json({
+          message: 'Publikacja deleted',
+          obj: result
+      })
+   });
 });
 
 router.get('/get', (req, res) => {

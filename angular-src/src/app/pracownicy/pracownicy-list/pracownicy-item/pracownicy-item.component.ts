@@ -47,15 +47,6 @@ export class PracownicyItemComponent implements OnInit, OnDestroy, OnChanges{
       console.log(this.pracownik.funkcje);
   }
 
-  onSubmit() { // remove this
-      const pracownik: PracownikModel = this.pracownik;
-      this.pracownicyService.addPracownik(pracownik)
-        .subscribe(
-          data => console.log(data),
-          error => console.error(error)
-        );
-  }
-
   onEdit() {
     this.router.navigate(['edit'], {relativeTo: this.route});
   }
