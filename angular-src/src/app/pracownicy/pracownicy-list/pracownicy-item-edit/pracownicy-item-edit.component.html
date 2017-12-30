@@ -4,16 +4,19 @@
       <div class="row">
         <div class="col-xs-12">
           <div class="btn-group pull-right">
-            <button type="submit" class="btn btn-primary" (submit)="onSubmit()" [disabled]="this.pracownikForm.invalid">Zapisz</button>
-            <button type="button" class="btn btn-default" (click)="onCancel()">Anuluj</button>
+            <button type="submit" class="btn btn-primary" (submit)="onSubmit()" [disabled]="this.pracownikForm.invalid">
+              <i class="fa fa-floppy-o"></i> Zapisz
+            </button>
+            <button type="button" class="btn btn-default" (click)="onCancel()">
+              <i class="fa fa-times"></i> Anuluj
+            </button>
           </div>
         </div>
       </div>
       <div class="row">
-        <div class="col-xs-12" *ngIf="this.editMode; else addingNewEmployee">
-          <p [ngStyle]="{'font-size': '30px'}">
-            <strong>{{this.tempPracownik.stopien}} {{this.tempPracownik.tytul}} {{this.tempPracownik.imie}} {{this.tempPracownik.nazwisko}}</strong>
-          </p>
+        <div class="col-xs-12" *ngIf="this.editMode; else addingNewEmployee" [ngStyle]="{'font-size': '30px'}">
+          <strong>{{this.tempPracownik.stopien}} {{this.tempPracownik.tytul}} {{this.tempPracownik.imie}} {{this.tempPracownik.nazwisko}}</strong>
+          <hr>
         </div>
         <ng-template #addingNewEmployee>
           <div class="col-xs-12">
@@ -27,7 +30,10 @@
         <div class="col-xs-12">
           <div class="row">
             <div class="col-xs-12">
-              <label for="nazwisko" class="col-xs-4"><span class="glyphicon glyphicon-asterisk text-primary"></span> Nazwisko</label>
+              <label for="nazwisko" class="col-xs-4">
+                <i class="fa fa-user-circle fa-fw"></i>
+                Nazwisko
+              </label>
               <div class="form-group col-xs-8">
                 <input type="text"
                        id="nazwisko"
@@ -38,7 +44,10 @@
           </div>
           <div class="row">
             <div class="col-xs-12">
-              <label for="imie" class="col-xs-4"><span class="glyphicon glyphicon-user text-primary"></span> Imie</label>
+              <label for="imie" class="col-xs-4">
+                <i class="fa fa-user-circle-o fa-fw"></i>
+                Imie
+              </label>
               <div class="form-group col-xs-8">
                 <input type="text"
                        id="imie"
@@ -49,7 +58,10 @@
           </div>
           <div class="row">
             <div class="col-xs-12">
-              <label for="tytul" class="col-xs-4"><span class="glyphicon glyphicon-book text-primary"></span> Tytuł</label>
+              <label for="tytul" class="col-xs-4">
+                <i class="fa fa-graduation-cap fa-fw"></i>
+                Tytuł
+              </label>
               <div class="form-group col-xs-8">
                 <select id="tytul" class="form-control" formControlName="tytul">
                   <option *ngFor="let tytul of this.pracownicyService.tytuly" [value]="tytul.skrot">
@@ -65,7 +77,10 @@
           </div>
           <div class="row">
             <div class="col-xs-12">
-              <label for="stopien" class="col-xs-4"><span class="glyphicon glyphicon-star text-primary"></span> Stopień Wojskowy</label>
+              <label for="stopien" class="col-xs-4">
+                <i class="fa fa-star fa-fw"></i>
+                Stopień Wojskowy
+              </label>
               <div class="form-group col-xs-8">
                 <select id="stopien" class="form-control" formControlName="stopien">
                   <option *ngFor="let stopien of this.pracownicyService.stopnieWojskowe" [value]="stopien.skrot">
@@ -81,7 +96,10 @@
           </div>
           <div class="row">
             <div class="col-xs-12">
-              <label for="email" class="col-xs-4"><span class="glyphicon glyphicon-envelope text-primary"></span> Email</label>
+              <label for="email" class="col-xs-4">
+                <i class="fa fa-envelope fa-fw"></i>
+                Email
+              </label>
               <div class="form-group col-xs-8">
                 <input type="text"
                        id="email"
@@ -92,7 +110,9 @@
           </div>
           <div class="row">
             <div class="col-xs-12">
-              <label for="specjalnosc" class="col-xs-4"><span class="glyphicon glyphicon-cog text-primary"></span> Specjalność</label>
+              <label for="specjalnosc" class="col-xs-4">
+                <i class="fa fa-cogs fa-fw"></i>
+                Specjalność</label>
               <div class="form-group col-xs-8">
                 <input type="text"
                        id="specjalnosc"
@@ -101,30 +121,39 @@
               </div>
             </div>
           </div>
-          <div class="inf-content panel-body">
+          <div class="inf-content panel-body" style="margin-bottom: 50px">
             <div class="row">
               <div class="col-xs-12" formArrayName="funkcje">
                 <div class="row">
                   <div class="col-xs-4">
-                    <p><span class="glyphicon glyphicon-th-list text-primary"></span><strong> Funkcje</strong></p>
+                    <p>
+                      <i class="fa fa-tasks fa-fw"></i>
+                      <strong> Funkcje</strong></p>
                   </div>
                 </div>
                 <div class="row"
                      *ngFor="let funkcjeControl of pracownikForm.get('funkcje').controls; let i = index"
                      [formGroupName]="i"
                      style="margin-bottom: 10px">
-                  <div class="col-xs-10">
-                    <input type="text" class="form-control" formControlName="funkcja">
-                  </div>
-                  <div class="col-xs-2">
-                    <button type="button" class="btn btn-danger" (click)="onDeleteFunction(i)">Usuń</button>
+                  <div class="col-xs-12">
+                    <div class=" input-group">
+                      <input type="text" class="form-control" formControlName="funkcja">
+                      <span class="input-group-btn">
+                      <button type="button" class="btn btn-danger" (click)="onDeleteFunction(i)">
+                        <i class="fa fa-minus-circle"></i>
+                      </button>
+                    </span>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
             <div class="row">
               <div class="col-xs-12">
-                <button type="button" class="btn btn-primary" (click)="onAddFunction()">Nowa Funkcja</button>
+                <button type="button" class="btn btn-primary" (click)="onAddFunction()">
+                  <i class="fa fa-plus-circle"></i>
+                  Nowa Funkcja
+                </button>
               </div>
             </div>
           </div>

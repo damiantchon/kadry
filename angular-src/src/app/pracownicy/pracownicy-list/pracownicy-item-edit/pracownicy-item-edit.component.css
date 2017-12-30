@@ -24,3 +24,7 @@ select.ng-invalid.ng-touched {
 .top-buffer {
   margin-top:10px;
 }
+
+hr {
+  margin-top: 0;
+}

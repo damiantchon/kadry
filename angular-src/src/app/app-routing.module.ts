@@ -1,4 +1,4 @@
-import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './home/home.component';
 import { NgModule } from '@angular/core';
 import { PracownicyComponent } from './pracownicy/pracownicy.component';
@@ -25,7 +25,8 @@ const appRoutes: Routes = [
         {path: ':id', component: PublikacjeItemComponent},
         {path: ':id/edit', component: PublikacjeItemEditComponent}
       ]},
-    {path: 'minimum-kadrowe', component: MinimumKadroweComponent}
+    {path: 'minimum-kadrowe', component: MinimumKadroweComponent},
+    {path: '**', redirectTo: ''}
 
 ];
 

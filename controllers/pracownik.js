@@ -5,6 +5,7 @@ const Pracownik = require('../models/pracownik');
 
 router.post('/', (req, res) => {
 
+
     let pracownik = new Pracownik({
         imie: req.body.imie,
         nazwisko: req.body.nazwisko,

@@ -1,7 +1,7 @@
 <nav class="navbar navbar-default navbar-static-top">
 	<div class="container-fluid">
 		<div class="navbar-header">
-			<a routerLink="/" class="navbar-brand">KADRY</a>
+			<a routerLink="/" class="navbar-brand logo">KADRY</a>
 			<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
 				<span class="icon-bar"></span>
 				<span class="icon-bar"></span>
@@ -10,12 +10,32 @@
 		</div>
 		<div class="collapse navbar-collapse" id="myNavbar">
 			<ul class="nav navbar-nav">
-				<li routerLinkActive="active"><a routerLink="/pracownicy">Pracownicy</a></li>
-				<li routerLinkActive="active"><a routerLink="/publikacje">Publikacje</a></li>
-				<li routerLinkActive="active"><a routerLink="/minimum-kadrowe">Minimum kadrowe</a></li>
+				<li routerLinkActive="active">
+          <a routerLink="/pracownicy">
+            <i class="fa fa-users fa-fw"></i>
+            Pracownicy
+          </a>
+        </li>
+				<li routerLinkActive="active">
+          <a routerLink="/publikacje">
+            <i class="fa fa-book fa-fw"></i>
+            Publikacje
+          </a>
+        </li>
+				<li routerLinkActive="active">
+          <a routerLink="/minimum-kadrowe">
+            <i class="fa fa-file fa-fw"></i>
+            Minimum kadrowe
+          </a>
+        </li>
 			</ul>
 			<ul class="nav navbar-nav navbar-right">
-				<li><a href="#">Zaloguj</a></li>
+				<li>
+          <a href="#">
+            <i class="fa fa-sign-in fa-fw"></i>
+          Zaloguj
+          </a>
+        </li>
 			</ul>
 		</div>
 	</div>

@@ -5,6 +5,7 @@ import { Subscription } from 'rxjs/Subscription';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { PracownikModel } from '../../../pracownicy/pracownik.model';
 import { PracownicyService } from '../../../pracownicy/pracownicy.service';
+import 'bootbox';
 
 @Component({
   selector: 'app-publikacje-item',
@@ -53,24 +54,39 @@ export class PublikacjeItemComponent implements OnInit, OnDestroy{
   }
 
   onDelete() {
-    let confirmation: string;
-
-    this.publikacjeService.deletePublikacja(this.publikacja)
-      .subscribe((result) => {
-        console.log(result);
-        this.publikacjeService.getPublikacje().subscribe(
-          () => {
-            let savedStrategy = this.router.routeReuseStrategy.shouldReuseRoute;
-            this.router.routeReuseStrategy.shouldReuseRoute = () => {
-              return false;
-            };
-            this.router.navigate(['/publikacje']).then(() => {
-                this.router.routeReuseStrategy.shouldReuseRoute = savedStrategy;
-              }
-            )
-          }
-        )
-      });
+    bootbox.confirm({
+      message: "Czy na pewno chcesz usunąć publikację \""+this.publikacja.tytulPublikacji+"\""+"\n DOI: "+this.publikacja.doi,
+      buttons: {
+        cancel: {
+          label: 'Nie',
+          className: 'btn-danger'
+        },
+        confirm: {
+          label: 'Tak',
+          className: 'btn-success'
+        }
+      },
+      callback: (result) => {
+        if(result){
+          this.publikacjeService.deletePublikacja(this.publikacja)
+            .subscribe((result) => {
+              console.log(result);
+              this.publikacjeService.getPublikacje().subscribe(
+                () => {
+                  let savedStrategy = this.router.routeReuseStrategy.shouldReuseRoute;
+                  this.router.routeReuseStrategy.shouldReuseRoute = () => {
+                    return false;
+                  };
+                  this.router.navigate(['/publikacje']).then(() => {
+                      this.router.routeReuseStrategy.shouldReuseRoute = savedStrategy;
+                    }
+                  )
+                }
+              )
+            });
+        }
+      }
+    });
   }
 
 }
