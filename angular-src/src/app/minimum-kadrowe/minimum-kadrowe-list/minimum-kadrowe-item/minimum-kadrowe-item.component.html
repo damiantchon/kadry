@@ -1,0 +1,86 @@
+<div class="row">
+  <div class="col-md-12">
+    <div class="btn-group pull-left">
+      <button class="btn btn-default" (click)="onAddNew()">
+        <strong>
+          <i class="fa fa-plus"></i> Nowe minimum kadrowe
+        </strong>
+      </button>
+    </div>
+    <div class="btn-group pull-right">
+      <button class="btn btn-primary" (click)="onEdit()">
+        <strong>
+          <i class="fa fa-pencil"></i> Edytuj
+        </strong>
+      </button>
+      <button class="btn btn-danger" (click)="onDelete()">
+        <strong>
+          <i class="fa fa-trash"></i> Usuń
+        </strong>
+      </button>
+    </div>
+  </div>
+</div>
+
+<div class="row" style="margin-top: 20px">
+  <div class="col-md-12">
+    <table class="table table-condensed table-responsive table-userinformation">
+      <tbody>
+      <tr>
+        <td>
+          <strong>
+            Kierunek
+          </strong>
+        </td>
+        <td>
+          <div class="text-primary">{{minimumKadrowe.kierunek}}</div>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <strong>
+            Rok Akademicki
+          </strong>
+        </td>
+        <td>
+          <div class="text-primary">{{minimumKadrowe.rokAkademicki}}</div>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <strong>
+            Doktorzy Habilitowani ({{minimumKadrowe.doktorzyHabilitowani.length}} z 3)
+          </strong>
+        </td>
+        <td>
+          <div *ngFor="let doktorHabilitowany of minimumKadrowe.doktorzyHabilitowani" class="text-primary">
+            {{doktorHabilitowany}}
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <strong>
+            Doktorzy ({{minimumKadrowe.doktorzy.length}} z 6)
+          </strong>
+        </td>
+        <td>
+          <div *ngFor="let doktor of minimumKadrowe.doktorzy" class="text-primary">
+            {{doktor}}
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <strong>
+            Poprawne
+          </strong>
+        </td>
+        <td>
+          {{minimumKadrowe.poprawne}}
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

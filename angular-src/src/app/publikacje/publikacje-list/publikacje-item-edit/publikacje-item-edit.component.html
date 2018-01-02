@@ -147,7 +147,7 @@
                      style="margin-bottom: 10px">
                   <div class="col-xs-12">
                     <div class=" input-group">
-                      <select id="stopien" class="form-control" formControlName="autorId" (change)="onCheckUnique()">
+                      <select class="form-control" formControlName="autorId" (change)="onCheckUnique()">
                         <option *ngFor="let pracownik of pracownicyList" [value]="pracownik._id">
                           {{pracownik.nazwisko}} {{pracownik.imie}} ({{pracownik.email}})
                         </option>

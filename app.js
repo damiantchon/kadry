@@ -10,6 +10,7 @@ const config = require('./config/database');
 const kadryRoutes = require('./controllers/kadry');
 const pracownikRoutes = require('./controllers/pracownik');
 const publikacjaRoutes = require('./controllers/publikacja');
+const minmumKadroweRoutes = require('./controllers/minimum-kadrowe');
 
 //Connect to Database
 mongoose.connect(config.database);
@@ -32,6 +33,7 @@ app.use(bodyParser.json());
 */
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.use('/minimum-kadrowe', minmumKadroweRoutes);
 app.use('/pracownicy', pracownikRoutes);
 app.use('/publikacje', publikacjaRoutes);
 app.use('/', kadryRoutes);

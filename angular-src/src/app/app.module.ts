@@ -22,6 +22,11 @@ import { PublikacjeItemComponent } from './publikacje/publikacje-list/publikacje
 import { PublikacjeItemEditComponent } from './publikacje/publikacje-list/publikacje-item-edit/publikacje-item-edit.component';
 import { PublikacjeItemStartComponent } from './publikacje/publikacje-list/publikacje-item-start/publikacje-item-start.component';
 import { PublikacjeService } from './publikacje/publikacje.service';
+import { MinimumKadroweListComponent } from './minimum-kadrowe/minimum-kadrowe-list/minimum-kadrowe-list.component';
+import { MinimumKadroweItemComponent } from './minimum-kadrowe/minimum-kadrowe-list/minimum-kadrowe-item/minimum-kadrowe-item.component';
+import { MinimumKadroweItemEditComponent } from './minimum-kadrowe/minimum-kadrowe-list/minimum-kadrowe-item-edit/minimum-kadrowe-item-edit.component';
+import { MinimumKadroweItemStartComponent } from './minimum-kadrowe/minimum-kadrowe-list/minimum-kadrowe-item-start/minimum-kadrowe-item-start.component';
+import { MinimumKadroweService } from './minimum-kadrowe/minimum-kadrowe.service';
 
 
 @NgModule({
@@ -40,7 +45,11 @@ import { PublikacjeService } from './publikacje/publikacje.service';
       PublikacjeListComponent,
       PublikacjeItemComponent,
       PublikacjeItemEditComponent,
-      PublikacjeItemStartComponent],
+      PublikacjeItemStartComponent,
+      MinimumKadroweListComponent,
+      MinimumKadroweItemComponent,
+      MinimumKadroweItemEditComponent,
+      MinimumKadroweItemStartComponent],
 imports: [
         AppRoutingModule,
         BrowserModule,
@@ -49,7 +58,7 @@ imports: [
         FormsModule,
         ReactiveFormsModule
 ],
-    providers: [PracownicyService, PublikacjeService],
+    providers: [PracownicyService, PublikacjeService, MinimumKadroweService],
     bootstrap: [AppComponent]
 })
 export class AppModule {

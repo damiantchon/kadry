@@ -18,8 +18,9 @@ export class PublikacjeService {
       )
   }
 
-
   public publiakcjeList: PublikacjaModel[] = [];
+
+  headers = new HttpHeaders({'Content-Type': 'application/json'});
 
   publikacjeActivated = new Subject<PublikacjaModel[]>();
 
@@ -73,13 +74,13 @@ export class PublikacjeService {
   }
 
   addPublikacja(publikacja: PublikacjaModel) {
-    const headers = new HttpHeaders({'Content-Type': 'application/json'});
+    const headers = this.headers;
     return this.http.post<PublikacjaModel>('http://localhost:3000/publikacje', publikacja, {headers: headers})
       .catch((error: Response) => Observable.throw(error));
   }
 
   updatePublikacja(publikacja: PublikacjaModel) {
-    const headers = new HttpHeaders({'Content-Type': 'application/json'});
+    const headers = this.headers;
     return this.http.put<PublikacjaModel>('http://localhost:3000/publikacje', publikacja, {headers: headers})
       .catch((error: Response) => Observable.throw(error));
   }

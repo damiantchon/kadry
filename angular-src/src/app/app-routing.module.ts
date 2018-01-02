@@ -10,6 +10,9 @@ import { PracownicyItemEditComponent } from './pracownicy/pracownicy-list/pracow
 import { PublikacjeItemComponent } from './publikacje/publikacje-list/publikacje-item/publikacje-item.component';
 import { PublikacjeItemEditComponent } from './publikacje/publikacje-list/publikacje-item-edit/publikacje-item-edit.component';
 import { PublikacjeItemStartComponent } from './publikacje/publikacje-list/publikacje-item-start/publikacje-item-start.component';
+import { MinimumKadroweItemStartComponent } from './minimum-kadrowe/minimum-kadrowe-list/minimum-kadrowe-item-start/minimum-kadrowe-item-start.component';
+import { MinimumKadroweItemEditComponent } from './minimum-kadrowe/minimum-kadrowe-list/minimum-kadrowe-item-edit/minimum-kadrowe-item-edit.component';
+import { MinimumKadroweItemComponent } from './minimum-kadrowe/minimum-kadrowe-list/minimum-kadrowe-item/minimum-kadrowe-item.component';
 
 const appRoutes: Routes = [
     {path: '', component: HomeComponent, pathMatch: 'full'},
@@ -25,7 +28,12 @@ const appRoutes: Routes = [
         {path: ':id', component: PublikacjeItemComponent},
         {path: ':id/edit', component: PublikacjeItemEditComponent}
       ]},
-    {path: 'minimum-kadrowe', component: MinimumKadroweComponent},
+    {path: 'minimum-kadrowe', component: MinimumKadroweComponent, children: [
+        {path: '', component: MinimumKadroweItemStartComponent},
+        {path: 'new', component: MinimumKadroweItemEditComponent},
+        {path: ':id', component: MinimumKadroweItemComponent},
+        {path: ':id/edit', component: MinimumKadroweItemEditComponent}
+      ]},
     {path: '**', redirectTo: ''}
 
 ];

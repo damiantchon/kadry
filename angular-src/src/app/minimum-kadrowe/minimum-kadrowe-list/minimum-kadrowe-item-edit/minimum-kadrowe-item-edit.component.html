@@ -1,0 +1,131 @@
+<div class="row">
+  <div class="col-xs-12">
+    <form [formGroup]="minimumKadroweForm" (ngSubmit)="onSubmit()">
+      <div class="row">
+        <div class="col-xs-12">
+          <div class="btn-group pull-right">
+            <button type="submit" class="btn btn-primary" (submit)="onSubmit()"
+                    [disabled]="minimumKadroweForm.invalid">
+              <i class="fa fa-floppy-o"></i> Zapisz
+            </button>
+            <button type="button" class="btn btn-default" (click)="onCancel()">
+              <i class="fa fa-times"></i> Anuluj
+            </button>
+          </div>
+        </div>
+      </div>
+      <hr>
+      <div class="row">
+        <div class="col-xs-12">
+          <div class="row">
+            <div class="col-xs-12">
+              <label for="kierunek" class="col-xs-4">
+                Kierunek
+              </label>
+              <div class="form-group col-xs-8">
+                <input type="text"
+                       id="kierunek"
+                       class="form-control"
+                       formControlName="kierunek">
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-xs-12">
+              <label for="rokAkademicki" class="col-xs-4">
+                Rok Akademicki
+              </label>
+              <div class="form-group col-xs-8">
+                <select class="form-control" formControlName="rokAkademicki">
+                  <option *ngFor="let rokAkademicki of lataAkademickie" [value]="rokAkademicki">
+                    {{rokAkademicki}}
+                  </option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="inf-content panel-body">
+            <div class="row">
+              <div class="col-xs-12" formArrayName="doktorzyHabilitowani">
+                <div class="row">
+                  <div class="col-xs-12">
+                    <p>
+                      <strong>Doktorzy Habilitowani</strong>
+                    </p>
+                  </div>
+                </div>
+                <div class="row"
+                     *ngFor="let pracownikControl of minimumKadroweForm.get('doktorzyHabilitowani').controls; let i = index"
+                     [formGroupName]="i"
+                     style="margin-bottom: 10px">
+                  <div class="col-xs-12">
+                    <div class="input-group">
+                      <select class="form-control" formControlName="pracownikId">
+                        <option *ngFor="let pracownik of pracownicyList" [value]="pracownik._id">
+                          {{pracownik.nazwisko}} {{pracownik.imie}} ({{pracownik.email}})
+                        </option>
+                      </select>
+                      <span class="input-group-btn">
+                        <button type="button" class="btn btn-danger" (click)="onDeleteDoktorHabilitowany(i);">
+                          <i class="fa fa-times fa-fw"></i>
+                        </button>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-xs-12">
+                <button type="button" class="btn btn-primary" (click)="onAddDoktorHabilitowany()">
+                  <i class="fa fa-user-plus fa-fw"></i>
+                  Dodaj doktora habilitowanego
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="inf-content panel-body">
+            <div class="row">
+              <div class="col-xs-12" formArrayName="doktorzy">
+                <div class="row">
+                  <div class="col-xs-12">
+                    <p>
+                      <strong>Doktorzy</strong>
+                    </p>
+                  </div>
+                </div>
+                <div class="row"
+                     *ngFor="let pracownikControl of minimumKadroweForm.get('doktorzy').controls; let i = index"
+                     [formGroupName]="i"
+                     style="margin-bottom: 10px">
+                  <div class="col-xs-12">
+                    <div class="input-group">
+                      <select class="form-control" formControlName="pracownikId">
+                        <option *ngFor="let pracownik of pracownicyList" [value]="pracownik._id">
+                          {{pracownik.nazwisko}} {{pracownik.imie}} ({{pracownik.email}})
+                        </option>
+                      </select>
+                      <span class="input-group-btn">
+                        <button type="button" class="btn btn-danger" (click)="onDeleteDoktor(i);">
+                          <i class="fa fa-times fa-fw"></i>
+                        </button>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-xs-12">
+                <button type="button" class="btn btn-primary" (click)="onAddDoktor()">
+                  <i class="fa fa-user-plus fa-fw"></i>
+                  Dodaj doktora
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

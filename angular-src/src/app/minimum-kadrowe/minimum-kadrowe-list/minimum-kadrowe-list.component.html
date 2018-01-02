@@ -1,0 +1,32 @@
+<div class="row">
+  <div class="col-lg-6">
+    <table datatable="ng" [dtOptions]="dtOptions" class="table" data-page-length="20" #list>
+      <thead>
+      <tr>
+        <th>Rok Akademicki</th>
+        <th>Kierunek</th>
+        <th>Spełnione</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let minimumKadrowe of minimaKadroweList"
+          (click)="onActivate(minimumKadrowe)"
+          appHighlight="whitesmoke">
+        <td>{{minimumKadrowe.rokAkademicki}}</td>
+        <td>{{minimumKadrowe.kierunek}}</td>
+        <td>
+          <div *ngIf="minimumKadrowe.poprawne; else elseTemplate">
+            Tak
+          </div>
+          <ng-template #elseTemplate>
+            Nie
+          </ng-template>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="col-lg-6">
+    <router-outlet></router-outlet>
+  </div>
+</div>
