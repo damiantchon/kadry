@@ -3,6 +3,8 @@ import { Subscription } from 'rxjs/Subscription';
 import { MinimumKadroweService } from '../../minimum-kadrowe.service';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { MinimumKadroweModel } from '../minimum-kadrowe.model';
+import { PracownikModel } from '../../../pracownicy/pracownik.model';
+import { PracownicyService } from '../../../pracownicy/pracownicy.service';
 
 @Component({
   selector: 'app-minimum-kadrowe-item',
@@ -15,8 +17,11 @@ export class MinimumKadroweItemComponent implements OnInit, OnDestroy {
 
   id: string;
   minimumKadrowe: MinimumKadroweModel;
+  doktorzyHabilitowani: PracownikModel[] = [];
+  doktorzy: PracownikModel[] = [];
 
   constructor(private minimumKadroweService: MinimumKadroweService,
+              private pracownicyService: PracownicyService,
               private route: ActivatedRoute,
               private router: Router) { }
 
@@ -26,7 +31,14 @@ export class MinimumKadroweItemComponent implements OnInit, OnDestroy {
         (params: Params) => {
           this.id = params['id'];
           this.minimumKadrowe = this.minimumKadroweService.getMinimumKadroweById(this.id);
-
+          this.doktorzyHabilitowani = [];
+          this.minimumKadrowe.doktorzyHabilitowani.forEach((id) => {
+              this.doktorzyHabilitowani.push(this.pracownicyService.getPracownikById(id));
+          });
+          this.doktorzy = [];
+          this.minimumKadrowe.doktorzy.forEach((id) => {
+            this.doktorzy.push(this.pracownicyService.getPracownikById(id));
+          });
         }
       )
   }

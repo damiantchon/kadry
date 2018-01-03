@@ -37,6 +37,8 @@ export class MinimumKadroweItemEditComponent implements OnInit {
   ];
 
   pracownicyList: PracownikModel[] = [];
+  pracownicyListDH: PracownikModel[] = [];
+  pracownicyListD: PracownikModel[] = [];
 
   id: string;
   editMode: boolean;
@@ -49,11 +51,25 @@ export class MinimumKadroweItemEditComponent implements OnInit {
 
   ngOnInit() {
     this.pracownicyList = this.pracownicyService.pracownicyList;
-    this.pracownicyList.sort((a, b) => {
+
+    this.pracownicyList.forEach((pracownik) => {
+      if(pracownik.tytul.includes('dr')){
+        this.pracownicyListD.push(pracownik);
+       if(pracownik.tytul.includes('hab')){
+         this.pracownicyListDH.push(pracownik);
+       }
+      }
+    });
+
+    let sortByNazwisko = (a, b) => {
       if(a.nazwisko < b.nazwisko) return -1;
       if(a.nazwisko > b.nazwisko) return 1;
       return 0;
-    });
+    };
+
+    this.pracownicyListDH.sort(sortByNazwisko);
+    this.pracownicyListD.sort(sortByNazwisko);
+    this.pracownicyList.sort(sortByNazwisko);
     this.route.params
       .subscribe(
         (params: Params) => {

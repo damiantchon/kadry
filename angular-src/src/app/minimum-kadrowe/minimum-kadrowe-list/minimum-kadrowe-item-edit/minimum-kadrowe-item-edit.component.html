@@ -61,7 +61,7 @@
                   <div class="col-xs-12">
                     <div class="input-group">
                       <select class="form-control" formControlName="pracownikId">
-                        <option *ngFor="let pracownik of pracownicyList" [value]="pracownik._id">
+                        <option *ngFor="let pracownik of pracownicyListDH" [value]="pracownik._id">
                           {{pracownik.nazwisko}} {{pracownik.imie}} ({{pracownik.email}})
                         </option>
                       </select>
@@ -101,7 +101,7 @@
                   <div class="col-xs-12">
                     <div class="input-group">
                       <select class="form-control" formControlName="pracownikId">
-                        <option *ngFor="let pracownik of pracownicyList" [value]="pracownik._id">
+                        <option *ngFor="let pracownik of pracownicyListD" [value]="pracownik._id">
                           {{pracownik.nazwisko}} {{pracownik.imie}} ({{pracownik.email}})
                         </option>
                       </select>

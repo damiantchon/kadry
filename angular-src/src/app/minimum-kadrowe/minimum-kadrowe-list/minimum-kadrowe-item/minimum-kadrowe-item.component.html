@@ -53,9 +53,17 @@
           </strong>
         </td>
         <td>
-          <div *ngFor="let doktorHabilitowany of minimumKadrowe.doktorzyHabilitowani" class="text-primary">
-            {{doktorHabilitowany}}
-          </div>
+          <div *ngIf="minimumKadrowe.doktorzyHabilitowani.length > 0; then than_component_DH else else_component_DH">          </div>
+          <ng-template #than_component_DH>
+            <div *ngFor="let doktorHabilitowany of doktorzyHabilitowani; let i = index" class="text-primary">
+              <strong>{{i+1}}</strong> - {{doktorHabilitowany.stopien}} {{doktorHabilitowany.tytul}} {{doktorHabilitowany.imie}} {{doktorHabilitowany.nazwisko}}
+            </div>
+          </ng-template>
+          <ng-template #else_component_DH>
+            <div class="text-primary">
+              brak
+            </div>
+          </ng-template>
         </td>
       </tr>
       <tr>
@@ -65,9 +73,18 @@
           </strong>
         </td>
         <td>
-          <div *ngFor="let doktor of minimumKadrowe.doktorzy" class="text-primary">
-            {{doktor}}
+          <div *ngIf="minimumKadrowe.doktorzy.length > 0; then than_component_D else else_component_D">
           </div>
+          <ng-template #than_component_D>
+            <div *ngFor="let doktor of doktorzy; let i = index" class="text-primary">
+              <strong>{{i+1}}</strong> - {{doktor.stopien}} {{doktor.tytul}} {{doktor.imie}} {{doktor.nazwisko}}
+            </div>
+          </ng-template>
+          <ng-template #else_component_D>
+            <div class="text-primary">
+              brak
+            </div>
+          </ng-template>
         </td>
       </tr>
       <tr>
@@ -77,7 +94,12 @@
           </strong>
         </td>
         <td>
-          {{minimumKadrowe.poprawne}}
+          <div *ngIf="minimumKadrowe.poprawne; else else_component">
+            Tak
+          </div>
+          <ng-template #else_component>
+            Nie
+          </ng-template>
         </td>
       </tr>
       </tbody>

@@ -32,12 +32,6 @@ export class PracownicyItemComponent implements OnInit, OnDestroy, OnChanges{
             console.log(this.pracownik);
           }
         );
-      // console.log(this.pracownik);
-      // console.log(this.pracownik.funkcje);
-  }
-
-  onTest() {
-      this.pracownik.funkcje = null;
   }
 
   ngOnDestroy() {
