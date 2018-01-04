@@ -55,7 +55,9 @@ export class PublikacjeItemComponent implements OnInit, OnDestroy{
 
   onDelete() {
     bootbox.confirm({
-      message: "Czy na pewno chcesz usunąć publikację \""+this.publikacja.tytulPublikacji+"\""+"\n DOI: "+this.publikacja.doi,
+      message: "Czy na pewno chcesz usunąć tą publikację? <br>" +
+      "Tytuł: " + this.publikacja.tytulPublikacji.bold() + "<br>"+
+      "DOI: " + this.publikacja.doi.bold(),
       buttons: {
         cancel: {
           label: 'Nie',

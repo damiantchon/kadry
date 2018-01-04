@@ -5,6 +5,8 @@
       <tr>
         <th>Tytuł</th>
         <th>Rok</th>
+        <th>Autorzy Wewnetrzni</th>
+        <th>Autorzy Zewnetrzni</th>
         <th>DOI</th>
       </tr>
       </thead>
@@ -14,6 +16,8 @@
           appHighlight="whitesmoke">
         <td>{{publikacja.tytulPublikacji}}</td>
         <td>{{publikacja.rokPublikacji}}</td>
+        <td>{{getAutorzyNamesById(publikacja.autorzyWewnetrzniId)}}</td>
+        <td>{{publikacja.autorzyZewnetrzni}}</td>
         <td>{{publikacja.doi}}</td>
       </tr>
       </tbody>

@@ -1,6 +1,6 @@
 .table {
   display: none;
-  min-width: 100px;
+  min-width: 100%;
 }
 
 td {
@@ -10,5 +10,4 @@ td {
   white-space: nowrap;
   overflow: hidden;
   max-width: 250px;
-
 }

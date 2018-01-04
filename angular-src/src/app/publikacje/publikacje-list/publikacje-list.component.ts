@@ -3,6 +3,7 @@ import { PublikacjaModel } from '../publikacja.model';
 import { Router } from '@angular/router';
 import { PublikacjeService } from '../publikacje.service';
 import { Subscription } from 'rxjs/Subscription';
+import { PracownicyService } from '../../pracownicy/pracownicy.service';
 
 @Component({
   selector: 'app-publikacje-list',
@@ -18,7 +19,8 @@ export class PublikacjeListComponent implements OnInit {
   subscriptions: Subscription[] = [];
 
   constructor(private router: Router,
-              private publikacjeService: PublikacjeService) {
+              private publikacjeService: PublikacjeService,
+              private pracownicyService: PracownicyService) {
   }
 
   ngOnInit() {
@@ -32,6 +34,11 @@ export class PublikacjeListComponent implements OnInit {
 
     this.dtOptions = {
       //ordering: false,
+      "columnDefs": [
+        {"targets": [ 2 ],
+          "visible": false},
+        {"targets": [ 3 ],
+          "visible": false}],
       order: [[0, "asc"]],
       language: {
         "processing":     "Przetwarzanie...",
@@ -65,6 +72,10 @@ export class PublikacjeListComponent implements OnInit {
 
   onActivate(publikacja) {
     this.router.navigate(['/publikacje', publikacja._id]);
+  }
+
+  getAutorzyNamesById(ids: string[]) {
+    return this.pracownicyService.getPracownicyNamesByIds(ids);
   }
 
 }

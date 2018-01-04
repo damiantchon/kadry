@@ -3,17 +3,21 @@
     <table datatable="ng" [dtOptions]="dtOptions" class="table" data-page-length="20" #list>
       <thead>
       <tr>
+        <th>Kierunek studiów</th>
+        <th>Stopień studiów</th>
         <th>Rok Akademicki</th>
-        <th>Kierunek</th>
         <th>Spełnione</th>
+        <th>Samodzielni pracownicy nauki</th>
+        <th>Doktorzy</th>
       </tr>
       </thead>
       <tbody>
       <tr *ngFor="let minimumKadrowe of minimaKadroweList"
           (click)="onActivate(minimumKadrowe)"
           appHighlight="whitesmoke">
-        <td>{{minimumKadrowe.rokAkademicki}}</td>
         <td>{{minimumKadrowe.kierunek}}</td>
+        <td>{{minimumKadrowe.stopien}}</td>
+        <td>{{minimumKadrowe.rokAkademicki}}</td>
         <td>
           <div *ngIf="minimumKadrowe.poprawne; else elseTemplate">
             Tak
@@ -22,6 +26,8 @@
             Nie
           </ng-template>
         </td>
+        <td>{{getPracownicyNamesByIds(minimumKadrowe.doktorzyHabilitowani)}}</td>
+        <td>{{getPracownicyNamesByIds(minimumKadrowe.doktorzy)}}</td>
       </tr>
       </tbody>
     </table>

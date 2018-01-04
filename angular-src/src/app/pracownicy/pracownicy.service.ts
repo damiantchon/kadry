@@ -128,6 +128,16 @@ export class PracownicyService {
     return this.pracownicyList.find((pracownik) => {return pracownik._id === id});
   }
 
+  getPracownicyNamesByIds(ids: string[]) {
+    let pracownicyNames: string[] = [];
+    ids.forEach((id) => {
+
+      let tempPracownik = this.getPracownikById(id);
+      pracownicyNames.push(tempPracownik.nazwisko + ' ' + tempPracownik.imie);
+    });
+    return pracownicyNames;
+  }
+
   addPracownik(pracownik: PracownikModel) {
     console.log(pracownik);
     const headers = new HttpHeaders({'Content-Type': 'application/json'});

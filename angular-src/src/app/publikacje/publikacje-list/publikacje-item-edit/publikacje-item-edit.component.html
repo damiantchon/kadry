@@ -5,7 +5,7 @@
         <div class="col-xs-12">
           <div class="btn-group pull-right">
             <button type="submit" class="btn btn-primary" (submit)="onSubmit()"
-                    [disabled]="(this.publikacjaForm.invalid || !this.autorzyWewnetrzniUnique || this.publikacjaForm.pristine)">
+                    [disabled]="(publikacjaForm.invalid || !autorzyWewnetrzniUnique || publikacjaForm.pristine)">
               <i class="fa fa-floppy-o"></i> Zapisz
             </button>
             <button type="button" class="btn btn-default" (click)="onCancel()">

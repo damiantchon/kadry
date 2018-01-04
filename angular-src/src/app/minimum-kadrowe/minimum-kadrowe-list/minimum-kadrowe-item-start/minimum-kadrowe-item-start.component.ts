@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-minimum-kadrowe-item-start',
@@ -7,9 +8,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MinimumKadroweItemStartComponent implements OnInit {
 
-  constructor() { }
+  constructor(private router: Router) { }
 
   ngOnInit() {
   }
 
+  onAddNew() {
+    this.router.navigate(['/minimum-kadrowe', 'new']);
+  }
 }

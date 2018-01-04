@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
 import { MinimumKadroweService } from '../../minimum-kadrowe.service';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import { MinimumKadroweModel } from '../minimum-kadrowe.model';
+import { MinimumKadroweModel } from '../../minimum-kadrowe.model';
 import { PracownikModel } from '../../../pracownicy/pracownik.model';
 import { PracownicyService } from '../../../pracownicy/pracownicy.service';
 
@@ -58,21 +58,42 @@ export class MinimumKadroweItemComponent implements OnInit, OnDestroy {
   }
 
   onDelete() {
-    this.minimumKadroweService.deleteMinimumKadrowe(this.minimumKadrowe)
-      .subscribe((result) => {
-        console.log(result);
-        this.minimumKadroweService.getMinimaKadrowe().subscribe(
-          () => {
-            let savedStrategy = this.router.routeReuseStrategy.shouldReuseRoute;
-            this.router.routeReuseStrategy.shouldReuseRoute = () => {
-              return false;
-            };
-            this.router.navigate(['/minimum-kadrowe']).then(() => {
-                this.router.routeReuseStrategy.shouldReuseRoute = savedStrategy;
-              }
-            )
-          });
-      });
+
+    bootbox.confirm({
+      message: "Czy na pewno chcesz usunąć to minimum kadrowe ? <br>" +
+        "Kierunek: " + this.minimumKadrowe.kierunek.bold() + "<br>" +
+        "Stopień: " + this.minimumKadrowe.stopien.bold() + "<br>" +
+        "Rok Akademicki: " + this.minimumKadrowe.rokAkademicki.bold(),
+      buttons: {
+        cancel: {
+          label: 'Nie',
+          className: 'btn-danger'
+        },
+        confirm: {
+          label: 'Tak',
+          className: 'btn-success'
+        }
+      },
+      callback: (result) => {
+        if(result){
+          this.minimumKadroweService.deleteMinimumKadrowe(this.minimumKadrowe)
+            .subscribe((result) => {
+              console.log(result);
+              this.minimumKadroweService.getMinimaKadrowe().subscribe(
+                () => {
+                  let savedStrategy = this.router.routeReuseStrategy.shouldReuseRoute;
+                  this.router.routeReuseStrategy.shouldReuseRoute = () => {
+                    return false;
+                  };
+                  this.router.navigate(['/minimum-kadrowe']).then(() => {
+                      this.router.routeReuseStrategy.shouldReuseRoute = savedStrategy;
+                    }
+                  )
+                });
+            });
+        }
+      }
+    });
   }
 
 }

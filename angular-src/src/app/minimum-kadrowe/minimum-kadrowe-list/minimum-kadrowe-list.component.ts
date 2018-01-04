@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { MinimumKadroweService } from '../minimum-kadrowe.service';
-import { MinimumKadroweModel } from './minimum-kadrowe.model';
+import { MinimumKadroweModel } from '../minimum-kadrowe.model';
 import { Subscription } from 'rxjs/Subscription';
+import { PracownicyService } from '../../pracownicy/pracownicy.service';
 
 @Component({
   selector: 'app-minimum-kadrowe-list',
@@ -18,7 +19,8 @@ export class MinimumKadroweListComponent implements OnInit {
   subscriptions: Subscription[] = [];
 
   constructor(private router: Router,
-              private minimumKadroweService: MinimumKadroweService) { }
+              private minimumKadroweService: MinimumKadroweService,
+              private pracownicyService: PracownicyService) { }
 
   ngOnInit() {
     this.subscriptions[0] = this.minimumKadroweService.minimaKadroweActivated
@@ -30,6 +32,11 @@ export class MinimumKadroweListComponent implements OnInit {
     this.minimaKadroweList = this.minimumKadroweService.minimaKadroweList;
 
     this.dtOptions = {
+      "columnDefs": [
+        {"targets": [ 4 ],
+          "visible": false},
+        {"targets": [ 5 ],
+          "visible": false}],
       order: [[0, "asc"]],
       language: {
         "processing":     "Przetwarzanie...",
@@ -65,6 +72,10 @@ export class MinimumKadroweListComponent implements OnInit {
   onActivate(minimumKadrowe) {
     console.log(minimumKadrowe);
     this.router.navigate(['/minimum-kadrowe', minimumKadrowe._id]);
+  }
+
+  getPracownicyNamesByIds(ids: string[]) {
+    return this.pracownicyService.getPracownicyNamesByIds(ids);
   }
 
 }

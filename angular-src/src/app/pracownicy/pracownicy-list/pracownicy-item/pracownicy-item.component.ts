@@ -5,6 +5,7 @@ import { Subscription } from 'rxjs/Subscription';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { PublikacjeService } from '../../../publikacje/publikacje.service';
 import 'bootbox';
+import { MinimumKadroweService } from '../../../minimum-kadrowe/minimum-kadrowe.service';
 
 @Component({
   selector: 'app-pracownicy-item',
@@ -20,6 +21,7 @@ export class PracownicyItemComponent implements OnInit, OnDestroy, OnChanges{
 
     constructor(private pracownicyService: PracownicyService,
                 private publikacjeService: PublikacjeService,
+                private minimumKadroweService: MinimumKadroweService,
                 private route: ActivatedRoute,
                 private router: Router) { }
 
@@ -53,6 +55,8 @@ export class PracownicyItemComponent implements OnInit, OnDestroy, OnChanges{
   onDelete() {
       if(this.publikacjeService.isAnAuthor(this.pracownik)){
         bootbox.alert({message: 'Nie można usunąc pracownika, który jest współautorem publikacji', backdrop: true});
+      } else if (this.minimumKadroweService.isPartOfMinimumKadrowe(this.pracownik)) {
+        bootbox.alert({message: 'Nie można usunąc pracownika, który jest częścią minimum kadrowego', backdrop: true});
       } else {
         bootbox.prompt({
           title: "Potwierdź usunięcie pracownika wpusjąc jego imię i nazwisko ("

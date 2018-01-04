@@ -7,6 +7,7 @@ const MinimumKadrowe = require('../models/minimum-kadrowe');
 router.post('/', (req,res) => {
    let minimumKadrowe = new MinimumKadrowe({
        kierunek: req.body.kierunek,
+       stopien: req.body.stopien,
        rokAkademicki: req.body.rokAkademicki,
        doktorzyHabilitowani: req.body.doktorzyHabilitowani,
        doktorzy: req.body.doktorzy,
@@ -31,6 +32,7 @@ router.put('/', (req, res) => {
     let minimumKadrowe = new MinimumKadrowe({
         _id: req.body._id,
         kierunek: req.body.kierunek,
+        stopien: req.body.stopien,
         rokAkademicki: req.body.rokAkademicki,
         doktorzyHabilitowani: req.body.doktorzyHabilitowani,
         doktorzy: req.body.doktorzy,

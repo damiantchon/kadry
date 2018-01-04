@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { MinimumKadroweModel } from './minimum-kadrowe-list/minimum-kadrowe.model';
+import { MinimumKadroweModel } from './minimum-kadrowe.model';
 import { Subject } from 'rxjs/Subject';
 import { Observable } from 'rxjs/Observable';
+import { PracownikModel } from '../pracownicy/pracownik.model';
 
 @Injectable()
 export class MinimumKadroweService {
@@ -21,20 +22,23 @@ export class MinimumKadroweService {
 
   public minimaKadroweList: MinimumKadroweModel[] = [];
 
-  // new MinimumKadroweModel('10',
-  // 'informatyka',
-  // '100',
-  // [],
-  // [],
-  // false),
-  // new MinimumKadroweModel('11',
-  // 'zarządzanie',
-  // '100',
-  // [],
-  // [],
-  // false),
 
   minimaKadroweActivated = new Subject<MinimumKadroweModel[]>();
+
+  isPartOfMinimumKadrowe(pracownik: PracownikModel) {
+    for (let minimumKadrowe of this.minimaKadroweList){
+      for(let id of minimumKadrowe.doktorzyHabilitowani)
+      {
+        if(id === pracownik._id) return true;
+      }
+
+      for(let id of minimumKadrowe.doktorzy)
+      {
+        if(id === pracownik._id) return true;
+      }
+    }
+    return false;
+  }
 
   getMinimaKadrowe(){
     interface minimaKadroweResponse{
@@ -53,6 +57,7 @@ export class MinimumKadroweService {
           minimaKadroweTransformed.push(new MinimumKadroweModel(
             minimumKadrowe._id,
             minimumKadrowe.kierunek,
+            minimumKadrowe.stopien,
             minimumKadrowe.rokAkademicki,
             minimumKadrowe.doktorzyHabilitowani,
             minimumKadrowe.doktorzy,
@@ -85,4 +90,7 @@ export class MinimumKadroweService {
     return this.http.delete<MinimumKadroweModel>('http://localhost:3000/minimum-kadrowe/' + minimumKadrowe._id)
       .catch((error: Response) => Observable.throw(error));
   }
+
+
+
 }

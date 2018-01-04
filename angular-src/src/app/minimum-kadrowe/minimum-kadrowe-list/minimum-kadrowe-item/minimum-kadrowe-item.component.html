@@ -25,15 +25,29 @@
 <div class="row" style="margin-top: 20px">
   <div class="col-md-12">
     <table class="table table-condensed table-responsive table-userinformation">
+      <colgroup>
+        <col span="1" style="width: 30%;">
+        <col span="1" style="width: 70%;">
+      </colgroup>
       <tbody>
       <tr>
         <td>
           <strong>
-            Kierunek
+            Kierunek studiów
           </strong>
         </td>
         <td>
           <div class="text-primary">{{minimumKadrowe.kierunek}}</div>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <strong>
+            Stopien studiów
+          </strong>
+        </td>
+        <td>
+          <div class="text-primary">{{minimumKadrowe.stopien}}</div>
         </td>
       </tr>
       <tr>
@@ -49,7 +63,7 @@
       <tr>
         <td>
           <strong>
-            Doktorzy Habilitowani ({{minimumKadrowe.doktorzyHabilitowani.length}} z 3)
+            Samodzielni pracownicy nauki ({{minimumKadrowe.doktorzyHabilitowani.length}} z 3)
           </strong>
         </td>
         <td>
@@ -90,7 +104,7 @@
       <tr>
         <td>
           <strong>
-            Poprawne
+            Spełnione
           </strong>
         </td>
         <td>

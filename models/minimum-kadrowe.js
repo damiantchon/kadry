@@ -3,6 +3,7 @@ const Schema = mongoose.Schema;
 
 const schema = new Schema({
         "kierunek": {type: String, required: true},
+        "stopien": {type: String, required: true},
         "rokAkademicki": {type: String, required: true},
         "doktorzyHabilitowani": [{type: Schema.Types.ObjectId, ref: 'Pracownik'}],
         "doktorzy": [{type: Schema.Types.ObjectId, ref: 'Pracownik'}],

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
-import { MinimumKadroweModel } from '../minimum-kadrowe.model';
+import { MinimumKadroweModel } from '../../minimum-kadrowe.model';
 import { Subscription } from 'rxjs/Subscription';
 import { Location } from '@angular/common';
 import { PracownikModel } from '../../../pracownicy/pracownik.model';
@@ -20,6 +20,12 @@ export class MinimumKadroweItemEditComponent implements OnInit {
   subscriptions: Subscription[] = [];
   doktorzyHabilitowani: PracownikModel[] = [];
   doktorzy: PracownikModel[] = [];
+
+
+  pracownicyUnique: boolean = true;
+  wrongPracownicy: number = 0;
+  minimumKadroweUnique: boolean = true;
+
   lataAkademickie = [
     '2017/2018',
     '2018/2019',
@@ -28,12 +34,12 @@ export class MinimumKadroweItemEditComponent implements OnInit {
     '2021/2022',
     '2022/2023',
     '2023/2024',
-    '2024/2025',
-    '2025/2026',
-    '2026/2027',
-    '2027/2028',
-    '2028/2029',
-    '2029/2030'
+    '2024/2025'
+  ];
+
+  stopnie = [
+    'pierwszy',
+    'drugi'
   ];
 
   pracownicyList: PracownikModel[] = [];
@@ -88,6 +94,7 @@ export class MinimumKadroweItemEditComponent implements OnInit {
 
   initForm() {
     let tempKierunek = '';
+    let tempStopien = '';
     let tempRokAkademicki = '';
     let tempDoktorzyHabilitowani = new FormArray([]);
     let tempDoktorzy = new FormArray([]);
@@ -103,6 +110,7 @@ export class MinimumKadroweItemEditComponent implements OnInit {
         this.doktorzy.push(this.pracownicyService.getPracownikById(id));
       });
       tempKierunek = minimumKadrowe.kierunek;
+      tempStopien = minimumKadrowe.stopien;
       tempRokAkademicki = minimumKadrowe.rokAkademicki;
       if(minimumKadrowe.doktorzyHabilitowani){
         for (let pracownik of this.doktorzyHabilitowani) {
@@ -126,6 +134,7 @@ export class MinimumKadroweItemEditComponent implements OnInit {
 
     this.minimumKadroweForm = new FormGroup({
       "kierunek": new FormControl({value: tempKierunek, disabled: this.editMode}, Validators.required),
+      "stopien": new FormControl({value: tempStopien, disabled: this.editMode}, Validators.required),
       "rokAkademicki": new FormControl({value: tempRokAkademicki, disabled: this.editMode}, Validators.required),
       "doktorzyHabilitowani": tempDoktorzyHabilitowani,
       "doktorzy": tempDoktorzy
@@ -134,7 +143,8 @@ export class MinimumKadroweItemEditComponent implements OnInit {
   }
 
   onSubmit() {
-    console.log(this.minimumKadroweForm.value);
+
+    //Przygotowanie mimimum kadrowego do zapisu
     let doktorzyHabilitowani: string[] = [];
     let doktorzy: string[] = [];
 
@@ -148,12 +158,15 @@ export class MinimumKadroweItemEditComponent implements OnInit {
     let updatedMinimumKadrowe: MinimumKadroweModel = new MinimumKadroweModel(
       this.id,
       this.minimumKadroweForm.value.kierunek,
+      this.minimumKadroweForm.value.stopien,
       this.minimumKadroweForm.value.rokAkademicki,
       doktorzyHabilitowani,
       doktorzy,
       false
     );
-    console.log(updatedMinimumKadrowe);
+    //Koniec przygotowania mimimum kadrowego do zapisu
+
+
 
     if(this.editMode === true) {
       this.subscriptions[0] = this.minimumKadroweService.updateMinimumKadrowe(updatedMinimumKadrowe)
@@ -228,4 +241,140 @@ export class MinimumKadroweItemEditComponent implements OnInit {
     (<FormArray>this.minimumKadroweForm.get('doktorzy')).removeAt(i);
   }
 
+  checkIfArrayIsUniqueAndNotEmpty(myArray) {
+    if(myArray === []) {
+      return false;
+    }else{
+      return myArray.length === new Set(myArray).size;
+    }
+  }
+
+  onCheckUnique() {
+    let idArray: any[] = [];
+    this.minimumKadroweForm.value.doktorzyHabilitowani.forEach((pracownik) => {
+      idArray.push(pracownik.pracownikId);
+    });
+    this.minimumKadroweForm.value.doktorzy.forEach((pracownik) => {
+      idArray.push(pracownik.pracownikId);
+    });
+    this.pracownicyUnique = this.checkIfArrayIsUniqueAndNotEmpty(idArray);
+  }
+
+  checkIfEligible(pracownikId: string, alert: boolean, index?: number, habilitowany?: boolean) {
+    console.log(pracownikId);
+    let tegoroczneMinimaKadrowe: MinimumKadroweModel[] = this.getTegoroczneMinimaKadrowe();
+    console.log(tegoroczneMinimaKadrowe);
+    let minimaKadrowePracownika: MinimumKadroweModel[] = [];
+    tegoroczneMinimaKadrowe.forEach((minimumKadrowe) => {
+      if(minimumKadrowe.doktorzy.includes(pracownikId) || minimumKadrowe.doktorzyHabilitowani.includes(pracownikId)){
+        minimaKadrowePracownika.push(minimumKadrowe);
+      }
+    });
+    console.log(minimaKadrowePracownika);
+
+    if(this.editMode) {
+      console.log('ID' + this.tempMinimumKadrowe._id);
+      minimaKadrowePracownika = minimaKadrowePracownika.filter((minimumKadrowe) => {
+        return minimumKadrowe._id !== this.tempMinimumKadrowe._id;
+      })
+    }
+
+    let concatMeMinimumKadrowe = new MinimumKadroweModel(
+      'temporaryId',
+      this.minimumKadroweForm.get('kierunek').value,
+      this.minimumKadroweForm.get('stopien').value,
+      this.minimumKadroweForm.get('rokAkademicki').value,
+      [],
+      [],
+      false
+    );
+    console.log(concatMeMinimumKadrowe);
+    console.log(minimaKadrowePracownika);
+    let tempMinimaNames: string = '';
+    minimaKadrowePracownika.forEach((minimum) => {
+      tempMinimaNames = tempMinimaNames.concat(minimum.kierunek.bold() + ' (' + minimum.stopien + ' stopien), ');
+    });
+    let minimaDoSprawdzenia = minimaKadrowePracownika.concat(concatMeMinimumKadrowe);
+    console.log(minimaDoSprawdzenia);
+    console.log(this.setupIsCorrect(minimaDoSprawdzenia));
+    if(event) {
+      console.log(event);
+    }
+    if(!this.setupIsCorrect(minimaDoSprawdzenia) && alert) {
+      let pracownik = this.pracownicyService.getPracownikById(pracownikId);
+      bootbox.alert({
+        message: 'Pracownik ' + pracownik.imie + ' ' + pracownik.nazwisko +
+          ' jest już wliczany do minimów kadrowych: ' + tempMinimaNames +
+          ' więc nie może być już doliczony do tego minimum kadrowego.',
+        callback: () => {
+          if(index !== null) { //resetowanie formularza w przypadku błędnego pracownika
+            console.log(index);
+              if(habilitowany){
+                (<FormArray>this.minimumKadroweForm.get('doktorzyHabilitowani')).controls[index].reset();
+              }else{
+                (<FormArray>this.minimumKadroweForm.get('doktorzy')).controls[index].reset();
+              }
+          }
+        }
+      });
+    }
+
+    return this.setupIsCorrect(minimaDoSprawdzenia);
+  }
+
+  setupIsCorrect(minimaKadrowe: MinimumKadroweModel[]) {
+    if (minimaKadrowe.length === 1) {
+      return true;
+    } else if (minimaKadrowe.length === 2) {
+      if (minimaKadrowe[0].stopien === 'pierwszy' || minimaKadrowe[1].stopien === 'pierwszy') {
+        return true;
+      }
+    } else if (minimaKadrowe.length === 3) {
+      let minimaPierwszegoStopnia = minimaKadrowe.filter((minimum) => {
+        return minimum.stopien === 'pierwszy';
+      });
+      let minimaDrugiegoStopnia = minimaKadrowe.filter((minimum) => {
+        return minimum.stopien === 'drugi';
+      });
+      if (minimaPierwszegoStopnia.length === 2) {
+        if (minimaPierwszegoStopnia[0].kierunek === minimaDrugiegoStopnia[0].kierunek ||
+            minimaPierwszegoStopnia[1].kierunek === minimaDrugiegoStopnia[0].kierunek) {
+          return true;
+        }
+      }
+    }
+    return false;
+  }
+
+  checkIfMinimumAlreadyExist() {
+    let newRokAkademicki = this.minimumKadroweForm.get('rokAkademicki').value;
+    let newStopien = this.minimumKadroweForm.get('stopien').value;
+    let newKierunek = this.minimumKadroweForm.get('kierunek').value;
+
+    let tegoroczneMinimaKadrowe: MinimumKadroweModel[] = this.getTegoroczneMinimaKadrowe();
+    if(newRokAkademicki && newStopien && newKierunek) {
+      if(tegoroczneMinimaKadrowe.length === 0) {
+        this.minimumKadroweUnique = true;
+        return;
+      }
+
+      for (let minimumKadrowe of tegoroczneMinimaKadrowe) {
+        if(minimumKadrowe.kierunek === newKierunek &&
+           minimumKadrowe.stopien === newStopien &&
+           minimumKadrowe.rokAkademicki === newRokAkademicki){
+          this.minimumKadroweUnique = false;
+          return;
+        }
+        else{
+          this.minimumKadroweUnique = true;
+        }
+      }
+    }
+
+  }
+
+  getTegoroczneMinimaKadrowe() {
+    return this.minimumKadroweService.minimaKadroweList.filter((minimumKadrowe =>
+      minimumKadrowe.rokAkademicki === this.minimumKadroweForm.get('rokAkademicki').value));
+  }
 }
