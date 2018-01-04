@@ -80,7 +80,7 @@
                               <div class="input-group">
                                 <select class="form-control" formControlName="pracownikId" (change)="onCheckUnique(); checkIfEligible($event.target.value, true, i, true);">
                                   <option *ngFor="let pracownik of pracownicyListDH" [value]="pracownik._id">
-                                    {{pracownik.tytul}} {{pracownik.nazwisko}} {{pracownik.imie}} ({{pracownik.email}})
+                                    {{pracownik.nazwisko}} {{pracownik.imie}} ({{pracownik.email}})
                                   </option>
                                 </select>
                                 <span class="input-group-btn">
@@ -95,9 +95,10 @@
                       </div>
                       <div class="row">
                         <div class="col-xs-12">
-                          <button type="button" class="btn btn-primary" (click)="onAddDoktorHabilitowany()">
+                          <button type="button" class="btn btn-primary" (click)="onAddDoktorHabilitowany()"
+                          [disabled]="this.minimumKadroweForm.controls['doktorzyHabilitowani'].value.length>=3">
                             <i class="fa fa-user-plus fa-fw"></i>
-                            Dodaj doktora habilitowanego
+                            Nowy
                           </button>
                         </div>
                       </div>
@@ -120,7 +121,7 @@
                               <div class="input-group">
                                 <select class="form-control" formControlName="pracownikId" (change)="onCheckUnique(); checkIfEligible($event.target.value, true, i, false)">
                                   <option *ngFor="let pracownik of pracownicyListD" [value]="pracownik._id">
-                                    {{pracownik.tytul}} {{pracownik.nazwisko}} {{pracownik.imie}} ({{pracownik.email}})
+                                    {{pracownik.nazwisko}} {{pracownik.imie}} ({{pracownik.email}})
                                   </option>
                                 </select>
                                 <span class="input-group-btn">
@@ -135,9 +136,10 @@
                       </div>
                       <div class="row">
                         <div class="col-xs-12">
-                          <button type="button" class="btn btn-primary" (click)="onAddDoktor()">
+                          <button type="button" class="btn btn-primary" (click)="onAddDoktor()"
+                                  [disabled]="this.minimumKadroweForm.controls['doktorzy'].value.length>=6">
                             <i class="fa fa-user-plus fa-fw"></i>
-                            Dodaj doktora
+                            Nowy
                           </button>
                         </div>
                       </div>

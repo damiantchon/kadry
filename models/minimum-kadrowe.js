@@ -10,18 +10,4 @@ const schema = new Schema({
         "poprawne": {type: Boolean, required: true}},
     {collection: 'minima-kadrowe'});
 
-// const mongooseUniqueValidator = require('mongoose-unique-validator');
-//
-// const schema = new Schema({
-//         "imie": {type: String, required: true},
-//         "nazwisko": {type: String, required: true},
-//         "stopien": {type: String},
-//         "tytul": {type: String, required: true},
-//         "specjalnosc": {type: String, required: true},
-//         "email": {type: String, required: true, unique: true},
-//         "funkcje": [{type: String, required: false}]},
-//     {collection: 'pracownicy'});
-//
-// schema.plugin(mongooseUniqueValidator);
-//
 module.exports = mongoose.model('MinimumKadrowe', schema);

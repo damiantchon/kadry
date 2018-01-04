@@ -20,7 +20,7 @@
         <td>{{minimumKadrowe.rokAkademicki}}</td>
         <td>
           <div *ngIf="minimumKadrowe.poprawne; else elseTemplate">
-            Tak
+            <strong>Tak</strong>
           </div>
           <ng-template #elseTemplate>
             Nie

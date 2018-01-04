@@ -75,18 +75,27 @@ export class PublikacjeService {
 
   addPublikacja(publikacja: PublikacjaModel) {
     const headers = this.headers;
-    return this.http.post<PublikacjaModel>('http://localhost:3000/publikacje', publikacja, {headers: headers})
+    const token = sessionStorage.getItem('token')
+      ? '?token=' + sessionStorage.getItem('token')
+      : '';
+    return this.http.post<PublikacjaModel>('http://localhost:3000/publikacje' + token, publikacja, {headers: headers})
       .catch((error: Response) => Observable.throw(error));
   }
 
   updatePublikacja(publikacja: PublikacjaModel) {
     const headers = this.headers;
-    return this.http.put<PublikacjaModel>('http://localhost:3000/publikacje', publikacja, {headers: headers})
+    const token = sessionStorage.getItem('token')
+      ? '?token=' + sessionStorage.getItem('token')
+      : '';
+    return this.http.put<PublikacjaModel>('http://localhost:3000/publikacje' + token, publikacja, {headers: headers})
       .catch((error: Response) => Observable.throw(error));
   }
 
   deletePublikacja(publikacja: PublikacjaModel) {
-    return this.http.delete<PublikacjaModel>('http://localhost:3000/publikacje/' + publikacja._id)
+    const token = sessionStorage.getItem('token')
+      ? '?token=' + sessionStorage.getItem('token')
+      : '';
+    return this.http.delete<PublikacjaModel>('http://localhost:3000/publikacje/' + publikacja._id + token)
       .catch((error: Response) => Observable.throw(error));
   }
 

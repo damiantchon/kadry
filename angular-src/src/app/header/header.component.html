@@ -28,15 +28,41 @@
             Minimum kadrowe
           </a>
         </li>
+
+        <li routerLinkActive="active">
+          <a style="cursor: pointer;" (click)="refreshData()">
+            <i class="fa fa-refresh fa-fw"></i>
+            Odświerz dane
+          </a>
+        </li>
 			</ul>
-			<ul class="nav navbar-nav navbar-right">
+
+			<ul class="nav navbar-nav navbar-right" *ngIf="!isLoggedIn(); else else_component">
 				<li>
-          <a href="#">
+          <a routerLink="/logowanie">
             <i class="fa fa-sign-in fa-fw"></i>
           Zaloguj
           </a>
         </li>
 			</ul>
+      <ng-template #else_component>
+        <ul class="nav navbar-nav navbar-right">
+          <li>
+            <a href routerLink="" (click)="onLogOut()">
+              <i class="fa fa-sign-out fa-fw"></i>
+              Wyloguj
+            </a>
+          </li>
+        </ul>
+      </ng-template>
+      <ul class="nav navbar-nav navbar-right" *ngIf="adminHeader">
+        <li>
+          <a routerLink="/nowy">
+            <i class="fa fa-user-plus fa-fw"></i>
+            Dodaj Użytkownika
+          </a>
+        </li>
+      </ul>
 		</div>
 	</div>
 </nav>

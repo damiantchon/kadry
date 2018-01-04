@@ -76,18 +76,27 @@ export class MinimumKadroweService {
 
   addMinimumKadrowe(minimumKadrowe: MinimumKadroweModel){
     const headers = this.headers;
-    return this.http.post<MinimumKadroweModel>('http://localhost:3000/minimum-kadrowe', minimumKadrowe, {headers: headers})
+    const token = sessionStorage.getItem('token')
+      ? '?token=' + sessionStorage.getItem('token')
+      : '';
+    return this.http.post<MinimumKadroweModel>('http://localhost:3000/minimum-kadrowe' + token, minimumKadrowe, {headers: headers})
       .catch((error: Response) => Observable.throw(error));
   }
 
   updateMinimumKadrowe(minimumKadrowe: MinimumKadroweModel){
     const headers = this.headers;
-    return this.http.put<MinimumKadroweModel>('http://localhost:3000/minimum-kadrowe', minimumKadrowe, {headers: headers})
+    const token = sessionStorage.getItem('token')
+      ? '?token=' + sessionStorage.getItem('token')
+      : '';
+    return this.http.put<MinimumKadroweModel>('http://localhost:3000/minimum-kadrowe' + token, minimumKadrowe, {headers: headers})
       .catch((error: Response) => Observable.throw(error));
   }
 
   deleteMinimumKadrowe(minimumKadrowe: MinimumKadroweModel) {
-    return this.http.delete<MinimumKadroweModel>('http://localhost:3000/minimum-kadrowe/' + minimumKadrowe._id)
+    const token = sessionStorage.getItem('token')
+      ? '?token=' + sessionStorage.getItem('token')
+      : '';
+    return this.http.delete<MinimumKadroweModel>('http://localhost:3000/minimum-kadrowe/' + minimumKadrowe._id + token)
       .catch((error: Response) => Observable.throw(error));
   }
 

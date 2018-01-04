@@ -1,7 +1,36 @@
 const express = require('express');
 const router = express.Router();
+const jwt = require('jsonwebtoken');
 
 const Publikacja = require('../models/publikacja');
+
+router.get('/get', (req, res) => {
+    Publikacja.find()
+        .exec((err, publikacje) => {
+            if (err) {
+                return res.status(500).json({
+                    title: 'An error occured',
+                    error: err
+                });
+            }
+            res.status(200).json({
+                lista: publikacje
+            });
+        });
+});
+
+router.use('/',(req, res, next) => {
+    jwt.verify(req.query.token, 'mySecretKey', (err, decoded) => {
+        if (err) {
+            return res.status(401).json({
+                title: 'Authentication failed',
+                error: err
+            });
+        }
+        next();
+    });
+});
+
 
 router.post('/', (req, res) => {
 
@@ -76,19 +105,6 @@ router.delete('/:id', (req, res) => {
    });
 });
 
-router.get('/get', (req, res) => {
-    Publikacja.find()
-        .exec((err, publikacje) => {
-            if (err) {
-                return res.status(500).json({
-                    title: 'An error occured',
-                    error: err
-                });
-            }
-            res.status(200).json({
-                lista: publikacje
-            });
-        });
-});
+
 
 module.exports = router;

@@ -1,8 +1,36 @@
 const express = require('express');
 const router = express.Router();
+const jwt = require('jsonwebtoken');
 
 const MinimumKadrowe = require('../models/minimum-kadrowe');
 
+
+router.get('/get', (req, res) => {
+    MinimumKadrowe.find()
+        .exec((err, minima) => {
+            if (err) {
+                return res.status(500).json({
+                    title: 'An error occured',
+                    error: err
+                });
+            }
+            res.status(200).json({
+                lista: minima
+            });
+        });
+});
+
+router.use('/',(req, res, next) => {
+    jwt.verify(req.query.token, 'mySecretKey', (err, decoded) => {
+        if (err) {
+            return res.status(401).json({
+                title: 'Authentication failed',
+                error: err
+            });
+        }
+        next();
+    });
+});
 
 router.post('/', (req,res) => {
    let minimumKadrowe = new MinimumKadrowe({
@@ -68,19 +96,6 @@ router.delete('/:id', (req, res) => {
     });
 });
 
-router.get('/get', (req, res) => {
-    MinimumKadrowe.find()
-        .exec((err, minima) => {
-            if (err) {
-                return res.status(500).json({
-                    title: 'An error occured',
-                    error: err
-                });
-            }
-            res.status(200).json({
-                lista: minima
-            });
-        });
-});
+
 
 module.exports = router;

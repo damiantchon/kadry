@@ -13,27 +13,33 @@ import { PublikacjeItemStartComponent } from './publikacje/publikacje-list/publi
 import { MinimumKadroweItemStartComponent } from './minimum-kadrowe/minimum-kadrowe-list/minimum-kadrowe-item-start/minimum-kadrowe-item-start.component';
 import { MinimumKadroweItemEditComponent } from './minimum-kadrowe/minimum-kadrowe-list/minimum-kadrowe-item-edit/minimum-kadrowe-item-edit.component';
 import { MinimumKadroweItemComponent } from './minimum-kadrowe/minimum-kadrowe-list/minimum-kadrowe-item/minimum-kadrowe-item.component';
+import { SigninComponent } from './authentication/signin/signin.component';
+import { SignupComponent } from './authentication/signup/signup.component';
+import { AuthenticationGuard } from './authentication-guard.service';
+import { AdminGuard } from './admin-guard.service';
 
 const appRoutes: Routes = [
     {path: '', component: HomeComponent, pathMatch: 'full'},
-    {path: 'pracownicy', component: PracownicyComponent, children: [
+    {path: 'pracownicy', canActivate: [AuthenticationGuard], component: PracownicyComponent, children: [
         {path: '', component: PracownicyItemStartComponent},
         {path: 'new', component: PracownicyItemEditComponent},
         {path: ':id', component: PracownicyItemComponent},
         {path: ':id/edit', component: PracownicyItemEditComponent}
       ]},
-    {path: 'publikacje', component: PublikacjeComponent, children: [
+    {path: 'publikacje', canActivate: [AuthenticationGuard], component: PublikacjeComponent, children: [
         {path: '', component: PublikacjeItemStartComponent},
         {path: 'new', component: PublikacjeItemEditComponent},
         {path: ':id', component: PublikacjeItemComponent},
         {path: ':id/edit', component: PublikacjeItemEditComponent}
       ]},
-    {path: 'minimum-kadrowe', component: MinimumKadroweComponent, children: [
+    {path: 'minimum-kadrowe', canActivate: [AuthenticationGuard], component: MinimumKadroweComponent, children: [
         {path: '', component: MinimumKadroweItemStartComponent},
         {path: 'new', component: MinimumKadroweItemEditComponent},
         {path: ':id', component: MinimumKadroweItemComponent},
         {path: ':id/edit', component: MinimumKadroweItemEditComponent}
       ]},
+    {path: 'logowanie', component: SigninComponent},
+    {path: 'nowy', canActivate: [AdminGuard], component: SignupComponent},
     {path: '**', redirectTo: ''}
 
 ];

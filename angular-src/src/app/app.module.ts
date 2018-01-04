@@ -27,6 +27,12 @@ import { MinimumKadroweItemComponent } from './minimum-kadrowe/minimum-kadrowe-l
 import { MinimumKadroweItemEditComponent } from './minimum-kadrowe/minimum-kadrowe-list/minimum-kadrowe-item-edit/minimum-kadrowe-item-edit.component';
 import { MinimumKadroweItemStartComponent } from './minimum-kadrowe/minimum-kadrowe-list/minimum-kadrowe-item-start/minimum-kadrowe-item-start.component';
 import { MinimumKadroweService } from './minimum-kadrowe/minimum-kadrowe.service';
+import { AuthenticationComponent } from './authentication/authentication.component';
+import { SigninComponent } from './authentication/signin/signin.component';
+import { SignupComponent } from './authentication/signup/signup.component';
+import { AuthenticationService } from './authentication/authentication.service';
+import { AuthenticationGuard } from './authentication-guard.service';
+import { AdminGuard } from './admin-guard.service';
 
 
 @NgModule({
@@ -49,7 +55,11 @@ import { MinimumKadroweService } from './minimum-kadrowe/minimum-kadrowe.service
       MinimumKadroweListComponent,
       MinimumKadroweItemComponent,
       MinimumKadroweItemEditComponent,
-      MinimumKadroweItemStartComponent],
+      MinimumKadroweItemStartComponent,
+      AuthenticationComponent,
+      SigninComponent,
+      SignupComponent
+    ],
 imports: [
         AppRoutingModule,
         BrowserModule,
@@ -58,7 +68,7 @@ imports: [
         FormsModule,
         ReactiveFormsModule
 ],
-    providers: [PracownicyService, PublikacjeService, MinimumKadroweService],
+    providers: [AuthenticationGuard, AdminGuard, PracownicyService, PublikacjeService, MinimumKadroweService, AuthenticationService],
     bootstrap: [AppComponent]
 })
 export class AppModule {

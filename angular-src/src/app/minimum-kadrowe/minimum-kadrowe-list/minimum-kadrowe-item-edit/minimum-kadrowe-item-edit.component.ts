@@ -155,6 +155,12 @@ export class MinimumKadroweItemEditComponent implements OnInit {
       doktorzy.push(doktor.pracownikId);
     });
 
+    let poprawne = false;
+    if(this.minimumKadroweForm.controls['doktorzyHabilitowani'].value.length === 3
+    && this.minimumKadroweForm.controls['doktorzy'].value.length === 6) {
+      poprawne = true;
+    }
+
     let updatedMinimumKadrowe: MinimumKadroweModel = new MinimumKadroweModel(
       this.id,
       this.minimumKadroweForm.value.kierunek,
@@ -162,7 +168,7 @@ export class MinimumKadroweItemEditComponent implements OnInit {
       this.minimumKadroweForm.value.rokAkademicki,
       doktorzyHabilitowani,
       doktorzy,
-      false
+      poprawne
     );
     //Koniec przygotowania mimimum kadrowego do zapisu
 
@@ -370,8 +376,8 @@ export class MinimumKadroweItemEditComponent implements OnInit {
         }
       }
     }
-
   }
+
 
   getTegoroczneMinimaKadrowe() {
     return this.minimumKadroweService.minimaKadroweList.filter((minimumKadrowe =>
