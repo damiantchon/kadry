@@ -144,7 +144,10 @@ export class PracownicyService {
       ? '?token=' + sessionStorage.getItem('token')
       : '';
     return this.http.post<PracownikModel>('http://localhost:3000/pracownicy' + token, pracownik, {headers: headers})
-      .catch((error: Response) => Observable.throw(error));
+      .catch((error: Response) => {
+        bootbox.alert('Pracownik o podanym adresie e-mail juz istnieje!');
+        return Observable.throw(error);
+      });
   }
 
   updatePracownik(pracownik: PracownikModel) {
@@ -153,7 +156,10 @@ export class PracownicyService {
       ? '?token=' + sessionStorage.getItem('token')
       : '';
     return this.http.put<PracownikModel>('http://localhost:3000/pracownicy' + token, pracownik, {headers: headers})
-      .catch((error: Response) => Observable.throw(error));
+      .catch((error: Response) => {
+        bootbox.alert('Pracownik o podanym adresie e-mail juz istnieje!');
+        return Observable.throw(error);
+      });
   }
 
   deletePracownik(pracownik: PracownikModel) {

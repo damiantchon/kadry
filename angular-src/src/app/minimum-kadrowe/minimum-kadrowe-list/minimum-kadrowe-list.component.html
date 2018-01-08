@@ -20,10 +20,10 @@
         <td>{{minimumKadrowe.rokAkademicki}}</td>
         <td>
           <div *ngIf="minimumKadrowe.poprawne; else elseTemplate">
-            <strong>Tak</strong>
+            <span style="color: green"><strong>Tak</strong></span>
           </div>
           <ng-template #elseTemplate>
-            Nie
+            <span style="color: red">Nie</span>
           </ng-template>
         </td>
         <td>{{getPracownicyNamesByIds(minimumKadrowe.doktorzyHabilitowani)}}</td>

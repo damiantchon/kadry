@@ -31,7 +31,6 @@ router.use('/',(req, res, next) => {
     });
 });
 
-
 router.post('/', (req, res) => {
 
    let publikacja = new Publikacja({

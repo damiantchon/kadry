@@ -96,4 +96,12 @@ export class MinimumKadroweItemComponent implements OnInit, OnDestroy {
     });
   }
 
+  onPrint() {
+    this.minimumKadroweService.createPdf(this.minimumKadrowe, 'print');
+  }
+
+  onDownload() {
+    this.minimumKadroweService.createPdf(this.minimumKadrowe, 'download');
+  }
+
 }

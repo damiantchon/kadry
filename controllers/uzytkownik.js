@@ -56,17 +56,20 @@ router.post('/login', (req,res) => {
 
 router.post('/check', (req,res) => {
     let admin = false;
-    console.log(req.body);
     User.findOne({_id: req.body.userId},(err, user) => {
         if(err) {
             admin = false;
+            sendResponse();
         }else if (!user){
             admin = false;
+            sendResponse();
         } else if (user) {
-            console.log(user);
             admin = user.admin;
+            sendResponse();
         }
-    }).then(()=> {
+    });
+
+    function sendResponse() {
         jwt.verify(req.body.token, 'mySecretKey', (err, decoded) => {
             if (err) {
                 return res.status(200).json({
@@ -81,7 +84,7 @@ router.post('/check', (req,res) => {
                 admin: admin
             });
         });
-    })
+    }
 });
 
 module.exports = router;

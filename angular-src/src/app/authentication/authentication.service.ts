@@ -23,15 +23,12 @@ export class AuthenticationService {
   }
 
   authenticate() {
-
     const data = {
       token: sessionStorage.getItem('token'),
       userId: sessionStorage.getItem('userId')
     };
     const headers = new HttpHeaders({'Content-Type': 'application/json'});
     return this.http.post<{message: string, auth: boolean, admin: boolean}>('http://localhost:3000/user/check', data, {headers: headers});
-
-
   }
 
   logout() {
