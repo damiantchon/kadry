@@ -96,7 +96,8 @@
                       <div class="row">
                         <div class="col-xs-12">
                           <button type="button" class="btn btn-primary" (click)="onAddDoktorHabilitowany()"
-                          [disabled]="this.minimumKadroweForm.controls['doktorzyHabilitowani'].value.length>=3">
+                          [disabled]="(this.minimumKadroweForm.controls['doktorzyHabilitowani'].value.length>=3 && this.minimumKadroweForm.controls['stopien'].value === 'pierwszy')
+                                      || (this.minimumKadroweForm.controls['doktorzyHabilitowani'].value.length>=6 && this.minimumKadroweForm.controls['stopien'].value === 'drugi')">
                             <i class="fa fa-user-plus fa-fw"></i>
                             Nowy
                           </button>

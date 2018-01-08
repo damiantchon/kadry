@@ -35,7 +35,6 @@ export class PublikacjeService {
     return false;
   }
 
-
   getPublikacje() {
     interface publikacjeResponse{
       lista: PublikacjaModel[];
@@ -79,7 +78,10 @@ export class PublikacjeService {
       ? '?token=' + sessionStorage.getItem('token')
       : '';
     return this.http.post<PublikacjaModel>('http://localhost:3000/publikacje' + token, publikacja, {headers: headers})
-      .catch((error: Response) => Observable.throw(error));
+      .catch((error: Response) => {
+        bootbox.alert('Publikacja o wpisanym DOI już istnieje!');
+        return Observable.throw(error);
+      });
   }
 
   updatePublikacja(publikacja: PublikacjaModel) {
@@ -88,7 +90,10 @@ export class PublikacjeService {
       ? '?token=' + sessionStorage.getItem('token')
       : '';
     return this.http.put<PublikacjaModel>('http://localhost:3000/publikacje' + token, publikacja, {headers: headers})
-      .catch((error: Response) => Observable.throw(error));
+      .catch((error: Response) => {
+        bootbox.alert('Publikacja o wpisanym DOI już istnieje!');
+        return Observable.throw(error);
+      });
   }
 
   deletePublikacja(publikacja: PublikacjaModel) {

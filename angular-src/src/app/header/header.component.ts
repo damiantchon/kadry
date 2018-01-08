@@ -25,15 +25,11 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.authenticationService.logowanieActivated.subscribe(()=>{
-      this.subscriptions[3] = this.authenticationService.authenticate()
+      this.authenticationService.authenticate()
         .map(e => {
           console.log(e);
-          if(e.admin === true){
-            this.adminHeader = true;
-          } else {
-            this.adminHeader = false;
-          }
-        }).subscribe(() => this.subscriptions[3].unsubscribe());
+          this.adminHeader = e.admin === true;
+        }).subscribe();
     });
 
     this.authenticationService.logowanieActivated.next();

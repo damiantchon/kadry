@@ -7,7 +7,8 @@
         </strong>
       </button>
     </div>
-    <div class="btn-group pull-right">
+
+    <div class="btn-group pull-right" style="margin-left: 20px">
       <button class="btn btn-primary" (click)="onEdit()">
         <strong>
           <i class="fa fa-pencil"></i> Edytuj
@@ -16,6 +17,19 @@
       <button class="btn btn-danger" (click)="onDelete()">
         <strong>
           <i class="fa fa-trash"></i> Usuń
+        </strong>
+      </button>
+    </div>
+
+    <div class="btn-group pull-right">
+      <button class="btn btn-default" (click)="onPrint()">
+        <strong>
+          <i class="fa fa-print"></i> Drukuj
+        </strong>
+      </button>
+      <button class="btn btn-default" (click)="onDownload()">
+        <strong>
+          <i class="fa fa-download"></i> Pobierz
         </strong>
       </button>
     </div>
@@ -61,11 +75,18 @@
         </td>
       </tr>
       <tr>
-        <td>
+        <td *ngIf="minimumKadrowe.stopien==='pierwszy'; else drugiStopien">
           <strong>
             Samodzielni pracownicy nauki ({{minimumKadrowe.doktorzyHabilitowani.length}} z 3)
           </strong>
         </td>
+        <ng-template #drugiStopien>
+          <td>
+            <strong>
+              Samodzielni pracownicy nauki ({{minimumKadrowe.doktorzyHabilitowani.length}} z 6)
+            </strong>
+          </td>
+        </ng-template>
         <td>
           <div *ngIf="minimumKadrowe.doktorzyHabilitowani.length > 0; then than_component_DH else else_component_DH">          </div>
           <ng-template #than_component_DH>
