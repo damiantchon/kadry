@@ -4,10 +4,10 @@ import { MinimumKadroweModel } from './minimum-kadrowe.model';
 import { Subject } from 'rxjs/Subject';
 import { Observable } from 'rxjs/Observable';
 import { PracownikModel } from '../pracownicy/pracownik.model';
+import { PracownicyService } from '../pracownicy/pracownicy.service';
 
 import * as pdfMake from 'pdfmake/build/pdfmake.js';
 import * as pdfFonts from 'pdfmake/build/vfs_fonts.js';
-import { PracownicyService } from '../pracownicy/pracownicy.service';
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 @Injectable()
@@ -161,7 +161,7 @@ export class MinimumKadroweService {
 
     let docDefinition = {
       info: {
-        title: 'awesome Document',
+        title: '',
       },
       header: function(currentPage, pageCount) {
         return { text: 'Warszawa, ' + date, alignment: 'right'};
@@ -183,11 +183,6 @@ export class MinimumKadroweService {
           bold: true,
           alignment: 'center'
         },
-        normal: {
-          fontSize: 16,
-          fontFamily: 'arial',
-          bold: false,
-        },
         normalBold: {
           fontSize: 16,
           fontFamily: 'arial',
@@ -200,12 +195,6 @@ export class MinimumKadroweService {
           marginTop: 5,
           marginBottom: 5
         },
-        top: {
-          fontSize: 14,
-          fontFamily: 'arial',
-          alignment: 'right',
-          bold: false
-        }
       }
     };
 

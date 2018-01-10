@@ -6,6 +6,7 @@ export class PracownikModel {
                 public tytul: string,
                 public specjalnosc: string,
                 public email: string,
+                public przedmioty?: string[],
                 public funkcje?: string[]) {}
 }
 

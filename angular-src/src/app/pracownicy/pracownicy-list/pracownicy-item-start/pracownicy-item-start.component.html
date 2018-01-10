@@ -2,8 +2,26 @@
   <div class="col-md-12">
     <button class="btn btn-default" (click)="onAddNew()">
       <strong>
-        <i class="fa fa-plus"></i> Nowy pracownik
+        <i class="fa fa-plus fa-fw"></i> Nowy pracownik
       </strong>
     </button>
+  </div>
+</div>
+<hr>
+<div class="row">
+  <div class="col-md-12">
+    <label for="przedmioty">Generuj raport z przedmiotu</label>
+    <select class="form-control" name="przedmioty" id="przedmioty" [(ngModel)]="przedmiotName">
+      <option *ngFor="let przedmiot of this.pracownicyService.przedmioty" [value]="przedmiot">
+        {{przedmiot}}
+      </option>
+    </select>
+  </div>
+</div>
+<div class="row" style="margin-top: 8px">
+  <div class="col-md-12">
+    <button class="btn btn-default" (click)="onGeneruj(przedmiotName, 'open')"><i class="fa fa-file fa-fw"></i>Otwórz</button>
+    <button class="btn btn-default" (click)="onGeneruj(przedmiotName, 'print')"><i class="fa fa-print fa-fw"></i>Drukuj</button>
+    <button class="btn btn-default" (click)="onGeneruj(przedmiotName, 'download')"><i class="fa fa-download fa-fw"></i>Pobierz</button>
   </div>
 </div>

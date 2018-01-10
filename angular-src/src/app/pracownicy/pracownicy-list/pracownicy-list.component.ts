@@ -34,7 +34,9 @@ export class PracownicyListComponent implements OnInit, OnDestroy {
           {"targets": [ 4 ],
           "visible": false},
           {"targets": [ 5 ],
-          "visible": false}
+          "visible": false},
+          {"targets": [ 6 ],
+            "visible": false}
         ],
         //ordering: false,
         order: [[0, "asc"]],
