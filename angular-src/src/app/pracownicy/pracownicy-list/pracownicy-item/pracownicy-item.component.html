@@ -104,18 +104,39 @@
         <td>
           <strong>
             <i class="fa fa-tasks fa-fw"></i>
+            Prowadzone przedmioty
+          </strong>
+        </td>
+        <td>
+          <div *ngIf="this.pracownik.przedmioty.length > 0; then than_component_przedmioty else else_component_przedmioty"></div>
+
+          <ng-template #than_component_przedmioty>
+            <div *ngFor="let przedmiot of this.pracownik.przedmioty; let i = index"
+                 class="text-primary"> - {{przedmiot}}</div>
+          </ng-template>
+
+          <ng-template #else_component_przedmioty>
+            <div class="text-primary">brak</div>
+          </ng-template>
+
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <strong>
+            <i class="fa fa-tasks fa-fw"></i>
             Funkcje
           </strong>
         </td>
         <td>
-          <div *ngIf="this.pracownik.funkcje.length > 0; then than_component else else_component"></div>
+          <div *ngIf="this.pracownik.funkcje.length > 0; then than_component_funkcje else else_component_funkcje"></div>
 
-          <ng-template #than_component>
+          <ng-template #than_component_funkcje>
             <div *ngFor="let funkcja of this.pracownik.funkcje; let i = index"
-                 class="text-primary"><strong>{{i+1}}</strong> - {{funkcja}}</div>
+                 class="text-primary"> - {{funkcja}}</div>
           </ng-template>
 
-          <ng-template #else_component>
+          <ng-template #else_component_funkcje>
             <div class="text-primary">brak</div>
           </ng-template>
 

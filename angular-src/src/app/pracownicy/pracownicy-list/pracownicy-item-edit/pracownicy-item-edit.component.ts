@@ -24,8 +24,11 @@ export class PracownicyItemEditComponent implements OnInit, OnDestroy {
 
   id: string;
   editMode: boolean;
+  przedmioty: string[] = [];
 
   ngOnInit() {
+    this.przedmioty = this.pracownicyService.przedmioty;
+    this.przedmioty.sort();
     this.route.params
       .subscribe(
         (params: Params) => {
@@ -55,6 +58,7 @@ export class PracownicyItemEditComponent implements OnInit, OnDestroy {
     let tempStopien: string = '';
     let tempEmail: string = '';
     let tempSpecjalnosc: string = '';
+    let tempPrzedmioty = new FormArray([]);
     let tempFunkcje = new FormArray([]);
 
     if (this.editMode){
@@ -66,6 +70,17 @@ export class PracownicyItemEditComponent implements OnInit, OnDestroy {
       tempStopien = pracownik.stopien;
       tempEmail = pracownik.email;
       tempSpecjalnosc = pracownik.specjalnosc;
+      if (pracownik.przedmioty) {
+        for (let przedmiot of pracownik.przedmioty) {
+          tempPrzedmioty.push(
+            new FormGroup(
+              {
+                'przedmiot': new FormControl(przedmiot, Validators.required)
+              }
+            )
+          );
+        }
+      }
       if (pracownik.funkcje) {
         for (let funkcja of pracownik.funkcje) {
           tempFunkcje.push(
@@ -86,6 +101,7 @@ export class PracownicyItemEditComponent implements OnInit, OnDestroy {
       'stopien': new FormControl(tempStopien),
       'email': new FormControl(tempEmail, [Validators.required, Validators.email]),
       'specjalnosc': new FormControl(tempSpecjalnosc, [Validators.required]),
+      'przedmioty': tempPrzedmioty,
       'funkcje': tempFunkcje
     });
   }
@@ -98,6 +114,12 @@ export class PracownicyItemEditComponent implements OnInit, OnDestroy {
       funkcje.push(funkcja.funkcja);
     });
 
+    // przygotowanie tablicy przedmiotów
+    let przedmioty: any = [];
+    this.pracownikForm.value.przedmioty.forEach((przedmiot) => {
+      przedmioty.push(przedmiot.przedmiot);
+    });
+
     // przygotowanie pracownika do
     let updatedPracownik: PracownikModel = new PracownikModel(
       this.id,
@@ -107,6 +129,7 @@ export class PracownicyItemEditComponent implements OnInit, OnDestroy {
       this.pracownikForm.value.tytul,
       this.pracownikForm.value.specjalnosc,
       this.pracownikForm.value.email,
+      przedmioty,
       funkcje
     );
 
@@ -169,4 +192,21 @@ export class PracownicyItemEditComponent implements OnInit, OnDestroy {
   onDeleteFunction(i: number) {
     (<FormArray>this.pracownikForm.get('funkcje')).removeAt(i);
   }
+
+  onAddPrzedmiot() {
+    (<FormArray>this.pracownikForm.get('przedmioty')).push(
+      new FormGroup({
+        'przedmiot': new FormControl(null, Validators.required)
+      })
+    )
+  }
+
+  onDeletePrzedmiot(i: number) {
+    (<FormArray>this.pracownikForm.get('przedmioty')).removeAt(i);
+  }
+
+  onCheckUnique() {
+
+  }
+
 }

@@ -121,6 +121,48 @@
               </div>
             </div>
           </div>
+
+          <div class="inf-content panel-body" style="margin-bottom: 50px">
+            <div class="row">
+              <div class="col-xs-12" formArrayName="przedmioty">
+                <div class="row">
+                  <div class="col-xs-4">
+                    <p>
+                      <i class="fa fa-tasks fa-fw"></i>
+                      <strong> Prowadzone przedmioty</strong></p>
+                  </div>
+                </div>
+                <div class="row"
+                     *ngFor="let przedmiotyControl of pracownikForm.get('przedmioty').controls; let i = index"
+                     [formGroupName]="i"
+                     style="margin-bottom: 10px">
+                  <div class="col-xs-12">
+                    <div class=" input-group">
+                      <select class="form-control" formControlName="przedmiot" (change)="onCheckUnique()">
+                        <option *ngFor="let przedmiot of przedmioty" [value]="przedmiot">
+                          {{przedmiot}}
+                        </option>
+                      </select>
+                      <span class="input-group-btn">
+                      <button type="button" class="btn btn-danger" (click)="onDeletePrzedmiot(i)">
+                        <i class="fa fa-minus-circle"></i>
+                      </button>
+                    </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-xs-12">
+                <button type="button" class="btn btn-primary" (click)="onAddPrzedmiot()">
+                  <i class="fa fa-plus-circle"></i>
+                  Nowy przedmiot
+                </button>
+              </div>
+            </div>
+          </div>
+
           <div class="inf-content panel-body" style="margin-bottom: 50px">
             <div class="row">
               <div class="col-xs-12" formArrayName="funkcje">

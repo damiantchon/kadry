@@ -32,8 +32,25 @@ router.use('/',(req, res, next) => {
     });
 });
 
-router.post('/', (req, res) => {
+router.get('/przedmiot-raport/:przedmiot', (req, res) => {
+    let przedmiot = req.params.przedmiot;
 
+    Pracownik.find({"przedmioty": { "$regex": przedmiot, "$options": "i" }})
+        .exec((err, pracownicy) => {
+            if (err) {
+                return res.status(500).json({
+                    title: 'An error occured',
+                    error: err
+                });
+            }
+            res.status(200).json({
+                lista: pracownicy
+            });
+        });
+});
+
+router.post('/', (req, res) => {
+    console.log(req);
 
     let pracownik = new Pracownik({
         imie: req.body.imie,
@@ -42,6 +59,7 @@ router.post('/', (req, res) => {
         tytul: req.body.tytul,
         specjalnosc: req.body.specjalnosc,
         email: req.body.email,
+        przedmioty: req.body.przedmioty,
         funkcje: req.body.funkcje
     });
 
@@ -69,6 +87,7 @@ router.put('/', (req, res)=>{
         tytul: req.body.tytul,
         specjalnosc: req.body.specjalnosc,
         email: req.body.email,
+        przedmioty: req.body.przedmioty,
         funkcje: req.body.funkcje
     });
 

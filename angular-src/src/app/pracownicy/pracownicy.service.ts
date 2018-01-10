@@ -5,10 +5,15 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import 'rxjs/Rx';
 import { Observable } from 'rxjs/Observable';
 
+import * as pdfMake from 'pdfmake/build/pdfmake.js';
+import * as pdfFonts from 'pdfmake/build/vfs_fonts.js';
+pdfMake.vfs = pdfFonts.pdfMake.vfs;
+
 @Injectable()
 export class PracownicyService {
 
   constructor(private http: HttpClient) {
+    this.przedmioty.sort();
     this.getPracownicy()
       .subscribe(
         (pracownicy: PracownikModel[]) => {
@@ -88,6 +93,71 @@ export class PracownicyService {
       "skrot": "prof. dr hab. inż."},
   ];
 
+  przedmioty: string[] = [
+    "Filozofia",
+    "Bezpieczeństwo pracy i ergonomia",
+    "Podstawy zarządzania",
+    "Psychologia",
+    "Wychowanie fizyczne",
+    "Bezpieczeństwo i higiena pracy",
+    "Algebra liniowa",
+    "Fizyka",
+    "Matematyka dyskretna I",
+    "Analiza matematyczna I",
+    "Matematyka dyskretna II",
+    "Analiza matematyczna II",
+    "Teoria grafów i sieci",
+    "Rachunek prawodopodobieństwa",
+    "Podstawy elektroniki i miernictwa",
+    "Statystyka matematyczna",
+    "Wprowadzenie do programowania",
+    "Architektura i organizacja komputerów I",
+    "Podstawy techniki komputerów",
+    "Podstawy układów cyfrowych",
+    "Architektura i organizacja komputerów II",
+    "Algorytmy i strutury danych",
+    "Teoretyczne podstawy informatyki",
+    "Teoria informacji kodowania",
+    "Programowanie niskopoziomowe i analiza kodu",
+    "Wprowadzenie do automatyki",
+    "Wstęp do kryptologii",
+    "Programowanie obiektowe",
+    "Grafika komputerowa",
+    "Bazy danych",
+    "Podstawy optymalizacji",
+    "Sztuczna inteligencja",
+    "Ochrona własności intelektualnej",
+    "Systemy wejścia-wyjścia komputerów",
+    "Języki i techniki programowania",
+    "Modelowanie matematyczne",
+    "Systemy operacyjne",
+    "Inżynieria oprogramowania",
+    "Systemy wbudowane",
+    "Sieci komputerowe",
+    "Programowanie współbieżne",
+    "Podstawy bezpieczeństwa informacji",
+    "Niezawodność systemów komputerowych",
+    "Podstawy symulacji",
+    "Etyka zawodowa",
+    "Komunikacja człowiek-komputer",
+    "Analiza i wizualizacja danych",
+    "Metody numeryczne",
+    "Metody eksploracji danych",
+    "Sieci neuronowe",
+    "Hurtownie danych",
+    "Języki formalne i kompilatory",
+    "Systemy pracy grupowej",
+    "Podstawy ekonometrii",
+    "Aplikacje internetowe",
+    "Metody i narzędzia informatycznego wspomagania decyzji",
+    "Podstawy inżynierii systemów",
+    "Komputerowe wsparcie wytwarzania oprogramowania",
+    "Programowanie zdarzeniowe",
+    "Metodyki wytwarzania systemów informatycznych",
+    "Obliczenia równoległe i rozproszone",
+    "Projekt zespołowy SI"
+  ];
+
   public pracownikActivated = new Subject<PracownikModel[]>();
 
   public pracownikUpdated = new Subject<PracownikModel>();
@@ -115,6 +185,7 @@ export class PracownicyService {
              pracownik.tytul,
              pracownik.specjalnosc,
              pracownik.email,
+             pracownik.przedmioty,
              pracownik.funkcje
            ));
          }
@@ -169,4 +240,106 @@ export class PracownicyService {
     return this.http.delete<PracownikModel>('http://localhost:3000/pracownicy/' + pracownik._id + token)
       .catch((error: Response) => Observable.throw(error));
   }
+
+  getPrzedmiotRaport(przedmiot: string) {
+    interface Response {
+      lista: any[]
+    }
+    const headers = new HttpHeaders({'Content-Type': 'application/json'});
+    const token = sessionStorage.getItem('token')
+      ? '?token=' + sessionStorage.getItem('token')
+      : '';
+    return this.http.get<Response>('http://localhost:3000/pracownicy/przedmiot-raport/'+ przedmiot + token,{headers: headers})
+      .catch((error: Response) => {
+        bootbox.alert('Pracownik o podanym adresie e-mail juz istnieje!');
+        return Observable.throw(error);
+      });
+  }
+
+  generatePrzedmiotRaport(przedmiot: string, action: string) {
+
+    this.getPrzedmiotRaport(przedmiot).subscribe((tempPracownicy) => {
+      let pracownicy: PracownikModel[] = tempPracownicy.lista;
+
+      let date = this.getCurrentDate();
+
+      let pracownicyString: string = '';
+
+      pracownicy.sort((pracownikA, pracownikB) => {
+        if(pracownikA.nazwisko > pracownikB.nazwisko) return 1;
+        else if (pracownikA.nazwisko < pracownikB.nazwisko) return -1;
+        else return 0;
+      });
+
+      pracownicy.forEach((pracownik) => {
+        if(pracownik.stopien !== '') {
+          pracownicyString += '- ' + pracownik.stopien + ' ' + pracownik.tytul + ' ' + pracownik.imie + ' ' + pracownik.nazwisko + '\n';
+        } else {
+          pracownicyString += '- ' + pracownik.tytul + ' ' + pracownik.imie + ' ' + pracownik.nazwisko + '\n';
+        }
+      });
+      if(pracownicyString === '') pracownicyString = 'brak';
+
+      let docDefinition = {
+
+        header: function(currentPage, pageCount) {
+          return { text: 'Warszawa, ' + date, alignment: 'right'};
+        },
+        content: [
+          {text: '\nWydział Cybernetyki WAT - raport przedmiotu', style: 'header'},
+          {text: '\n\nPrzedmiot:   ' + przedmiot, style: 'normalBold'},
+          {text: 'Liczba prowadzących:   ' + pracownicy.length, style: 'normalBold'},
+
+          {text: '\nProwadzacy:', style: 'normalBold'},
+          {text: pracownicyString, style: 'normalMargin'},
+        ],
+        styles: {
+          header: {
+            fontSize: 24,
+            fontFamily: 'arial',
+            bold: true,
+            alignment: 'center'
+          },
+          normalBold: {
+            fontSize: 16,
+            fontFamily: 'arial',
+            bold: true,
+          },
+          normalMargin: {
+            fontSize: 16,
+            fontFamily: 'arial',
+            bold: false,
+            marginTop: 5,
+            marginBottom: 5
+          },
+        }
+      };
+
+      let fileName: string = 'raport-przedmiotu';
+
+      if(action === 'print') {
+        pdfMake.createPdf(docDefinition).print();
+      } else if (action === 'download') {
+        pdfMake.createPdf(docDefinition).download(fileName);
+      } else if (action === 'open') {
+        pdfMake.createPdf(docDefinition).open();
+      }
+    });
+  }
+
+  getCurrentDate() {
+    let today = new Date();
+    let dd:string = today.getDate().toString();
+    let mm:string = (today.getMonth()+1).toString(); //January is 0!
+
+    let yyyy = today.getFullYear();
+    if(today.getDate()<10){
+      dd='0'+dd;
+    }
+    if((today.getMonth()+1)<10){
+      mm='0'+mm;
+    }
+    return dd+'.'+mm+'.'+yyyy;
+  }
+
 }
