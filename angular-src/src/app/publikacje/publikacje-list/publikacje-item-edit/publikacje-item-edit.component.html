@@ -3,6 +3,15 @@
     <form [formGroup]="publikacjaForm" (ngSubmit)="onSubmit()">
       <div class="row">
         <div class="col-xs-12">
+          <div class="pull-left" style="font-size: 24px;" *ngIf="publikacjaForm.value.rodzajPublikacji === 'ATK'">
+            <strong>Nowy artykuł</strong>
+          </div>
+          <div class="pull-left" style="font-size: 24px;" *ngIf="publikacjaForm.value.rodzajPublikacji === 'MG'">
+            <strong>Nowa monografia</strong>
+          </div>
+          <div class="pull-left" style="font-size: 24px;" *ngIf="publikacjaForm.value.rodzajPublikacji === 'MGR'">
+            <strong>Nowy rozdział w monografii</strong>
+          </div>
           <div class="btn-group pull-right">
             <button type="submit" class="btn btn-primary" (submit)="onSubmit()"
                     [disabled]="(publikacjaForm.invalid || !autorzyWewnetrzniUnique || publikacjaForm.pristine)">
@@ -15,197 +24,341 @@
         </div>
       </div>
       <hr>
-      <div class="row">
-        <div class="col-xs-12">
-          <div class="row">
-            <div class="col-xs-12">
-              <label for="tytulPublikacji" class="col-xs-4">
-                <i class="fa fa-file-text fa-fw"></i>
-                Tytuł Publikacji
-              </label>
-              <div class="form-group col-xs-8">
-                <input type="text"
-                       id="tytulPublikacji"
-                       class="form-control"
-                       formControlName="tytulPublikacji">
-              </div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-xs-12">
-              <label for="tytulCzasopisma" class="col-xs-4">
-                <i class="fa fa-file-text-o fa-fw"></i>
-                Tytuł Czasopisma
-              </label>
-              <div class="form-group col-xs-8">
-                <input type="text"
-                       id="tytulCzasopisma"
-                       class="form-control"
-                       formControlName="tytulCzasopisma">
-              </div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-xs-12">
-              <label for="wolumin" class="col-xs-4">
-                <i class="fa fa-fw"></i>
-                Wolumin
-              </label>
-              <div class="form-group col-xs-8">
-                <input type="text"
-                       id="wolumin"
-                       class="form-control"
-                       formControlName="wolumin">
-              </div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-xs-12">
-              <label for="wydanie" class="col-xs-4">
-                <i class="fa fa-fw"></i>
-                Wydanie
-              </label>
-              <div class="form-group col-xs-8">
-                <input type="text"
-                       id="wydanie"
-                       class="form-control"
-                       formControlName="wydanie">
-              </div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-xs-12">
-              <label for="strony" class="col-xs-4">
-                <i class="fa fa-fw"></i>
-                Strony
-              </label>
-              <div class="form-group col-xs-8">
-                <input type="text"
-                       id="strony"
-                       class="form-control"
-                       formControlName="strony">
-              </div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-xs-12">
-              <label for="rokPublikacji" class="col-xs-4">
-                <i class="fa fa-fw"></i>
-                Rok publikacji
-              </label>
-              <div class="form-group col-xs-8">
-                <input type="text"
-                       id="rokPublikacji"
-                       class="form-control"
-                       formControlName="rokPublikacji">
-              </div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-xs-12">
-              <label for="doi" class="col-xs-4">
-                <i class="fa fa-tag fa-fw"></i>
-                DOI
-              </label>
-              <div class="form-group col-xs-8">
-                <input type="text"
-                       id="doi"
-                       class="form-control"
-                       formControlName="doi">
-              </div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-xs-12">
-              <label for="punkty" class="col-xs-4">
-                <i class="fa fa-trophy fa-fw"></i>
-                Punkty
-              </label>
-              <div class="form-group col-xs-8">
-                <input type="number"
-                       id="punkty"
-                       class="form-control"
-                       formControlName="punkty">
-              </div>
-            </div>
-          </div>
-          <div class="inf-content panel-body">
+      <div *ngIf="['MG', 'MGR', 'ATK'].indexOf(publikacjaForm.value.rodzajPublikacji) >= 0">
+        <div class="row">
+          <div class="col-xs-12">
             <div class="row">
-              <div class="col-xs-12" formArrayName="autorzyWewnetrzniId">
-                <div class="row">
-                  <div class="col-xs-12">
-                    <p>
-                      <i class="fa fa-users fa-fw"></i>
-                      <strong> Autorzy wewnetrzni</strong>
-                      <span *ngIf="!this.autorzyWewnetrzniUnique" style="color: red">(proszę usunąć duplikaty)</span>
-                    </p>
-                  </div>
+              <div class="col-xs-12">
+                <label for="tytulPublikacji" class="col-xs-4">
+                  <i class="fa fa-file-text fa-fw"></i>
+                  <span *ngIf="['ATK'].indexOf(publikacjaForm.value.rodzajPublikacji) >= 0">Tytuł artykułu</span>
+                  <span *ngIf="['MG', 'MGR'].indexOf(publikacjaForm.value.rodzajPublikacji) >= 0">Tytuł monografii</span>
+                </label>
+                <div class="form-group col-xs-8">
+                  <input type="text"
+                         id="tytulPublikacji"
+                         class="form-control"
+                         formControlName="tytulPublikacji">
                 </div>
-                <div class="row"
-                     *ngFor="let autorControl of publikacjaForm.get('autorzyWewnetrzniId').controls; let i = index"
-                     [formGroupName]="i"
-                     style="margin-bottom: 10px">
-                  <div class="col-xs-12">
-                    <div class=" input-group">
-                      <select class="form-control" formControlName="autorId" (change)="onCheckUnique()">
-                        <option *ngFor="let pracownik of pracownicyList" [value]="pracownik._id">
-                          {{pracownik.nazwisko}} {{pracownik.imie}} ({{pracownik.email}})
-                        </option>
-                      </select>
-                      <span class="input-group-btn">
+              </div>
+            </div>
+            <div class="row" *ngIf="['MGR'].indexOf(publikacjaForm.value.rodzajPublikacji) >= 0">
+              <div class="col-xs-12">
+                <label for="tytulRozdzialu" class="col-xs-4">
+                  <i class="fa fa-fw"></i>
+                  Tytuł rozdziału
+                </label>
+                <div class="form-group col-xs-8">
+                  <input type="text"
+                         id="tytulRozdzialu"
+                         class="form-control"
+                         formControlName="tytulRozdzialu">
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-xs-12">
+                <label for="rokPublikacji" class="col-xs-4">
+                  <i class="fa fa-calendar fa-fw"></i>
+                  Rok publikacji
+                </label>
+                <div class="form-group col-xs-8">
+                  <input type="text"
+                         id="rokPublikacji"
+                         class="form-control"
+                         formControlName="rokPublikacji">
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-xs-12">
+                <label for="jezykPublikacji" class="col-xs-4">
+                  <i class="fa fa-language fa-fw"></i>
+                  Język
+                </label>
+                <div class="form-group col-xs-8">
+                  <input type="text"
+                         id="jezykPublikacji"
+                         class="form-control"
+                         formControlName="jezykPublikacji">
+                </div>
+              </div>
+            </div>
+            <div class="row" *ngIf="['MG', 'MGR'].indexOf(publikacjaForm.value.rodzajPublikacji) >= 0">
+              <div class="col-xs-12">
+                <label for="wydawnictwo" class="col-xs-4">
+                  <i class="fa fa-book fa-fw"></i>
+                  Wydawnictwo
+                </label>
+                <div class="form-group col-xs-8">
+                  <input type="text"
+                         id="wydawnictwo"
+                         class="form-control"
+                         formControlName="wydawnictwo">
+                </div>
+              </div>
+            </div>
+            <div class="row" *ngIf="['ATK'].indexOf(publikacjaForm.value.rodzajPublikacji) >= 0">
+              <div class="col-xs-12">
+                <label for="tytulCzasopisma" class="col-xs-4">
+                  <i class="fa fa-file-text-o fa-fw"></i>
+                  Tytuł czasopisma
+                </label>
+                <div class="form-group col-xs-8">
+                  <input type="text"
+                         id="tytulCzasopisma"
+                         class="form-control"
+                         formControlName="tytulCzasopisma">
+                </div>
+              </div>
+            </div>
+            <div class="row" *ngIf="['ATK'].indexOf(publikacjaForm.value.rodzajPublikacji) >= 0">
+              <div class="col-xs-12">
+                <label for="zeszyt" class="col-xs-4">
+                  <i class="fa fa-fw"></i>
+                  Zeszyt
+                </label>
+                <div class="form-group col-xs-8">
+                  <input type="text"
+                         id="zeszyt"
+                         class="form-control"
+                         formControlName="zeszyt">
+                </div>
+              </div>
+            </div>
+            <div class="row" *ngIf="['ATK'].indexOf(publikacjaForm.value.rodzajPublikacji) >= 0">
+              <div class="col-xs-12">
+                <label for="strony" class="col-xs-4">
+                  <i class="fa fa-fw"></i>
+                  Strony
+                </label>
+                <div class="form-group col-xs-8">
+                  <input type="text"
+                         id="strony"
+                         class="form-control"
+                         formControlName="strony">
+                </div>
+              </div>
+            </div>
+            <div class="row" *ngIf="['ATK'].indexOf(publikacjaForm.value.rodzajPublikacji) >= 0">
+              <div class="col-xs-12">
+                <label for="ISSN" class="col-xs-4">
+                  <i class="fa fa-tag fa-fw"></i>
+                  ISSN
+                </label>
+                <div class="form-group col-xs-8">
+                  <input type="text"
+                         id="ISSN"
+                         class="form-control"
+                         formControlName="ISSN">
+                </div>
+              </div>
+            </div>
+            <div class="row" *ngIf="['MG', 'MGR'].indexOf(publikacjaForm.value.rodzajPublikacji) >= 0">
+              <div class="col-xs-12">
+                <label for="ISSN" class="col-xs-4">
+                  <i class="fa fa-tag fa-fw"></i>
+                  ISBN
+                </label>
+                <div class="form-group col-xs-8">
+                  <input type="text"
+                         id="ISBN"
+                         class="form-control"
+                         formControlName="ISBN">
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-xs-12">
+                <label for="DOI" class="col-xs-4">
+                  <i class="fa fa-hashtag fa-fw"></i>
+                  DOI *
+                </label>
+                <div class="form-group col-xs-8">
+                  <input type="text"
+                         id="DOI"
+                         class="form-control"
+                         formControlName="DOI">
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-xs-12">
+                <label for="punkty" class="col-xs-4">
+                  <i class="fa fa-trophy fa-fw"></i>
+                  Punkty
+                </label>
+                <div class="form-group col-xs-8">
+                  <input type="number"
+                         id="punkty"
+                         class="form-control"
+                         formControlName="punkty">
+                </div>
+              </div>
+            </div>
+            * opcjonalne
+            <hr style="margin-top: 5px; margin-bottom: 5px">
+            <div>
+              <div class="row">
+                <div class="col-xs-12" formArrayName="autorzyWewnetrzniId">
+                  <div class="row">
+                    <div class="col-xs-12">
+                      <p>
+                        <i class="fa fa-users fa-fw"></i>
+                        <strong> Autorzy wewnetrzni</strong>
+                        <span *ngIf="!this.autorzyWewnetrzniUnique" style="color: red">(proszę usunąć duplikaty)</span>
+                      </p>
+                    </div>
+                  </div>
+                  <div class="row"
+                       *ngFor="let autorControl of publikacjaForm.get('autorzyWewnetrzniId').controls; let i = index"
+                       [formGroupName]="i"
+                       style="margin-bottom: 10px">
+                    <div class="col-xs-12">
+                      <div class=" input-group">
+                        <select class="form-control" formControlName="autorId" (change)="onCheckUnique()">
+                          <option *ngFor="let pracownik of pracownicyList" [value]="pracownik._id">
+                            {{pracownik.nazwisko}} {{pracownik.imie}} ({{pracownik.email}})
+                          </option>
+                        </select>
+                        <span class="input-group-btn">
                         <button type="button" class="btn btn-danger" (click)="onDeleteAutorWewnetrzny(i); onCheckUnique()">
                           <i class="fa fa-times fa-fw"></i>
                         </button>
                       </span>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
-            <div class="row">
-              <div class="col-xs-12">
-                <button type="button" class="btn btn-primary" (click)="onAddAutorWewnetrzny()">
-                  <i class="fa fa-user-plus fa-fw"></i>
-                  Nowy autor
-                </button>
+              <div class="row">
+                <div class="col-xs-12">
+                  <button type="button" class="btn btn-primary" (click)="onAddAutorWewnetrzny()">
+                    <i class="fa fa-user-plus fa-fw"></i>
+                    Nowy autor
+                  </button>
+                </div>
               </div>
             </div>
-          </div>
-          <div class="inf-content panel-body">
-            <div class="row">
-              <div class="col-xs-12" formArrayName="autorzyZewnetrzni">
-                <div class="row">
-                  <div class="col-xs-12">
-                    <p>
-                      <i class="fa fa-handshake-o fa-fw"></i>
-                      <strong> Autorzy zewnętrzni</strong> (nazwisko i imię)
-                    </p>
+            <hr style="margin-top: 5px; margin-bottom: 5px">
+            <div>
+              <div class="row">
+                <div class="col-xs-12" formArrayName="autorzyZewnetrzni">
+                  <div class="row">
+                    <div class="col-xs-12">
+                      <p>
+                        <i class="fa fa-handshake-o fa-fw"></i>
+                        <strong> Autorzy zewnętrzni</strong> (nazwisko i imię)
+                      </p>
+                    </div>
                   </div>
-                </div>
-                <div class="row"
-                     *ngFor="let autorControl of publikacjaForm.get('autorzyZewnetrzni').controls; let i = index"
-                     [formGroupName]="i"
-                     style="margin-bottom: 10px">
-                  <div class="col-xs-12">
-                    <div class="input-group">
-                      <input type="text" class="form-control" formControlName="autor">
-                      <span class="input-group-btn">
+                  <div class="row"
+                       *ngFor="let autorControl of publikacjaForm.get('autorzyZewnetrzni').controls; let i = index"
+                       [formGroupName]="i"
+                       style="margin-bottom: 10px">
+                    <div class="col-xs-12">
+                      <div class="input-group">
+                        <input type="text" class="form-control" formControlName="autor">
+                        <span class="input-group-btn">
                         <button type="button" class="btn btn-danger" (click)="onDeleteAutorZewnetrzny(i)">
                           <i class="fa fa-times fa-fw"></i>
                         </button>
                       </span>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
-            <div class="row">
-              <div class="col-xs-12">
-                <button type="button" class="btn btn-primary" (click)="onAddAutorZewnetrzny()">
-                  <i class="fa fa-user-plus fa-fw"></i>
-                  Nowy autor
-                </button>
+              <div class="row">
+                <div class="col-xs-12">
+                  <button type="button" class="btn btn-primary" (click)="onAddAutorZewnetrzny()">
+                    <i class="fa fa-user-plus fa-fw"></i>
+                    Nowy autor
+                  </button>
+                </div>
               </div>
+            </div>
+            <hr style="margin-top: 5px; margin-bottom: 5px">
+            <div *ngIf="['MG', 'MGR'].indexOf(publikacjaForm.value.rodzajPublikacji) >= 0">
+              <div class="row">
+                <div class="col-xs-12" formArrayName="redaktorzyWewnetrzniId">
+                  <div class="row">
+                    <div class="col-xs-12">
+                      <p>
+                        <i class="fa fa-users fa-fw"></i>
+                        <strong> Redaktorzy wewnetrzni</strong>
+                        <span *ngIf="!this.redaktorzyWewnetrzniUnique" style="color: red">(proszę usunąć duplikaty)</span>
+                      </p>
+                    </div>
+                  </div>
+                  <div class="row"
+                       *ngFor="let redaktorControl of publikacjaForm.get('redaktorzyWewnetrzniId').controls; let i = index"
+                       [formGroupName]="i"
+                       style="margin-bottom: 10px">
+                    <div class="col-xs-12">
+                      <div class=" input-group">
+                        <select class="form-control" formControlName="redaktorId" (change)="onCheckUniqueRed()">
+                          <option *ngFor="let pracownik of pracownicyList" [value]="pracownik._id">
+                            {{pracownik.nazwisko}} {{pracownik.imie}} ({{pracownik.email}})
+                          </option>
+                        </select>
+                        <span class="input-group-btn">
+                        <button type="button" class="btn btn-danger" (click)="onDeleteRedaktorWewnetrzny(i); onCheckUniqueRed()">
+                          <i class="fa fa-times fa-fw"></i>
+                        </button>
+                      </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-xs-12">
+                  <button type="button" class="btn btn-primary" (click)="onAddRedaktorWewnetrzny()">
+                    <i class="fa fa-user-plus fa-fw"></i>
+                    Nowy autor
+                  </button>
+                </div>
+              </div>
+              <hr style="margin-top: 5px; margin-bottom: 5px">
+            </div>
+            <div *ngIf="['MG', 'MGR'].indexOf(publikacjaForm.value.rodzajPublikacji) >= 0">
+              <div class="row">
+                <div class="col-xs-12" formArrayName="redaktorzyZewnetrzni">
+                  <div class="row">
+                    <div class="col-xs-12">
+                      <p>
+                        <i class="fa fa-handshake-o fa-fw"></i>
+                        <strong> Redaktorzy zewnętrzni</strong> (nazwisko i imię)
+                      </p>
+                    </div>
+                  </div>
+                  <div class="row"
+                       *ngFor="let redaktorControl of publikacjaForm.get('redaktorzyZewnetrzni').controls; let i = index"
+                       [formGroupName]="i"
+                       style="margin-bottom: 10px">
+                    <div class="col-xs-12">
+                      <div class="input-group">
+                        <input type="text" class="form-control" formControlName="redaktor">
+                        <span class="input-group-btn">
+                        <button type="button" class="btn btn-danger" (click)="onDeleteRedaktorZewnetrzny(i)">
+                          <i class="fa fa-times fa-fw"></i>
+                        </button>
+                      </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-xs-12">
+                  <button type="button" class="btn btn-primary" (click)="onAddRedaktorZewnetrzny()">
+                    <i class="fa fa-user-plus fa-fw"></i>
+                    Nowy autor
+                  </button>
+                </div>
+              </div>
+              <hr style="margin-top: 5px; margin-bottom: 5px">
             </div>
           </div>
         </div>

@@ -19,6 +19,7 @@ export class PublikacjeItemComponent implements OnInit, OnDestroy{
   id: string;
   publikacja: PublikacjaModel;
   autorzyWewnetrzni: PracownikModel[] = [];
+  redaktorzyWewnetrzni: PracownikModel[] = [];
 
   constructor(private publikacjeService: PublikacjeService,
               private pracownicyService: PracownicyService,
@@ -32,9 +33,13 @@ export class PublikacjeItemComponent implements OnInit, OnDestroy{
           this.id = params['id'];
           this.publikacja = this.publikacjeService.getPublikacjaById(this.id);
           this.autorzyWewnetrzni = [];
+          this.redaktorzyWewnetrzni = [];
           this.publikacja.autorzyWewnetrzniId.forEach((pracownikId) => {
             this.autorzyWewnetrzni.push(this.pracownicyService.getPracownikById(pracownikId));
-          })
+          });
+          this.publikacja.redaktorzyWewnetrzniId.forEach((pracownikId) => {
+            this.autorzyWewnetrzni.push(this.pracownicyService.getPracownikById(pracownikId));
+          });
         }
       );
   }
@@ -45,8 +50,14 @@ export class PublikacjeItemComponent implements OnInit, OnDestroy{
     }
   }
 
-  onAddNew() {
-    this.router.navigate(['publikacje', 'new']);
+  onAddNewArtykul() {
+    this.router.navigate(['publikacje', 'artykul']);
+  }
+  onAddNewMonografia() {
+    this.router.navigate(['publikacje', 'monografia']);
+  }
+  onAddNewRozdzial() {
+    this.router.navigate(['publikacje', 'rozdzial']);
   }
 
   onEdit() {
@@ -56,8 +67,7 @@ export class PublikacjeItemComponent implements OnInit, OnDestroy{
   onDelete() {
     bootbox.confirm({
       message: "Czy na pewno chcesz usunąć tą publikację? <br>" +
-      "Tytuł: " + this.publikacja.tytulPublikacji.bold() + "<br>"+
-      "DOI: " + this.publikacja.doi.bold(),
+      "Tytuł: " + this.publikacja.tytulPublikacji.bold() + "<br>",
       buttons: {
         cancel: {
           label: 'Nie',
@@ -90,5 +100,4 @@ export class PublikacjeItemComponent implements OnInit, OnDestroy{
       }
     });
   }
-
 }

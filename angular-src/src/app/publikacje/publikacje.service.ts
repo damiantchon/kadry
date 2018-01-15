@@ -50,15 +50,22 @@ export class PublikacjeService {
         for(let publikacja of publikacje) {
           publikacjeTransformed.push(new PublikacjaModel(
             publikacja._id,
+            publikacja.rodzajPublikacji,
             publikacja.autorzyWewnetrzniId,
             publikacja.autorzyZewnetrzni,
+            publikacja.redaktorzyWewnetrzniId,
+            publikacja.redaktorzyZewnetrzni,
             publikacja.tytulPublikacji,
-            publikacja.tytulCzasopisma,
-            publikacja.wolumin,
-            publikacja.wydanie,
             publikacja.rokPublikacji,
+            publikacja.jezykPublikacji,
+            publikacja.tytulCzasopisma,
+            publikacja.zeszyt,
             publikacja.strony,
-            publikacja.doi,
+            publikacja.tytulRozdzialu,
+            publikacja.ISSN,
+            publikacja.ISBN,
+            publikacja.wydawnictwo,
+            publikacja.DOI,
             publikacja.punkty
           ));
         }
@@ -79,7 +86,7 @@ export class PublikacjeService {
       : '';
     return this.http.post<PublikacjaModel>('http://localhost:3000/publikacje' + token, publikacja, {headers: headers})
       .catch((error: Response) => {
-        bootbox.alert('Publikacja o wpisanym DOI już istnieje!');
+        bootbox.alert('Przy dodawaniu publikacji wystąpił błąd!');
         return Observable.throw(error);
       });
   }
@@ -91,7 +98,7 @@ export class PublikacjeService {
       : '';
     return this.http.put<PublikacjaModel>('http://localhost:3000/publikacje' + token, publikacja, {headers: headers})
       .catch((error: Response) => {
-        bootbox.alert('Publikacja o wpisanym DOI już istnieje!');
+        bootbox.alert('Przy aktualizacji publikacji wystąpił błąd!');
         return Observable.throw(error);
       });
   }

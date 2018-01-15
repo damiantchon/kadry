@@ -34,15 +34,22 @@ router.use('/',(req, res, next) => {
 router.post('/', (req, res) => {
 
    let publikacja = new Publikacja({
+       rodzajPublikacji: req.body.rodzajPublikacji,
        autorzyWewnetrzniId: req.body.autorzyWewnetrzniId,
        autorzyZewnetrzni: req.body.autorzyZewnetrzni,
+       redaktorzyWewnetrzniId: req.body.redaktorzyWewnetrzniId,
+       redaktorzyZewnetrzni: req.body.redaktorzyZewnetrzni,
        tytulPublikacji: req.body.tytulPublikacji,
-       tytulCzasopisma: req.body.tytulCzasopisma,
-       wolumin: req.body.wolumin,
-       wydanie: req.body.wydanie,
        rokPublikacji: req.body.rokPublikacji,
+       jezykPublikacji: req.body.jezykPublikacji,
+       tytulCzasopisma: req.body.tytulCzasopisma,
+       zeszyt: req.body.zeszyt,
        strony: req.body.strony,
-       doi: req.body.doi,
+       tytulRozdzialu: req.body.tytulRozdzialu,
+       ISSN: req.body.ISSN,
+       wydawnictwo: req.body.wydawnictwo,
+       ISBN: req.body.ISBN,
+       DOI: req.body.DOI,
        punkty: req.body.punkty
    });
 
@@ -63,15 +70,22 @@ router.post('/', (req, res) => {
 router.put('/', (req, res) => {
     let publikacja = new Publikacja({
         _id: req.body._id,
+        rodzajPublikacji: req.body.rodzajPublikacji,
         autorzyWewnetrzniId: req.body.autorzyWewnetrzniId,
         autorzyZewnetrzni: req.body.autorzyZewnetrzni,
+        redaktorzyWewnetrzniId: req.body.redaktorzyWewnetrzniId,
+        redaktorzyZewnetrzni: req.body.redaktorzyZewnetrzni,
         tytulPublikacji: req.body.tytulPublikacji,
-        tytulCzasopisma: req.body.tytulCzasopisma,
-        wolumin: req.body.wolumin,
-        wydanie: req.body.wydanie,
         rokPublikacji: req.body.rokPublikacji,
+        jezykPublikacji: req.body.jezykPublikacji,
+        tytulCzasopisma: req.body.tytulCzasopisma,
+        zeszyt: req.body.zeszyt,
         strony: req.body.strony,
-        doi: req.body.doi,
+        tytulRozdzialu: req.body.tytulRozdzialu,
+        ISSN: req.body.ISSN,
+        ISBN: req.body.ISBN,
+        wydawnictwo: req.body.wydawnictwo,
+        DOI: req.body.DOI,
         punkty: req.body.punkty
     });
 

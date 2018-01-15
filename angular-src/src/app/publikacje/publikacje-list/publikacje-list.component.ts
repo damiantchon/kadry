@@ -35,9 +35,15 @@ export class PublikacjeListComponent implements OnInit {
     this.dtOptions = {
       //ordering: false,
       "columnDefs": [
+        {"targets": [ 0 ],
+          "width": "20%"},
+        {"targets": [ 1 ],
+          "width": "60%"},
         {"targets": [ 2 ],
-          "visible": false},
+          "width": "20%"},
         {"targets": [ 3 ],
+          "visible": false},
+        {"targets": [ 4 ],
           "visible": false}],
       order: [[0, "asc"]],
       language: {

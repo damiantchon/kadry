@@ -19,14 +19,13 @@ export class PublikacjeItemEditComponent implements OnInit, OnDestroy {
   tempPublikacja: PublikacjaModel = null;
   subscriptions: Subscription[] = [];
   autorzyWewnetrzniId: PracownikModel[] = [];
-
+  redaktorzyWewnetrzniId: PracownikModel[] = [];
   autorzyWewnetrzniUnique: boolean = true;
-
+  redaktorzyWewnetrzniUnique: boolean = true;
   pracownicyList: PracownikModel[] = [];
-
-
   id: string;
   editMode: boolean;
+  rodzajPublikacji: string = '';
 
   constructor(private route: ActivatedRoute,
               private router: Router,
@@ -42,6 +41,11 @@ export class PublikacjeItemEditComponent implements OnInit, OnDestroy {
       if(a.nazwisko > b.nazwisko) return 1;
       return 0;
     });
+
+    console.log();
+    if(this.route.snapshot.routeConfig.path === 'artykul') this.rodzajPublikacji = 'ATK';
+    else if(this.route.snapshot.routeConfig.path === 'monografia') this.rodzajPublikacji = 'MG';
+    else if(this.route.snapshot.routeConfig.path === 'rozdzial') this.rodzajPublikacji = 'MGR';
 
     this.route.params
       .subscribe(
@@ -60,42 +64,65 @@ export class PublikacjeItemEditComponent implements OnInit, OnDestroy {
   }
 
   initForm() {
-    let tempAutorzyWewnetrzniId = new FormArray([], Validators.required);
+    let tempRodzajPublikacji: string = this.rodzajPublikacji;
+    let tempAutorzyWewnetrzniId = new FormArray([]);
     let tempAutorzyZewnetrzni = new FormArray([]);
+    let tempRedaktorzyWewnetrzniId = new FormArray([]);
+    let tempRedaktorzyZewnetrzni = new FormArray([]);
     let tempTytulPublikacji: string = '';
+    let tempRokPublikacji: number = 0;
+    let tempJezykPublikacji: string = '';
     let tempTytulCzasopisma: string = '';
-    let tempWolumin: string = '';
-    let tempWydanie: string = '';
-    let tempRokPublikacji: string = '';
+    let tempZeszyt: string = '';
     let tempStrony: string = '';
-    let tempDoi: string = '';
+    let tempTytulRozdzialu: string = '';
+    let tempISSN: string = '';
+    let tempISBN: string = '';
+    let tempWydawnictwo: string = '';
+    let tempDOI: string = '';
     let tempPunkty: number = 0;
 
     if (this.editMode) {
       const publikacja = this.publikacjeService.getPublikacjaById(this.id);
       this.tempPublikacja = publikacja;
+      this.rodzajPublikacji = publikacja.rodzajPublikacji;
+      tempRodzajPublikacji = this.rodzajPublikacji;
 
-      publikacja.autorzyWewnetrzniId.forEach((id)=> {
-        this.autorzyWewnetrzniId.push(this.pracownicyService.getPracownikById(id));
-      });
+      if(publikacja.autorzyWewnetrzniId) {
+        publikacja.autorzyWewnetrzniId.forEach((id)=> {
+          this.autorzyWewnetrzniId.push(this.pracownicyService.getPracownikById(id));
+        });
+      }
 
+      if(publikacja.redaktorzyWewnetrzniId) {
+        publikacja.redaktorzyWewnetrzniId.forEach((id) => {
+          this.redaktorzyWewnetrzniId.push(this.pracownicyService.getPracownikById(id));
+        });
+      }
 
       tempTytulPublikacji = publikacja.tytulPublikacji;
-      tempTytulCzasopisma = publikacja.tytulCzasopisma;
-      tempWolumin = publikacja.wolumin;
-      tempWydanie = publikacja.wydanie;
       tempRokPublikacji = publikacja.rokPublikacji;
+      tempJezykPublikacji = publikacja.jezykPublikacji;
+      tempTytulCzasopisma = publikacja.tytulCzasopisma;
+      tempZeszyt = publikacja.zeszyt;
       tempStrony = publikacja.strony;
-      tempDoi = publikacja.doi;
+      tempTytulRozdzialu = publikacja.tytulRozdzialu;
+      tempISSN = publikacja.ISSN;
+      tempISBN = publikacja.ISBN;
+      tempWydawnictwo = publikacja.wydawnictwo;
+      tempDOI = publikacja.DOI;
       tempPunkty = publikacja.punkty;
-      for (let autor of this.autorzyWewnetrzniId) {
-        tempAutorzyWewnetrzniId.push(
-          new FormGroup(
-            {
-              'autorId': new FormControl((autor._id), Validators.required)
-            }
+
+      if (publikacja.autorzyWewnetrzniId) {
+        for (let autor of this.autorzyWewnetrzniId) {
+          tempAutorzyWewnetrzniId.push(
+            new FormGroup(
+              {
+                'autorId': new FormControl((autor._id), Validators.required)
+              }
+            )
           )
-        )
+        }
       }
       if (publikacja.autorzyZewnetrzni) {
         for (let autor of publikacja.autorzyZewnetrzni) {
@@ -108,46 +135,130 @@ export class PublikacjeItemEditComponent implements OnInit, OnDestroy {
           );
         }
       }
+      if (publikacja.redaktorzyWewnetrzniId) {
+        for (let redaktor of this.redaktorzyWewnetrzniId) {
+          tempRedaktorzyWewnetrzniId.push(
+            new FormGroup(
+              {
+                'redaktorId': new FormControl((redaktor._id), Validators.required)
+              }
+            )
+          )
+        }
+      }
+      if (publikacja.redaktorzyZewnetrzni) {
+        for (let redaktor of publikacja.autorzyZewnetrzni) {
+          tempRedaktorzyZewnetrzni.push(
+            new FormGroup({
+              'redaktor': new FormControl(redaktor, Validators.required)
+            })
+          )
+        }
+      }
     }
-
-    this.publikacjaForm = new FormGroup({
-      'autorzyWewnetrzniId': tempAutorzyWewnetrzniId,
-      'autorzyZewnetrzni': tempAutorzyZewnetrzni,
-      'tytulPublikacji': new FormControl(tempTytulPublikacji, Validators.required),
-      'tytulCzasopisma': new FormControl(tempTytulCzasopisma, Validators.required),
-      'wolumin': new FormControl(tempWolumin, Validators.required),
-      'wydanie': new FormControl(tempWydanie, Validators.required),
-      'rokPublikacji': new FormControl(tempRokPublikacji, Validators.required),
-      'strony': new FormControl(tempStrony, Validators.required),
-      'doi': new FormControl(tempDoi, Validators.required),
-      'punkty': new FormControl(tempPunkty, Validators.required)
-    });
-    console.log(this.publikacjaForm.controls);
+    // Ustawienie odpowiedniej walidacji
+    if(this.rodzajPublikacji === 'ATK'){
+      this.publikacjaForm = new FormGroup({
+        'rodzajPublikacji': new FormControl(tempRodzajPublikacji, Validators.required),
+        'autorzyWewnetrzniId': tempAutorzyWewnetrzniId,
+        'autorzyZewnetrzni': tempAutorzyZewnetrzni,
+        'redaktorzyWewnetrzniId': tempRedaktorzyWewnetrzniId,
+        'redaktorzyZewnetrzni': tempRedaktorzyZewnetrzni,
+        'tytulPublikacji': new FormControl(tempTytulPublikacji, Validators.required),
+        'rokPublikacji': new FormControl(tempRokPublikacji, Validators.required),
+        'jezykPublikacji': new FormControl(tempJezykPublikacji, Validators.required),
+        'tytulCzasopisma': new FormControl(tempTytulCzasopisma, Validators.required),
+        'zeszyt': new FormControl(tempZeszyt, Validators.required),
+        'strony': new FormControl(tempStrony, Validators.required),
+        'tytulRozdzialu': new FormControl(tempTytulRozdzialu),
+        'ISSN': new FormControl(tempISSN, Validators.required),
+        'ISBN': new FormControl(tempISBN),
+        'wydawnictwo': new FormControl(tempWydawnictwo),
+        'DOI': new FormControl(tempDOI),
+        'punkty': new FormControl(tempPunkty, Validators.required)
+      });
+    } else if (this.rodzajPublikacji === 'MG') {
+      this.publikacjaForm = new FormGroup({
+        'rodzajPublikacji': new FormControl(tempRodzajPublikacji, Validators.required),
+        'autorzyWewnetrzniId': tempAutorzyWewnetrzniId,
+        'autorzyZewnetrzni': tempAutorzyZewnetrzni,
+        'redaktorzyWewnetrzniId': tempRedaktorzyWewnetrzniId,
+        'redaktorzyZewnetrzni': tempRedaktorzyZewnetrzni,
+        'tytulPublikacji': new FormControl(tempTytulPublikacji, Validators.required),
+        'rokPublikacji': new FormControl(tempRokPublikacji, Validators.required),
+        'jezykPublikacji': new FormControl(tempJezykPublikacji, Validators.required),
+        'tytulCzasopisma': new FormControl(tempTytulCzasopisma),
+        'zeszyt': new FormControl(tempZeszyt),
+        'strony': new FormControl(tempStrony),
+        'tytulRozdzialu': new FormControl(tempTytulRozdzialu),
+        'ISSN': new FormControl(tempISSN),
+        'ISBN': new FormControl(tempISBN, Validators.required),
+        'wydawnictwo': new FormControl(tempWydawnictwo, Validators.required),
+        'DOI': new FormControl(tempDOI),
+        'punkty': new FormControl(tempPunkty, Validators.required)
+      });
+    } else if (this.rodzajPublikacji === 'MGR') {
+      this.publikacjaForm = new FormGroup({
+        'rodzajPublikacji': new FormControl(tempRodzajPublikacji, Validators.required),
+        'autorzyWewnetrzniId': tempAutorzyWewnetrzniId,
+        'autorzyZewnetrzni': tempAutorzyZewnetrzni,
+        'redaktorzyWewnetrzniId': tempRedaktorzyWewnetrzniId,
+        'redaktorzyZewnetrzni': tempRedaktorzyZewnetrzni,
+        'tytulPublikacji': new FormControl(tempTytulPublikacji, Validators.required),
+        'rokPublikacji': new FormControl(tempRokPublikacji, Validators.required),
+        'jezykPublikacji': new FormControl(tempJezykPublikacji, Validators.required),
+        'tytulCzasopisma': new FormControl(tempTytulCzasopisma),
+        'zeszyt': new FormControl(tempZeszyt),
+        'strony': new FormControl(tempStrony),
+        'tytulRozdzialu': new FormControl(tempTytulRozdzialu, Validators.required),
+        'ISSN': new FormControl(tempISSN),
+        'ISBN': new FormControl(tempISBN, Validators.required),
+        'wydawnictwo': new FormControl(tempWydawnictwo, Validators.required),
+        'DOI': new FormControl(tempDOI),
+        'punkty': new FormControl(tempPunkty, Validators.required)
+      });
+    }
   }
 
   onSubmit() {
+    console.log(this.publikacjaForm);
 
     let autorzyWewnetrzniId: string[] = [];
     let autorzyZewnetrzni: string[] = [];
+    let redaktorzyWewnetrzniId: string[] = [];
+    let redaktorzyZewnetrzni: string[] = [];
     this.publikacjaForm.value.autorzyWewnetrzniId.forEach((autor) => {
       autorzyWewnetrzniId.push(autor.autorId);
     });
     this.publikacjaForm.value.autorzyZewnetrzni.forEach((autor) => {
       autorzyZewnetrzni.push(autor.autor);
     });
+    this.publikacjaForm.value.redaktorzyWewnetrzniId.forEach((redaktor) => {
+      redaktorzyWewnetrzniId.push(redaktor.redaktorId);
+    });
+    this.publikacjaForm.value.redaktorzyZewnetrzni.forEach((redaktor) => {
+      redaktorzyZewnetrzni.push(redaktor.redaktor);
+    });
 
     // przygotowanie publikacji
     let updatedPublikacja: PublikacjaModel = new PublikacjaModel(
       this.id,
+      this.publikacjaForm.value.rodzajPublikacji,
       autorzyWewnetrzniId,
       autorzyZewnetrzni,
+      redaktorzyWewnetrzniId,
+      redaktorzyZewnetrzni,
       this.publikacjaForm.value.tytulPublikacji,
-      this.publikacjaForm.value.tytulCzasopisma,
-      this.publikacjaForm.value.wolumin,
-      this.publikacjaForm.value.wydanie,
       this.publikacjaForm.value.rokPublikacji,
+      this.publikacjaForm.value.jezykPublikacji,
+      this.publikacjaForm.value.tytulCzasopisma,
+      this.publikacjaForm.value.zeszyt,
       this.publikacjaForm.value.strony,
-      this.publikacjaForm.value.doi,
+      this.publikacjaForm.value.tytulRozdzialu,
+      this.publikacjaForm.value.ISSN,
+      this.publikacjaForm.value.ISBN,
+      this.publikacjaForm.value.wydawnictwo,
+      this.publikacjaForm.value.DOI,
       this.publikacjaForm.value.punkty
     );
     console.log(updatedPublikacja);
@@ -191,7 +302,6 @@ export class PublikacjeItemEditComponent implements OnInit, OnDestroy {
           error => console.error(error)
         )
     }
-
   }
 
   onCancel() {
@@ -208,6 +318,16 @@ export class PublikacjeItemEditComponent implements OnInit, OnDestroy {
     (<FormArray>this.publikacjaForm.get('autorzyZewnetrzni')).removeAt(i);
   }
 
+  onDeleteRedaktorWewnetrzny(i: number){
+    this.publikacjaForm.markAsDirty();
+    (<FormArray>this.publikacjaForm.get('redaktorzyWewnetrzniId')).removeAt(i);
+  }
+
+  onDeleteRedaktorZewnetrzny(i: number) {
+    this.publikacjaForm.markAsDirty();
+    (<FormArray>this.publikacjaForm.get('redaktorzyZewnetrzni')).removeAt(i);
+  }
+
   onAddAutorWewnetrzny() {
     (<FormArray>this.publikacjaForm.get('autorzyWewnetrzniId')).push(
       new FormGroup(
@@ -218,11 +338,31 @@ export class PublikacjeItemEditComponent implements OnInit, OnDestroy {
     )
   }
 
+  onAddRedaktorWewnetrzny() {
+    (<FormArray>this.publikacjaForm.get('redaktorzyWewnetrzniId')).push(
+      new FormGroup(
+        {
+          'redaktorId': new FormControl(null, Validators.required)
+        }
+      )
+    )
+  }
+
   onAddAutorZewnetrzny() {
     (<FormArray>this.publikacjaForm.get('autorzyZewnetrzni')).push(
       new FormGroup(
         {
           'autor': new FormControl(null, Validators.required)
+        }
+      )
+    )
+  }
+
+  onAddRedaktorZewnetrzny() {
+    (<FormArray>this.publikacjaForm.get('redaktorzyZewnetrzni')).push(
+      new FormGroup(
+        {
+          'redaktor': new FormControl(null, Validators.required)
         }
       )
     )
@@ -244,6 +384,16 @@ export class PublikacjeItemEditComponent implements OnInit, OnDestroy {
     });
     console.log(this.checkIfArrayIsUniqueAndNotEmpty(idArray));
     this.autorzyWewnetrzniUnique = this.checkIfArrayIsUniqueAndNotEmpty(idArray);
+  }
+
+  onCheckUniqueRed() {
+    console.log(this.publikacjaForm.value.redaktorzyWewnetrzniId);
+    let idArray: any[] = [];
+    this.publikacjaForm.value.redaktorzyWewnetrzniId.forEach((redaktor) => {
+      idArray.push(redaktor.redaktorId);
+    });
+    console.log(this.checkIfArrayIsUniqueAndNotEmpty(idArray));
+    this.redaktorzyWewnetrzniUnique = this.checkIfArrayIsUniqueAndNotEmpty(idArray);
   }
 
 }

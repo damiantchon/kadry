@@ -28,7 +28,9 @@ const appRoutes: Routes = [
       ]},
     {path: 'publikacje', canActivate: [AuthenticationGuard], component: PublikacjeComponent, children: [
         {path: '', component: PublikacjeItemStartComponent},
-        {path: 'new', component: PublikacjeItemEditComponent},
+        {path: 'artykul', component: PublikacjeItemEditComponent},
+        {path: 'monografia', component: PublikacjeItemEditComponent},
+        {path: 'rozdzial', component: PublikacjeItemEditComponent},
         {path: ':id', component: PublikacjeItemComponent},
         {path: ':id/edit', component: PublikacjeItemEditComponent}
       ]},

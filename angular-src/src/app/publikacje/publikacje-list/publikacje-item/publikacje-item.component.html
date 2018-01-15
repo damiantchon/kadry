@@ -2,9 +2,19 @@
 <div class="row">
   <div class="col-md-12">
     <div class="btn-group pull-left">
-      <button class="btn btn-default" (click)="onAddNew()">
+      <button class="btn btn-default" (click)="onAddNewArtykul()">
         <strong>
-          <i class="fa fa-plus"></i> Nowa publikacja
+          <i class="fa fa-plus"></i> Artykuł
+        </strong>
+      </button>
+      <button class="btn btn-default" (click)="onAddNewMonografia()">
+        <strong>
+          <i class="fa fa-plus"></i> Monografia
+        </strong>
+      </button>
+      <button class="btn btn-default" (click)="onAddNewRozdzial()">
+        <strong>
+          <i class="fa fa-plus"></i> Rozdział
         </strong>
       </button>
     </div>
@@ -28,6 +38,17 @@
      <table class="table table-condensed table-responsive table-user-information">
       <tbody>
       <tr>
+        <td width="30%">
+          <strong>
+            <i class="fa fa-file-text fa-fw"></i>
+            Rodzaj Publikacji
+          </strong>
+        </td>
+        <td width="70%">
+          <div class="text-primary">{{publikacja.rodzajPublikacji}}</div>
+        </td>
+      </tr>
+      <tr>
         <td>
           <strong>
             <i class="fa fa-file-text fa-fw"></i>
@@ -36,6 +57,39 @@
         </td>
         <td>
           <div class="text-primary">{{publikacja.tytulPublikacji}}</div>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <strong>
+            <i class="fa fa-file-text fa-fw"></i>
+            Rok Publikacji
+          </strong>
+        </td>
+        <td>
+          <div class="text-primary">{{publikacja.rokPublikacji}}</div>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <strong>
+            <i class="fa fa-file-text fa-fw"></i>
+            Jezyk Publikacji
+          </strong>
+        </td>
+        <td>
+          <div class="text-primary">{{publikacja.jezykPublikacji}}</div>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <strong>
+            <i class="fa fa-book fa-fw"></i>
+            Wydawnictwo
+          </strong>
+        </td>
+        <td>
+          <div class="text-primary">{{publikacja.wydawnictwo}}</div>
         </td>
       </tr>
       <tr>
@@ -51,26 +105,21 @@
       </tr>
       <tr>
         <td>
-          <i class="fa fa-fw"></i>
-          Wolumin
+          <strong>
+            <i class="fa fa-file-text fa-fw"></i>
+            Zeszyt
+          </strong>
         </td>
         <td>
-          <div class="text-primary">{{publikacja.wolumin}}</div>
-        </td>
-      </tr>
-      <tr>
-        <td>
-          <i class="fa fa-fw"></i>
-          Wydanie
-        </td>
-        <td>
-          <div class="text-primary">{{publikacja.wydanie}}</div>
+          <div class="text-primary">{{publikacja.zeszyt}}</div>
         </td>
       </tr>
       <tr>
         <td>
-          <i class="fa fa-fw"></i>
-          Strony
+          <strong>
+            <i class="fa fa-file-text fa-fw"></i>
+            Strony
+          </strong>
         </td>
         <td>
           <div class="text-primary">{{publikacja.strony}}</div>
@@ -79,21 +128,37 @@
       <tr>
         <td>
           <i class="fa fa-fw"></i>
-          Rok Publikacji
+          Tytuł rozdziału
         </td>
         <td>
-          <div class="text-primary">{{publikacja.rokPublikacji}}</div>
+          <div class="text-primary">{{publikacja.tytulRozdzialu}}</div>
         </td>
       </tr>
       <tr>
         <td>
-          <strong>
-            <i class="fa fa-tag fa-fw"></i>
-            DOI
-          </strong>
+          <i class="fa fa-fw"></i>
+          ISSN
         </td>
         <td>
-          <div class="text-primary">{{publikacja.doi}}</div>
+          <div class="text-primary">{{publikacja.ISSN}}</div>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <i class="fa fa-fw"></i>
+          ISBN
+        </td>
+        <td>
+          <div class="text-primary">{{publikacja.ISBN}}</div>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <i class="fa fa-fw"></i>
+          DOI
+        </td>
+        <td>
+          <div class="text-primary">{{publikacja.DOI}}</div>
         </td>
       </tr>
       <tr>
@@ -130,6 +195,32 @@
         <td>
           <div *ngFor="let autor of publikacja.autorzyZewnetrzni" class="text-primary">
             {{autor}}
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td class="name">
+          <strong>
+            <i class="fa fa-users fa-fw"></i>
+            Redaktorzy wewnętrzni
+          </strong>
+        </td>
+        <td class="content">
+          <div *ngFor="let redaktor of this.redaktorzyWewnetrzni" class="text-primary">
+            {{redaktor.nazwisko + " " + redaktor.imie}}
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <strong>
+            <i class="fa fa-handshake-o fa-fw"></i>
+            Redaktorzy zewnętrzni
+          </strong>
+        </td>
+        <td>
+          <div *ngFor="let redaktor of publikacja.redaktorzyZewnetrzni" class="text-primary">
+            {{redaktor}}
           </div>
         </td>
       </tr>

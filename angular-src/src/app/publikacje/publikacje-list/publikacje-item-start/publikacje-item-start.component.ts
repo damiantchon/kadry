@@ -13,8 +13,15 @@ export class PublikacjeItemStartComponent implements OnInit {
   ngOnInit() {
   }
 
-  onAddNew() {
-    this.router.navigate(['publikacje', 'new']);
+  onAddNewArtykul() {
+    this.router.navigate(['publikacje', 'artykul']);
   }
+  onAddNewMonografia() {
+    this.router.navigate(['publikacje', 'monografia']);
+  }
+  onAddNewRozdzial() {
+    this.router.navigate(['publikacje', 'rozdzial']);
+  }
+
 
 }
