@@ -10,7 +10,12 @@
 <hr>
 <div class="row">
   <div class="col-md-12">
-    <label for="przedmioty">Generuj raport z przedmiotu</label>
+    <label style="font-size: 20px; margin-bottom: 10px">Generuj raport z przedmiotu</label>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-12">
+    <label for="przedmioty">Wybierz przedmiot</label>
     <select class="form-control" name="przedmioty" id="przedmioty" [(ngModel)]="przedmiotName">
       <option *ngFor="let przedmiot of this.pracownicyService.przedmioty" [value]="przedmiot">
         {{przedmiot}}

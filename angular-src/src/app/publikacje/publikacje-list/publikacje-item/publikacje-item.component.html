@@ -1,7 +1,7 @@
 <script src="publikacje-item.component.ts"></script>
 <div class="row">
   <div class="col-md-12">
-    <div class="btn-group pull-left">
+    <div class="btn-group pull-left" style="margin-right: 3px">
       <button class="btn btn-default" (click)="onAddNewArtykul()">
         <strong>
           <i class="fa fa-plus"></i> Artykuł
@@ -15,6 +15,13 @@
       <button class="btn btn-default" (click)="onAddNewRozdzial()">
         <strong>
           <i class="fa fa-plus"></i> Rozdział
+        </strong>
+      </button>
+    </div>
+    <div class="pull-left">
+      <button class="btn btn-default" (click)="onGoToRaports()">
+        <strong>
+          <i class="fa fa-file"></i> Raporty
         </strong>
       </button>
     </div>
@@ -32,37 +39,45 @@
     </div>
   </div>
 </div>
-
-<div class="row" style="margin-top: 20px">
+<div *ngIf="['ATK'].indexOf(publikacja.rodzajPublikacji) >= 0">
+  <strong style="font-size: 24px;">Artykuł</strong>
+</div>
+<div *ngIf="['MG'].indexOf(publikacja.rodzajPublikacji) >= 0">
+  <strong style="font-size: 24px;">Monografia</strong>
+</div>
+<div *ngIf="['MGR'].indexOf(publikacja.rodzajPublikacji) >= 0">
+  <strong style="font-size: 24px;">Rozdział</strong>
+</div>
+<div class="row">
   <div class="col-md-12">
      <table class="table table-condensed table-responsive table-user-information">
       <tbody>
-      <tr>
-        <td width="30%">
+      <tr *ngIf="['MGR'].indexOf(publikacja.rodzajPublikacji) >= 0">
+        <td>
           <strong>
             <i class="fa fa-file-text fa-fw"></i>
-            Rodzaj Publikacji
+            Tytuł rozdziału
           </strong>
         </td>
-        <td width="70%">
-          <div class="text-primary">{{publikacja.rodzajPublikacji}}</div>
+        <td>
+          <div class="text-primary">{{publikacja.tytulRozdzialu}}</div>
         </td>
       </tr>
       <tr>
-        <td>
+        <td style="width: 30%;">
           <strong>
-            <i class="fa fa-file-text fa-fw"></i>
+            <i class="fa fa-book fa-fw"></i>
             Tytuł Publikacji
           </strong>
         </td>
-        <td>
+        <td style="width: 70%;">
           <div class="text-primary">{{publikacja.tytulPublikacji}}</div>
         </td>
       </tr>
       <tr>
         <td>
           <strong>
-            <i class="fa fa-file-text fa-fw"></i>
+            <i class="fa fa-calendar fa-fw"></i>
             Rok Publikacji
           </strong>
         </td>
@@ -73,7 +88,7 @@
       <tr>
         <td>
           <strong>
-            <i class="fa fa-file-text fa-fw"></i>
+            <i class="fa fa-language fa-fw"></i>
             Jezyk Publikacji
           </strong>
         </td>
@@ -81,10 +96,10 @@
           <div class="text-primary">{{publikacja.jezykPublikacji}}</div>
         </td>
       </tr>
-      <tr>
+      <tr *ngIf="['MG', 'MGR'].indexOf(publikacja.rodzajPublikacji) >= 0">
         <td>
           <strong>
-            <i class="fa fa-book fa-fw"></i>
+            <i class="fa fa-building fa-fw"></i>
             Wydawnictwo
           </strong>
         </td>
@@ -92,7 +107,7 @@
           <div class="text-primary">{{publikacja.wydawnictwo}}</div>
         </td>
       </tr>
-      <tr>
+      <tr *ngIf="['ATK'].indexOf(publikacja.rodzajPublikacji) >= 0">
         <td>
           <strong>
             <i class="fa fa-file-text-o fa-fw"></i>
@@ -103,38 +118,25 @@
           <div class="text-primary">{{publikacja.tytulCzasopisma}}</div>
         </td>
       </tr>
-      <tr>
+      <tr *ngIf="['ATK'].indexOf(publikacja.rodzajPublikacji) >= 0">
         <td>
-          <strong>
-            <i class="fa fa-file-text fa-fw"></i>
-            Zeszyt
-          </strong>
+          <i class="fa fa-fw"></i>
+          Zeszyt
         </td>
         <td>
           <div class="text-primary">{{publikacja.zeszyt}}</div>
         </td>
       </tr>
-      <tr>
+      <tr *ngIf="['ATK'].indexOf(publikacja.rodzajPublikacji) >= 0">
         <td>
-          <strong>
-            <i class="fa fa-file-text fa-fw"></i>
-            Strony
-          </strong>
+          <i class="fa fa-fw"></i>
+          Strony
         </td>
         <td>
           <div class="text-primary">{{publikacja.strony}}</div>
         </td>
       </tr>
-      <tr>
-        <td>
-          <i class="fa fa-fw"></i>
-          Tytuł rozdziału
-        </td>
-        <td>
-          <div class="text-primary">{{publikacja.tytulRozdzialu}}</div>
-        </td>
-      </tr>
-      <tr>
+      <tr *ngIf="['ATK'].indexOf(publikacja.rodzajPublikacji) >= 0">
         <td>
           <i class="fa fa-fw"></i>
           ISSN
@@ -143,7 +145,7 @@
           <div class="text-primary">{{publikacja.ISSN}}</div>
         </td>
       </tr>
-      <tr>
+      <tr *ngIf="['MG', 'MGR'].indexOf(publikacja.rodzajPublikacji) >= 0">
         <td>
           <i class="fa fa-fw"></i>
           ISBN
@@ -152,7 +154,7 @@
           <div class="text-primary">{{publikacja.ISBN}}</div>
         </td>
       </tr>
-      <tr>
+      <tr *ngIf="publikacja.DOI !== ''">
         <td>
           <i class="fa fa-fw"></i>
           DOI
@@ -198,7 +200,7 @@
           </div>
         </td>
       </tr>
-      <tr>
+      <tr *ngIf="['MG', 'MGR'].indexOf(publikacja.rodzajPublikacji) >= 0">
         <td class="name">
           <strong>
             <i class="fa fa-users fa-fw"></i>
@@ -211,7 +213,7 @@
           </div>
         </td>
       </tr>
-      <tr>
+      <tr *ngIf="['MG', 'MGR'].indexOf(publikacja.rodzajPublikacji) >= 0">
         <td>
           <strong>
             <i class="fa fa-handshake-o fa-fw"></i>

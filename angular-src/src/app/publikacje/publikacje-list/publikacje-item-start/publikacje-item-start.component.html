@@ -1,19 +1,91 @@
 <div class="row">
   <div class="col-md-12">
-    <button class="btn btn-default" (click)="onAddNewArtykul()">
-      <strong>
-        <i class="fa fa-plus"></i> Artykuł
-      </strong>
-    </button>
-    <button class="btn btn-default" (click)="onAddNewMonografia()">
-      <strong>
-        <i class="fa fa-plus"></i> Monografia
-      </strong>
-    </button>
-    <button class="btn btn-default" (click)="onAddNewRozdzial()">
-      <strong>
-        <i class="fa fa-plus"></i> Rozdział
-      </strong>
-    </button>
+    <div class="btn-group pull-left">
+      <button class="btn btn-default" (click)="onAddNewArtykul()">
+        <strong>
+          <i class="fa fa-plus"></i> Artykuł
+        </strong>
+      </button>
+      <button class="btn btn-default" (click)="onAddNewMonografia()">
+        <strong>
+          <i class="fa fa-plus"></i> Monografia
+        </strong>
+      </button>
+      <button class="btn btn-default" (click)="onAddNewRozdzial()">
+        <strong>
+          <i class="fa fa-plus"></i> Rozdział
+        </strong>
+      </button>
+    </div>
+  </div>
+</div>
+<hr>
+<div class="row">
+  <div class="col-md-12">
+    <label style="font-size: 20px; margin-bottom: 10px">Generuj raport z publikacji</label>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-12">
+    <form [formGroup]="raportForm">
+      <div class="row">
+        <div class="col-xs-12">
+          <label for="rodzajPublikacji">Wybierz rodzaj publikacji</label>
+          <div class="form-group">
+            <select formControlName="rodzajPublikacji" class="form-control" name="rodzajPublikacji" id="rodzajPublikacji">
+              <option value="ALL">Wszystkie</option>
+              <option value="ATK">Artykuły</option>
+              <option value="MG">Monografie</option>
+              <option value="MGR">Rozdziały w monografiach</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xs-12">
+          <label>Lata publikacji</label>
+        </div>
+        <div class="col-xs-12">
+          <label for="rokPublikacjiOd" class="col-xs-2">
+            <i class="fa fa-file-text fa-fw"></i>
+            Od
+          </label>
+          <div class="form-group col-xs-4">
+            <input type="number"
+                   id="rokPublikacjiOd"
+                   class="form-control"
+                   formControlName="rokPublikacjiOd">
+          </div>
+          <label for="rokPublikacjiDo" class="col-xs-2">
+            <i class="fa fa-file-text fa-fw"></i>
+            Do
+          </label>
+          <div class="form-group col-xs-4">
+            <input type="number"
+                   id="rokPublikacjiDo"
+                   class="form-control"
+                   formControlName="rokPublikacjiDo">
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xs-12">
+          <label for="pracownikId">Pracownik</label>
+          <select id="pracownikId" class="form-control" formControlName="pracownikId">
+            <option value="">Wszyscy pracownicy</option>
+            <option *ngFor="let pracownik of pracownicy" [value]="pracownik._id">
+              {{pracownik.nazwisko}} {{pracownik.imie}} ({{pracownik.email}})
+            </option>
+          </select>
+        </div>
+      </div>
+      <div class="row" style="margin-top: 8px">
+        <div class="col-md-12">
+          <button class="btn btn-default" (click)="onGenerujRaportOgolny(raportForm, 'open')"><i class="fa fa-file fa-fw"></i>Otwórz</button>
+          <button class="btn btn-default" (click)="onGenerujRaportOgolny(raportForm, 'print')"><i class="fa fa-print fa-fw"></i>Drukuj</button>
+          <button class="btn btn-default" (click)="onGenerujRaportOgolny(raportForm, 'download')"><i class="fa fa-download fa-fw"></i>Pobierz</button>
+        </div>
+      </div>
+    </form>
   </div>
 </div>

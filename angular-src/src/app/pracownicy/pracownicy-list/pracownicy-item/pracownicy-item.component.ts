@@ -52,6 +52,10 @@ export class PracownicyItemComponent implements OnInit, OnDestroy, OnChanges{
     this.router.navigate(['pracownicy', 'new']);
   }
 
+  onGoToRaports() {
+      this.router.navigate(['pracownicy']);
+  }
+
   onDelete() {
       if(this.publikacjeService.isAnAuthor(this.pracownik)){
         bootbox.alert({message: 'Nie można usunąc pracownika, który jest współautorem publikacji', backdrop: true});

@@ -14,11 +14,14 @@
       <tr *ngFor="let publikacja of publikacjeList"
           (click)="onActivate(publikacja)"
           appHighlight="whitesmoke">
-        <td style="width: 20%" *ngIf="publikacja.rodzajPublikacji === 'MG'">Monografia</td>
-        <td style="width: 20%" *ngIf="publikacja.rodzajPublikacji === 'MGR'">Rozdział</td>
-        <td style="width: 20%" *ngIf="publikacja.rodzajPublikacji === 'ATK'">Artykuł</td>
-        <td style="width: 65%">{{publikacja.tytulPublikacji}}</td>
-        <td style="width: 15%">{{publikacja.rokPublikacji}}</td>
+        <td style="width: 10%" *ngIf="publikacja.rodzajPublikacji === 'MG'">Monografia</td>
+        <td style="width: 10%" *ngIf="publikacja.rodzajPublikacji === 'MGR'">Rozdział</td>
+        <td style="width: 10%" *ngIf="publikacja.rodzajPublikacji === 'ATK'">Artykuł</td>
+        <td style="width: 80%" *ngIf="['MG', 'ATK'].indexOf(publikacja.rodzajPublikacji) >= 0; else else_component"><strong>{{publikacja.tytulPublikacji}}</strong></td>
+        <ng-template #else_component>
+          <td style="width: 80%"><strong>{{publikacja.tytulRozdzialu}}</strong> ({{publikacja.tytulPublikacji}})</td>
+        </ng-template>
+        <td style="width: 10%">{{publikacja.rokPublikacji}}</td>
         <td>{{getAutorzyNamesById(publikacja.autorzyWewnetrzniId)}}</td>
         <td>{{publikacja.autorzyZewnetrzni}}</td>
       </tr>

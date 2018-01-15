@@ -20,6 +20,7 @@ export class PublikacjeItemComponent implements OnInit, OnDestroy{
   publikacja: PublikacjaModel;
   autorzyWewnetrzni: PracownikModel[] = [];
   redaktorzyWewnetrzni: PracownikModel[] = [];
+  rodzajPublikacji: string;
 
   constructor(private publikacjeService: PublikacjeService,
               private pracownicyService: PracownicyService,
@@ -34,6 +35,7 @@ export class PublikacjeItemComponent implements OnInit, OnDestroy{
           this.publikacja = this.publikacjeService.getPublikacjaById(this.id);
           this.autorzyWewnetrzni = [];
           this.redaktorzyWewnetrzni = [];
+          this.rodzajPublikacji = this.publikacja.rodzajPublikacji;
           this.publikacja.autorzyWewnetrzniId.forEach((pracownikId) => {
             this.autorzyWewnetrzni.push(this.pracownicyService.getPracownikById(pracownikId));
           });
@@ -60,14 +62,35 @@ export class PublikacjeItemComponent implements OnInit, OnDestroy{
     this.router.navigate(['publikacje', 'rozdzial']);
   }
 
+  onGoToRaports() {
+    this.router.navigate(['publikacje']);
+  }
+
   onEdit() {
     this.router.navigate(['edit'], {relativeTo: this.route})
   }
 
   onDelete() {
+    let message: string = '';
+    switch (this.publikacja.rodzajPublikacji) {
+      case 'ATK':
+        message = "Czy na pewno chcesz usunąć ten artykuł? <br>" +
+          'Tytuł: ' + this.publikacja.tytulPublikacji.bold() + '<br>';
+        break;
+      case 'MG':
+        message = "Czy na pewno chcesz usunąć tą monografię? <br>" +
+          'Tytuł: ' + this.publikacja.tytulPublikacji.bold() + '<br>';
+        break;
+      case 'MGR':
+        message = "Czy na pewno chcesz usunąć ten rozdział monografii? <br>" +
+          'Tytuł monografii: ' + this.publikacja.tytulPublikacji.bold() + '<br>' +
+          'Tytuł rozdziału: ' + this.publikacja.tytulRozdzialu.bold();
+        break;
+
+    }
+
     bootbox.confirm({
-      message: "Czy na pewno chcesz usunąć tą publikację? <br>" +
-      "Tytuł: " + this.publikacja.tytulPublikacji.bold() + "<br>",
+      message: message,
       buttons: {
         cancel: {
           label: 'Nie',
