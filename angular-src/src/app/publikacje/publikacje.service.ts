@@ -5,6 +5,7 @@ import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 import { PracownikModel } from '../pracownicy/pracownik.model';
 import * as pdfMake from "pdfmake/build/pdfmake.js";
+import { forEach } from '@angular/router/src/utils/collection';
 
 @Injectable()
 export class PublikacjeService {
@@ -112,6 +113,37 @@ export class PublikacjeService {
       .catch((error: Response) => Observable.throw(error));
   }
 
+  checkIfArtykulUnique(publikacja: PublikacjaModel) {
+    let suspect = this.publiakcjeList.find(publ => {return (publ.ISSN === publikacja.ISSN) && publ.rodzajPublikacji === 'ATK'});
+    if(suspect){
+      if(suspect._id !== publikacja._id) {
+        return false;
+      } else return true;
+    } else return true;
+
+  }
+
+  checkIfMonografiaUnique(publikacja: PublikacjaModel) {
+    let suspect = this.publiakcjeList.find(publ => {return (publ.ISBN === publikacja.ISBN)&&publ.rodzajPublikacji === 'MG'});
+    if(suspect) {
+      if (suspect._id !== publikacja._id) {
+        return false;
+      } else return true;
+    } else return true;
+  }
+
+  checkIfRozdzialUnique(publikacja: PublikacjaModel) {
+    let suspectList = this.publiakcjeList.filter(publ => {return (publ.ISBN === publikacja.ISBN) && publ.rodzajPublikacji === 'MGR'});
+    if(suspectList) {
+      for (let suspect of suspectList) {
+        if(suspect._id !== publikacja._id && suspect.tytulRozdzialu === publikacja.tytulRozdzialu) {
+          return false;
+        }
+      }
+      return true;
+    } else return false;
+  }
+
   generatePublikacjaRaport(properties, action: string) {
     this.getPublikacje()
       .subscribe(
@@ -150,13 +182,13 @@ export class PublikacjeService {
             });
             switch (properties.rodzajPublikacji) {
               case 'ATK':
-                publikacjeStr = 'Rodzaj: Artykuły w czasopismach';
+                publikacjeStr = 'Rodzaj: artykuły w czasopismach';
                 break;
               case 'MG':
-                publikacjeStr = 'Rodzaj: Monografie';
+                publikacjeStr = 'Rodzaj: monografie';
                 break;
               case 'MGR':
-                publikacjeStr = 'Rodzaj: Rozdziały w monografiach'
+                publikacjeStr = 'Rodzaj: rozdziały w monografiach'
             }
           }
           if(properties.pracownikId !== '') {
@@ -193,13 +225,13 @@ export class PublikacjeService {
           publikacjeFiltered.forEach(publikacja => {
             switch (publikacja.rodzajPublikacji) {
               case 'ATK':
-                artykulyStr += '- "' + publikacja.tytulPublikacji + '"\n';
+                artykulyStr += '- "' + publikacja.tytulPublikacji + '" ' + publikacja.rokPublikacji +'\n';
                 break;
               case 'MG':
-                monografieStr += '- "' + publikacja.tytulPublikacji + '"\n';
+                monografieStr += '- "' + publikacja.tytulPublikacji + '" ' + publikacja.rokPublikacji +'\n';
                 break;
               case 'MGR':
-                rozdzialyStr += '- "' + publikacja.tytulRozdzialu + '" ("' + publikacja.tytulPublikacji + '")\n'
+                rozdzialyStr += '- "' + publikacja.tytulRozdzialu + '" ("' + publikacja.tytulPublikacji +  '" ' + publikacja.rokPublikacji +')\n';
              }
           });
 

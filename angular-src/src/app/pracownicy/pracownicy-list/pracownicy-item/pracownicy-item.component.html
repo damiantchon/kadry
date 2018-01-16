@@ -1,4 +1,3 @@
-<script src="../../../publikacje/publikacja.model.ts"></script>
 <div class="row">
   <div class="col-md-12">
     <div class="pull-left">
@@ -114,16 +113,13 @@
         </td>
         <td>
           <div *ngIf="this.pracownik.przedmioty.length > 0; then than_component_przedmioty else else_component_przedmioty"></div>
-
           <ng-template #than_component_przedmioty>
             <div *ngFor="let przedmiot of this.pracownik.przedmioty"
                  class="text-primary"> - {{przedmiot}}</div>
           </ng-template>
-
           <ng-template #else_component_przedmioty>
             <div class="text-primary">brak</div>
           </ng-template>
-
         </td>
       </tr>
       <tr>
@@ -135,7 +131,6 @@
         </td>
         <td>
           <div *ngIf="this.pracownik.funkcje.length > 0; then than_component_funkcje else else_component_funkcje"></div>
-
           <ng-template #than_component_funkcje>
             <div *ngFor="let funkcja of this.pracownik.funkcje"
                  class="text-primary"> - {{funkcja}}</div>
@@ -144,16 +139,10 @@
           <ng-template #else_component_funkcje>
             <div class="text-primary">brak</div>
           </ng-template>
-
         </td>
       </tr>
       </tbody>
     </table>
   </div>
 </div>
- <!-- - imie-->
- <!-- - nazwisko-->
- <!-- - stopień wojskowy-->
- <!-- - tytuł-->
- <!-- - specjalność-->
- <!-- - informacja do jakich minimów kadrowych jest wykorzystywany-->
+

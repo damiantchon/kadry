@@ -40,7 +40,7 @@ export class PublikacjeItemComponent implements OnInit, OnDestroy{
             this.autorzyWewnetrzni.push(this.pracownicyService.getPracownikById(pracownikId));
           });
           this.publikacja.redaktorzyWewnetrzniId.forEach((pracownikId) => {
-            this.autorzyWewnetrzni.push(this.pracownicyService.getPracownikById(pracownikId));
+            this.redaktorzyWewnetrzni.push(this.pracownicyService.getPracownikById(pracownikId));
           });
         }
       );

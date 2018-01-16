@@ -147,7 +147,7 @@ export class PublikacjeItemEditComponent implements OnInit, OnDestroy {
         }
       }
       if (publikacja.redaktorzyZewnetrzni) {
-        for (let redaktor of publikacja.autorzyZewnetrzni) {
+        for (let redaktor of publikacja.redaktorzyZewnetrzni) {
           tempRedaktorzyZewnetrzni.push(
             new FormGroup({
               'redaktor': new FormControl(redaktor, Validators.required)
@@ -223,6 +223,10 @@ export class PublikacjeItemEditComponent implements OnInit, OnDestroy {
   onSubmit() {
     console.log(this.publikacjaForm);
 
+    if (this.publikacjaForm.value.rodzajPublikacji === "ATK") {
+
+    }
+
     let autorzyWewnetrzniId: string[] = [];
     let autorzyZewnetrzni: string[] = [];
     let redaktorzyWewnetrzniId: string[] = [];
@@ -263,44 +267,64 @@ export class PublikacjeItemEditComponent implements OnInit, OnDestroy {
     );
     console.log(updatedPublikacja);
 
-    if(this.editMode === true) { // edycja istniejącej publikacji
-      this.subscriptions[0] = this.publikacjeService.updatePublikacja(updatedPublikacja)
-        .subscribe(
-          data => {
-            console.log(data);
-            this.publikacjeService.getPublikacje().subscribe(
-              () => {
-                let savedStrategy = this.router.routeReuseStrategy.shouldReuseRoute;
-                this.router.routeReuseStrategy.shouldReuseRoute = () => {
-                  return false;
-                };
-                this.router.navigate(['/publikacje']).then(()=>{
-                  this.router.routeReuseStrategy.shouldReuseRoute = savedStrategy;
-                })
-              }
-            )
-          }
-        )
-    } else { // dodanie nowej publikacji
-      this.subscriptions[0] = this.publikacjeService.addPublikacja(updatedPublikacja)
-        .subscribe(
-          data => {
-            console.log(data);
-            this.publikacjeService.getPublikacje().subscribe(
-              () => {
-                let savedStrategy = this.router.routeReuseStrategy.shouldReuseRoute;
-                this.router.routeReuseStrategy.shouldReuseRoute = () => {
-                  return false;
-                };
-                this.router.navigate(['/publikacje']).then(() => {
+    //Check if not duplicated
+    let unique: boolean = true;
+    if (updatedPublikacja.rodzajPublikacji === 'ATK') {
+      unique = this.publikacjeService.checkIfArtykulUnique(updatedPublikacja);
+    } else if (updatedPublikacja.rodzajPublikacji === 'MG') {
+      unique = this.publikacjeService.checkIfMonografiaUnique(updatedPublikacja);
+    } else if (updatedPublikacja.rodzajPublikacji === 'MGR') {
+      unique = this.publikacjeService.checkIfRozdzialUnique(updatedPublikacja);
+    }
+
+    if(unique){
+      if(this.editMode === true) { // edycja istniejącej publikacji
+        this.subscriptions[0] = this.publikacjeService.updatePublikacja(updatedPublikacja)
+          .subscribe(
+            data => {
+              console.log(data);
+              this.publikacjeService.getPublikacje().subscribe(
+                () => {
+                  let savedStrategy = this.router.routeReuseStrategy.shouldReuseRoute;
+                  this.router.routeReuseStrategy.shouldReuseRoute = () => {
+                    return false;
+                  };
+                  this.router.navigate(['/publikacje']).then(()=>{
                     this.router.routeReuseStrategy.shouldReuseRoute = savedStrategy;
-                  }
-                )
-              }
-            );
-          },
-          error => console.error(error)
-        )
+                  })
+                }
+              )
+            }
+          )
+      } else { // dodanie nowej publikacji
+        this.subscriptions[0] = this.publikacjeService.addPublikacja(updatedPublikacja)
+          .subscribe(
+            data => {
+              console.log(data);
+              this.publikacjeService.getPublikacje().subscribe(
+                () => {
+                  let savedStrategy = this.router.routeReuseStrategy.shouldReuseRoute;
+                  this.router.routeReuseStrategy.shouldReuseRoute = () => {
+                    return false;
+                  };
+                  this.router.navigate(['/publikacje']).then(() => {
+                      this.router.routeReuseStrategy.shouldReuseRoute = savedStrategy;
+                    }
+                  )
+                }
+              );
+            },
+            error => console.error(error)
+          )
+      }
+    } else {
+      if (updatedPublikacja.rodzajPublikacji === 'ATK') {
+        bootbox.alert('Artykuł o wpisanym numerze ISSN już istnieje w bazie danych!');
+      } else if (updatedPublikacja.rodzajPublikacji === 'MG') {
+        bootbox.alert('Monografia o wpisanym numerze ISBN już istnieje w bazie danych!');
+      } else if (updatedPublikacja.rodzajPublikacji === 'MGR') {
+        bootbox.alert('Podany rozdział dla monografii o wpisanym numerze ISBN już istnieje!');
+      }
     }
   }
 
